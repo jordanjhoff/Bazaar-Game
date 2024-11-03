@@ -1,0 +1,57 @@
+[
+  [
+    "Charlie",
+    "purchase-points"
+  ],
+  [
+    "Dave",
+    "purchase-size",
+    "request-pebble-or-trades"
+  ]
+]
+[]
+{
+  "bank": [
+    "red",
+    "yellow"
+  ],
+  "cards": [
+    {
+      "face?": false,
+      "pebbles": [
+        "green",
+        "yellow",
+        "green",
+        "yellow",
+        "green"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 5,
+      "wallet": [
+        "yellow"
+      ]
+    },
+    {
+      "score": 8,
+      "wallet": [
+        "red",
+        "yellow"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": false,
+      "pebbles": [
+        "green",
+        "green",
+        "yellow",
+        "yellow",
+        "green"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  [
+    "Isabel",
+    "purchase-points"
+  ],
+  [
+    "Jack",
+    "purchase-size"
+  ]
+]
+[]
+{
+  "bank": [
+    "yellow"
+  ],
+  "cards": [
+    {
+      "face?": true,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 25,
+      "wallet": [
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "score": 25,
+      "wallet": [
+        "yellow"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    }
+  ]
+}
+

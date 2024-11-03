@@ -1,0 +1,59 @@
+[
+  [
+    "Oliver",
+    "purchase-points"
+  ],
+  [
+    "Piper",
+    "purchase-size"
+  ]
+]
+[]
+{
+  "bank": [
+    "yellow",
+    "blue",
+    "red"
+  ],
+  "cards": [
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "red",
+        "blue",
+        "yellow",
+        "blue"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 5,
+      "wallet": [
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "score": 5,
+      "wallet": [
+        "blue",
+        "red"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "blue",
+        "red",
+        "blue"
+      ]
+    }
+  ]
+}
+

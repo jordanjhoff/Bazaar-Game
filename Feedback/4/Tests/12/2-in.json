@@ -1,0 +1,9 @@
+{
+   "bank": ["blue"],
+   "visibles": [],
+   "cards": [{"pebbles": [], "face?": true},
+            {"pebbles": [], "face?": true},
+            {"pebbles": [], "face?": true},
+            {"pebbles": [], "face?": true}],
+   "players": [{"wallet": ["white"], "score": 200}]
+}

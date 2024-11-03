@@ -1,0 +1,14 @@
+[[["green"],["red"]],
+  [["red"],["blue"]]]
+
+[[["red"],["green"]],
+  [["red"],["green"]],
+  [["red"],["green"]]]
+
+{"active":
+{"score":0,
+  "wallet":["red", "red", "red"]
+},
+  "bank":["green", "green", "blue"],
+  "cards":[],
+  "scores":[]}

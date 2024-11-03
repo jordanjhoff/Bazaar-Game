@@ -1,0 +1,57 @@
+[
+  [
+    "Quinn",
+    "purchase-points"
+  ],
+  [
+    "Riley",
+    "purchase-size"
+  ]
+]
+[]
+{
+  "bank": [
+    "green",
+    "blue",
+    "yellow"
+  ],
+  "cards": [
+    {
+      "face?": true,
+      "pebbles": [
+        "green",
+        "yellow",
+        "green",
+        "blue",
+        "yellow"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "wallet": [
+        "green"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "blue"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "green",
+        "yellow",
+        "green",
+        "blue",
+        "yellow"
+      ]
+    }
+  ]
+}
+

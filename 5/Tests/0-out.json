@@ -1,0 +1,8 @@
+[[["green","green","green"],["white","white"]],
+  [["white"], ["yellow", "yellow", "yellow", "yellow"]],
+  [["white"], ["yellow", "yellow", "yellow", "yellow"]]
+]
+[{"face?":false,"pebbles":["blue","blue", "yellow", "yellow", "yellow"]},
+  {"face?":true,"pebbles":["yellow", "yellow", "yellow", "yellow", "yellow"]}]
+6
+["red"]

@@ -1,0 +1,12 @@
+[[["red"],["blue","blue"]],
+  [["blue"],["green"]],
+  [["blue"],["red","white"]],
+  [["green"], ["white"]],
+  [["white"], ["yellow"]],
+  [["blue"], ["yellow", "yellow"]]]
+[[["blue"],["red","white"]],[["blue"],["red","white"]],[["white"],["yellow"]]]
+{       "active":{"score":4,"wallet":["blue", "blue", "white"]},
+  "bank":["red","red","green", "blue", "blue", "white", "white", "yellow", "yellow"],
+  "cards":[{"face?":false,"pebbles":["red","red","white","red","white"]},
+    {"face?":true,"pebbles":["yellow","red","white","red","white"]}],
+  "scores":[]}

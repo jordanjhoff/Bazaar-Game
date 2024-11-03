@@ -1,0 +1,17 @@
+[["Matthias", "purchase-size"],["BenLerner", "purchase-size"]]
+[]
+{
+  "bank": ["red"],
+  "visibles": [],
+  "cards": [],
+  "players": [
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+[["Matthias", "purchase-size"]]
+[]
+{
+  "bank": ["green","green","green","green","red", "red", "red", "red", "red"],
+  "visibles": [
+    {
+      "pebbles":["green", "blue", "green", "white", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles":["red", "red", "red", "red", "red"],
+      "face?": false
+    },
+    {
+      "pebbles":["red", "red", "red", "red", "red"],
+      "face?": true
+    },
+    {
+      "pebbles":["red", "red", "red", "red", "red"],
+      "face?": false
+    }
+  ],
+  "cards": [],
+  "players": [
+    {
+      "wallet": ["red", "blue", "green", "white", "yellow"],
+      "score": 0
+    }
+  ]
+}

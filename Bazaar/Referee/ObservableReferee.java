@@ -23,7 +23,6 @@ public class ObservableReferee extends Referee {
     protected void notifyPlayersOfStart() {
         super.notifyPlayersOfStart();
         setupListeners(this.ruleBook.equationTable());
-        notifyListeners(theOneTrueState);
     }
 
     @Override

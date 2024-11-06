@@ -19,21 +19,19 @@ public class Observer implements EventListener {
 
 
     protected List<GameState> gameStateHistory;
-    protected ListIterator<GameState> gameStatePointer;
-    protected GameState currentGameState;
+    protected int gameStatePointer;
     protected BazaarObserverPanel mainPanel;
     protected GameStateRenderer renderer;
     protected boolean shutDown;
 
     public Observer() {
-        gameStateHistory = Collections.synchronizedList(new LinkedList<GameState>());
+        gameStateHistory = new ArrayList<>();
         mainPanel = new BazaarObserverPanel(this);
-        gameStatePointer = gameStateHistory.listIterator();
         this.shutDown = false;
     }
 
     public void setup(EquationTable equations, GameState startingState) {
-        currentGameState = startingState;
+        gameStateHistory.add(startingState);
         this.renderer = new GameStateRenderer(equations, 40, Color.gray.brighter());
         this.mainPanel.setup(this.renderer);
         openFrame();
@@ -60,7 +58,7 @@ public class Observer implements EventListener {
     }
 
     public GameState currentGameState() {
-        return currentGameState;
+        return gameStateHistory.get(gameStatePointer);
     }
 
     public void shutDown() {
@@ -88,15 +86,14 @@ public class Observer implements EventListener {
 
 
     public void advancePointer() {
-        if (gameStatePointer.hasNext()) {
-            System.out.println(":)");
-            currentGameState = gameStatePointer.next();
+        if (gameStatePointer + 1 < gameStateHistory.size()) {
+            gameStatePointer++;
         }
     }
 
     public void retreatPointer() {
-        if (gameStatePointer.hasPrevious()) {
-            currentGameState = gameStatePointer.previous();
+        if (gameStatePointer - 1 >= 0) {
+            gameStatePointer--;
         }
     }
 
@@ -105,7 +102,7 @@ public class Observer implements EventListener {
     public void saveGameStateJson(String fileName) throws IOException {
         enforceSetup();
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        writer.write(JSONSerializer.gameStateToJson(currentGameState).toString());
+        writer.write(JSONSerializer.gameStateToJson(currentGameState()).toString());
         writer.close();
     }
 

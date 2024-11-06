@@ -43,8 +43,7 @@ class GamesRunner implements TestRunner {
 
         // Run game
         RuleBook ruleBook = new RuleBook(equationTable);
-        Referee referee = new Referee(players, gameState, ruleBook, new DeterministicObjectGenerator());
-        GameResult result = referee.runGame();
+        GameResult result = runGame(players, gameState, ruleBook);
         List<String> winners = result.winners().stream().map(IPlayer::name).toList();
         List<String> kicked = result.kicked().stream().map(IPlayer::name).toList();
 
@@ -56,6 +55,11 @@ class GamesRunner implements TestRunner {
         out.write(jsonWinners.toString());
         out.write(jsonKicked.toString());
         out.close();
+    }
+
+    protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException {
+        Referee referee = new Referee(players, gameState, ruleBook, new DeterministicObjectGenerator());
+        return referee.runGame();
     }
 }
 

@@ -249,6 +249,29 @@ public class JSONDeserializer {
   }
 
   /**
+   * Generates an IPlayer which cheats on certain method calls
+   * @param json The JsonElement to be deserialized
+   * @return the generated IPlayer
+   */
+  public static IPlayer cheatActorFromJson(JsonElement json) {
+    checkJsonArray(json);
+    JsonArray jsonCheatActor = json.getAsJsonArray();
+    String name = jsonCheatActor.get(0).getAsString();
+    Strategy strategy = new Strategy(policyFromJson(jsonCheatActor.get(1)));
+    if (!Objects.equals(jsonCheatActor.get(2).getAsString(), "a cheat")) {
+      throw new IllegalArgumentException("Invalid cheat actor");
+    }
+    return switch (jsonCheatActor.get(3).getAsString()) {
+      case "use-non-existent-equation" -> new NonExistentEQActor(name, strategy);
+      case "bank-cannot-trade" -> new BankCantTradeActor(name, strategy);
+      case "wallet-cannot-trade" -> new WalletCantTradeActor(name, strategy);
+      case "buy-unavailable-card" -> new BuyUnavaliableCardActor(name, strategy);
+      case "wallet-cannot-buy-card" -> new CantAffordCardActor(name, strategy);
+      default -> throw new IllegalArgumentException("Unsupported exn type for actor");
+    };
+  }
+
+  /**
    * Generates an IPlayer which throws exceptions on certain method calls
    * @param json The JsonElement to be deserialized
    * @return the generated IPlayer
@@ -282,7 +305,10 @@ public class JSONDeserializer {
         actors.add(actorFromJson(jsonActor));
       } else if (jsonActorArray.size() == 3) {
         actors.add(exnActorFromJson(jsonActor));
-      } else {
+      } else if (jsonActorArray.size() == 4) {
+        actors.add(cheatActorFromJson(jsonActor));
+      }
+      else {
         throw new IllegalArgumentException("Actor Json of unsupported size");
       }
     }

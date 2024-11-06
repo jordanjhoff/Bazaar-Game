@@ -11,6 +11,7 @@ public class IntegrationTestFestRunner {
 
         //View all test results
         //System.out.println(sw);
+        System.out.println(failures);
         sw.close();
         failures.close();
     }
@@ -21,6 +22,7 @@ public class IntegrationTestFestRunner {
         new StrategyTester().run(new File("5/Tests"), output, failures);
         new RulesTester().run(new File("6/Tests"), output, failures);
         new GamesTester().run(new File("7/Tests"), output, failures);
+        new ObserverGamesTester().run(new File("8/Tests"), output, failures);
         if (output.toString().contains("failed")) {
             System.out.println("--------------Milestone Tests Failed------------------");
             System.out.println(failures);
@@ -36,6 +38,7 @@ public class IntegrationTestFestRunner {
         new StrategyTester().testFestRun(new File("Feedback/5/Tests"), output, failures);
         new RulesTester().testFestRun(new File("Feedback/6/Tests"), output, failures);
         new GamesTester().testFestRun(new File("Feedback/7/Tests"), output, failures);
+        new ObserverGamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
         if (output.toString().contains("failed")) {
             System.out.println("----------------------TestFest Tests Failed---------------------------");
             System.out.println(failures);

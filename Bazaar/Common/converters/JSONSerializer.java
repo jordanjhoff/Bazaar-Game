@@ -1,6 +1,7 @@
 package Common.converters;
 
 import Common.*;
+import Referee.GameState;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -16,6 +17,34 @@ import com.google.gson.JsonObject;
  * A class that serializes Bazaar game objects into JSON
  */
 public class JSONSerializer {
+
+
+  /**
+   * Converts a GameState to json
+   * @param gameState the gamestate
+   * @return Json
+   */
+  public static JsonElement gameStateToJson(GameState gameState) {
+    JsonObject jsonGame = new JsonObject();
+    jsonGame.add("players", playersToJson(gameState.players()));
+    jsonGame.add("bank", pebbleCollectionToJson(gameState.bank()));
+    jsonGame.add("visibles", cardListToJson(gameState.cards().visibleCards()));
+    jsonGame.add("cards", cardListToJson(gameState.cards().nonVisibleCards()));
+    return jsonGame;
+  }
+
+  /**
+   * Converts a List of PlayerInfo to json
+   * @param players the players
+   * @return Json
+   */
+  public static JsonElement playersToJson(List<PlayerInformation> players) {
+    JsonArray playerArray = new JsonArray();
+    for (PlayerInformation player : players) {
+      playerArray.add(playerToJson(player));
+    }
+    return playerArray;
+  }
 
   /**
    * Converts a PebbleCollection to json

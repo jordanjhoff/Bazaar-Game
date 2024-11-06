@@ -4,6 +4,8 @@ import Common.*;
 import Player.IPlayer;
 
 import java.util.*;
+import java.util.concurrent.*;
+
 /**
  * This class represents a Referee in a game of Bazaar. Currently, the referee handles players that make
  * illegal moves according to the Bazaar RuleBook.
@@ -19,7 +21,7 @@ public class Referee {
     private final Map<String, IPlayer> players;
 
     protected GameState theOneTrueState;
-    private final RuleBook ruleBook;
+    protected final RuleBook ruleBook;
     private final List<IPlayer> naughtyPlayers = new ArrayList<>();
     private final GameObjectGenerator randomizer;
 
@@ -64,7 +66,7 @@ public class Referee {
      * @param players The players in the game
      * @return A map from the player's name to the player
      */
-    private Map<String, IPlayer> initializePlayers(List<IPlayer> players) {
+    protected Map<String, IPlayer> initializePlayers(List<IPlayer> players) {
         Map<String, IPlayer> playerMap = new HashMap<>();
         List<String> names = new ArrayList<>();
         for (IPlayer player : players) {
@@ -79,7 +81,7 @@ public class Referee {
     /**
      * Provides all players with the equation table
      */
-    private void notifyPlayersOfStart() {
+    protected void notifyPlayersOfStart() {
         for (String name : players.keySet()) {
             IPlayer player = players.get(name);
             try {
@@ -90,13 +92,30 @@ public class Referee {
         }
         theOneTrueState = kickNaughtyPlayers();
     }
+//
+//    protected <T> Optional<T> timeout(Callable<T> task, int timeoutSeconds) {
+//        ExecutorService executor = Executors.newSingleThreadExecutor();
+//        Future<T> future = executor.submit(task);
+//        try {
+//            T result = future.get(timeoutSeconds, TimeUnit.SECONDS);
+//            return Optional.ofNullable(result);
+//        } catch (TimeoutException ex) {
+//            // handle the timeout
+//        } catch (InterruptedException e) {
+//            // handle the interrupts
+//        } catch (ExecutionException e) {
+//            // handle other exceptions
+//        } finally {
+//            future.cancel(true); // may or may not desire this
+//        }
+//    }
 
 
     /**
      * Executes a complete single turn for the active player
      * @return The GameState after the turn
      */
-    private GameState executeOneTurnOnActive() {
+    protected GameState executeOneTurnOnActive() {
         GameState stateAfterExchanges;
         Optional<GameState> potentialStateAfterFirstRequest = firstPlayerRequest();
         if (potentialStateAfterFirstRequest.isPresent()) {
@@ -126,7 +145,7 @@ public class Referee {
      * @return the GameState if the request is valid, or optional if the players request is invalid, or the player throws
      * an exception
      */
-    private Optional<GameState> firstPlayerRequest() {
+    protected Optional<GameState> firstPlayerRequest() {
         Optional<ExchangeRequest> playerFirstRequest = getPlayerFirstRequest(theOneTrueState.getTurnState());
 
 
@@ -154,7 +173,7 @@ public class Referee {
      * @return the GameState if the request is valid, or optional if the players request is invalid, or the player throws
      * an exception
      */
-    private Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
+    protected Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
         Optional<CardPurchaseSequence> playerPurchaseRequest = getPlayerSecondRequest(stateAfterExchanges.getTurnState());
         if (playerPurchaseRequest.isPresent()) {
             return executePurchasesOnActive(stateAfterExchanges, playerPurchaseRequest.get());
@@ -177,7 +196,7 @@ public class Referee {
      * Determines the winners of the game after it ends, and notifies all playe
      * @return A list of all winning players
      */
-    private List<IPlayer> getWinningPlayers() {
+    protected List<IPlayer> getWinningPlayers() {
         List<String> winnerNames = ruleBook.getWinners(this.theOneTrueState)
                 .stream()
                 .map(p -> p.name().orElseThrow())
@@ -198,7 +217,7 @@ public class Referee {
      * @param winners The winning players of the game
      * @return The list of winners who were successfully notified of their win
      */
-    private List<IPlayer> notifyWinners(List<IPlayer> winners) {
+    protected List<IPlayer> notifyWinners(List<IPlayer> winners) {
         List<IPlayer> successfulWinners = new ArrayList<>(winners);
         for (IPlayer player : this.players.values()) {
             try {
@@ -213,19 +232,19 @@ public class Referee {
 
     /**
      * Ejects the current player from the game and changes to the next player
-     * @param newState The GameState after kicking the active player
+     * @param stateToAdvance The GameState after kicking the active player
      * @return The updated GameState
      */
-    private GameState ejectActiveAndAdvanceTurn(GameState newState) {
+    protected GameState ejectActiveAndAdvanceTurn(GameState stateToAdvance) {
         naughtyPlayers.add(getActivePlayer());
-        return ruleBook.kickActivePlayerAndAdvanceTurn(newState);
+        return ruleBook.kickActivePlayerAndAdvanceTurn(stateToAdvance);
     }
 
     /**
      * Kicks all the current naughty players from the current GameState
      * @return The new GameState with all naughty players kicked
      */
-    private GameState kickNaughtyPlayers() {
+    protected GameState kickNaughtyPlayers() {
         GameState newState = theOneTrueState;
         for (IPlayer player : naughtyPlayers) {
             String name = player.name();
@@ -238,25 +257,25 @@ public class Referee {
      * Gets the active player
      * @return the active player
      */
-    private IPlayer getActivePlayer() {
+    protected IPlayer getActivePlayer() {
         PlayerInformation activePlayerInfo = this.theOneTrueState.getActivePlayer();
         return this.players.get(activePlayerInfo.name().orElseThrow());
     }
 
     /**
      * Uses the rulebook to advance the GameState turn
-     * @param newState The GameState after the player's turn
+     * @param stateToAdvance The GameState after the player's turn
      * @return The updated GameState
      */
-    private GameState advancePlayers(GameState newState) {
-        return ruleBook.advanceTurn(newState);
+    protected GameState advancePlayers(GameState stateToAdvance) {
+        return ruleBook.advanceTurn(stateToAdvance);
     }
 
     /**
      * Attempts to execute a PebbleDrawRequest for the active player
      * @return The updated GameState, or empty if it fails
      */
-    private Optional<GameState> executePebbleRequestOnActive() {
+    protected Optional<GameState> executePebbleRequestOnActive() {
         return ruleBook.executePebbleRequestOnGameState(theOneTrueState, randomizer);
     }
 
@@ -265,7 +284,7 @@ public class Referee {
      * @param sequence The exchanges to execute
      * @return The updated GameState, or empty if it fails
      */
-    private Optional<GameState> executeExchangesOnActive(PebbleExchangeSequence sequence) {
+    protected Optional<GameState> executeExchangesOnActive(PebbleExchangeSequence sequence) {
         return ruleBook.validExchanges(this.theOneTrueState, sequence);
     }
 
@@ -275,7 +294,7 @@ public class Referee {
      * @param playerPurchaseRequest The cards to purchase
      * @return The updated GameState, or empty if it fails
      */
-    private Optional<GameState> executePurchasesOnActive(GameState before, CardPurchaseSequence playerPurchaseRequest) {
+    protected Optional<GameState> executePurchasesOnActive(GameState before, CardPurchaseSequence playerPurchaseRequest) {
         return ruleBook.validPurchases(before, playerPurchaseRequest);
     }
 
@@ -285,7 +304,7 @@ public class Referee {
      * @param names The names in the same order of the PlayerInformation in the GameState
      * @return The new GameState with names assigned
      */
-    private GameState assignNamesToGameState(GameState unnamedPlayerGameState, List<String> names) {
+    protected GameState assignNamesToGameState(GameState unnamedPlayerGameState, List<String> names) {
         if (names.size() != unnamedPlayerGameState.players().size()) {
             throw new IllegalArgumentException("Number of names does not match");
         }

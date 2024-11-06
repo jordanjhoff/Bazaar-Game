@@ -22,11 +22,6 @@ public class MockReferee extends Referee {
     }
 
     @Override
-    public GameResult runGame() {
-        return super.runGame();
-    }
-
-    @Override
     protected Optional<ExchangeRequest> getPlayerFirstRequest(TurnState turnState) {
         log.write(JSONSerializer.turnStateToJson(turnState) + "\n");
         log.write(theOneTrueState.getActivePlayer().name() + "'s turn. ----------------------------------\n");

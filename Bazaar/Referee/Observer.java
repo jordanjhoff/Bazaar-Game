@@ -74,7 +74,11 @@ public class Observer implements EventListener {
 
     public void saveGameStateImage(GameState gameState, String fileName){
         enforceSetup();
-        File file = new File(fileName);
+        File directory = new File("Tmp");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        File file = new File(directory, fileName);
         try {
             ImageIO.write(renderer.render(gameState), "png", file);
         }
@@ -97,17 +101,12 @@ public class Observer implements EventListener {
         }
     }
 
-
-
     public void saveGameStateJson(String fileName) throws IOException {
         enforceSetup();
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         writer.write(JSONSerializer.gameStateToJson(currentGameState()).toString());
         writer.close();
     }
-
-
-
 
     protected void enforceSetup() {
         if (Objects.isNull(renderer)) {

@@ -1,0 +1,3 @@
+[["Adam","purchase-size"],["Eve","purchase-points"], ["Sarah", "purchase-size"], ["Nick", "purchase-size", "setup"]]
+[]
+{"bank":["blue","green", "yellow"],"cards":[],"players":[{"score":4,"wallet":["blue","red","green","red"]},{"score":10,"wallet":["blue","red","green","red"]}, {"score":10,"wallet":["blue","red","green","red"]},{"score":14,"wallet":["blue","red","green","red"]}],"visibles":[{"face?":false,"pebbles":["blue","red","green","green","red"]}, {"face?":false,"pebbles":["blue","red","yellow","green","red"]}]}

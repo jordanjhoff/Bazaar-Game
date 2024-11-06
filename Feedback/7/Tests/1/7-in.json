@@ -1,0 +1,34 @@
+[["player1", "purchase-size"], ["player2", "purchase-size", "setup"], ["player3", "purchase-size", "request-pebble-or-trades"], ["player4", "purchase-size", "request-cards"], ["player5", "purchase-size"]]
+[]
+{
+    "bank": ["white", "red", "red", "red", "red", "white", "white", "green", "blue"],
+    "visibles": [
+        {
+            "pebbles" : ["red", "white", "blue", "blue", "blue"], 
+            "face?": true
+        }
+    ],
+    "cards": [], 
+    "players":[
+        {
+            "wallet": [],
+            "score": 0
+        }, 
+        {
+            "wallet": [], 
+            "score": 0
+        },
+        {
+            "wallet": [], 
+            "score": 0
+        },
+        {
+            "wallet": [], 
+            "score": 0
+        },
+        {
+            "wallet": ["red", "white", "blue", "blue", "blue", "blue"], 
+            "score": 0
+        }
+    ]
+}

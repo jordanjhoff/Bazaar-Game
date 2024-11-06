@@ -1,0 +1,8 @@
+[["garfield", "purchase-points", "win"], ["lasanga", "purchase-points"]]
+[[["red"],["green"]]]
+{
+    "bank": ["red", "red", "red", "red"],
+    "visibles": [ { "pebbles": ["blue","blue","blue","blue","blue"], "face?": false } ],
+    "cards": [],
+    "players": [ { "wallet": [], "score": 0 }, { "wallet": [], "score": 0 } ]
+}

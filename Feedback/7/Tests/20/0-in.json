@@ -1,0 +1,41 @@
+[
+    [
+        "Adam",
+        "purchase-points"
+    ],
+    [
+        "Eve",
+        "purchase-size"
+    ]
+]
+[]
+{
+    "bank": [],
+    "cards": [],
+    "players": [
+        {
+            "score": 10,
+            "wallet": [
+                "red"
+            ]
+        },
+        {
+            "score": 10,
+            "wallet": [
+                "red"
+            ]
+        }
+    ],
+    "visibles": [
+        {
+            "face?": false,
+            "pebbles": [
+                "green",
+                "green",
+                "green",
+                "green",
+                "green"
+            ]
+        }
+    ]
+}

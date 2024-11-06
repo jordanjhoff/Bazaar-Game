@@ -1,0 +1,22 @@
+[["player1", "purchase-size"], ["player2", "purchase-size"]]
+[]
+{
+    "bank": ["white"],
+    "visibles": [
+        {
+            "pebbles" : ["red", "white", "blue", "blue", "blue"], 
+            "face?": true
+        }
+    ],
+    "cards": [], 
+    "players":[
+        {
+            "wallet": ["red", "white", "blue", "blue", "blue", "green"],
+            "score": 0
+        }, 
+        {
+            "wallet": ["red", "white", "blue", "blue", "blue", "green"], 
+            "score": 0
+        }
+    ]
+}

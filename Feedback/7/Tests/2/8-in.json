@@ -1,0 +1,3 @@
+[["Adam","purchase-size"],["Eve","purchase-size"]]
+[]
+{"bank":["green", "yellow"],"cards":[],"players":[{"score":7,"wallet":["blue","red","yellow","green","red"]},{"score":10,"wallet":["red"]}],"visibles":[{"face?":false,"pebbles":["blue","red","green","green","red"]}]}

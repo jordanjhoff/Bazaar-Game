@@ -1,0 +1,13 @@
+[
+  ["A", "purchase-points"]
+]
+[]
+{
+  "bank": [],
+  "visibles": [],
+  "cards": [],
+  "players": [
+    { "wallet": [], "score": 0 }
+  ]
+}
+

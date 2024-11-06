@@ -1,0 +1,57 @@
+[
+  [
+    "Mia",
+    "purchase-points"
+  ],
+  [
+    "Noah",
+    "purchase-size"
+  ]
+]
+[]
+{
+  "bank": [
+    "green",
+    "red",
+    "blue",
+    "red"
+  ],
+  "cards": [
+    {
+      "face?": true,
+      "pebbles": [
+        "green",
+        "blue",
+        "red",
+        "green",
+        "blue"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "wallet": [
+        "red"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "blue"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "green",
+        "blue",
+        "green",
+        "red",
+        "blue"
+      ]
+    }
+  ]
+}

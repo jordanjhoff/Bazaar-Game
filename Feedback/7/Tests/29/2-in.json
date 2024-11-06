@@ -1,0 +1,3 @@
+[["Mike","purchase-points","setup"],["Lisa","purchase-size","request-pebble-or-trades"],["John","purchase-points"],["Emma","purchase-size"]]
+[[["green","green","red"],["blue","white"]]]
+{"bank":["green","red","blue"],"cards":[],"players":[{"score":0,"wallet":["green","green","red"]},{"score":0,"wallet":["blue","white","green"]},{"score":0,"wallet":["red","blue"]},{"score":0,"wallet":["green","white"]}],"visibles":[{"face?":false,"pebbles":["green","green","red","blue","white"]}]}

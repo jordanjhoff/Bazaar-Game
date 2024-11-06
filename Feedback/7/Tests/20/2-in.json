@@ -1,0 +1,72 @@
+[
+    [
+        "Adam",
+        "purchase-points"
+    ],
+    [
+        "Eve",
+        "purchase-size"
+    ]
+]
+[
+    [
+        [
+            "red",
+            "red",
+            "red",
+            "red"
+        ],
+        [
+            "green"
+        ]
+    ]
+]
+{
+    "bank": [
+        "red",
+        "red",
+        "red",
+        "red"
+    ],
+    "cards": [
+        {
+            "face?": false,
+            "pebbles": [
+                "red",
+                "red",
+                "red",
+                "red",
+                "red"
+            ]
+        }
+    ],
+    "players": [
+        {
+            "score": 10,
+            "wallet": [
+                "red",
+                "green",
+                "blue",
+                "blue"
+            ]
+        },
+        {
+            "score": 10,
+            "wallet": [
+                "red"
+            ]
+        }
+    ],
+    "visibles": [
+        {
+            "face?": false,
+            "pebbles": [
+                "red",
+                "red",
+                "red",
+                "red",
+                "red"
+            ]
+        }
+    ]
+}

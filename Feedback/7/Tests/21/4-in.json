@@ -1,0 +1,58 @@
+[
+  [
+    "George",
+    "purchase-points"
+  ],
+  [
+    "Harry",
+    "purchase-size"
+  ]
+]
+[]{
+  "bank": [
+    "red",
+    "green",
+    "blue"
+  ],
+  "cards": [
+    {
+      "face?": false,
+      "pebbles": [
+        "blue",
+        "blue",
+        "green",
+        "green",
+        "green"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 15,
+      "wallet": [
+        "red",
+        "red"
+      ]
+    },
+    {
+      "score": 15,
+      "wallet": [
+        "green",
+        "blue"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": false,
+      "pebbles": [
+        "blue",
+        "blue",
+        "green",
+        "green",
+        "green"
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,28 @@
+[
+    ["m1", "purchase-points", "request-cards"],
+    ["a", "purchase-points"],
+    ["b", "purchase-points"]
+]
+[
+    [["green"], ["white"]]
+]
+{
+    "bank": [
+        "red", "red", "red", "red", "red", "white"
+    ],
+    "visibles": [
+        {"pebbles": ["blue", "white", "white", "white", "white"], "face?": true},
+        {"pebbles": ["red", "blue", "white", "white", "yellow"], "face?": true},
+        {"pebbles": ["blue", "blue", "blue", "white", "white"], "face?": false},
+        {"pebbles": ["red", "white", "white", "white", "green"], "face?": false}
+    ],
+    "cards": [
+        {"pebbles": ["blue", "white", "white", "white", "green"], "face?": true},
+        {"pebbles": ["blue", "white", "white", "white", "green"], "face?": true}
+    ],
+    "players": [
+        {"wallet": ["blue", "white", "white", "white", "green"],"score": 0},
+        {"wallet": ["green"],"score": 19},
+        {"wallet": ["blue", "white", "white", "white", "white"],"score": 19}
+    ]
+}

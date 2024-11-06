@@ -1,0 +1,27 @@
+[
+    ["a", "purchase-points"],
+    ["b", "purchase-points"]
+]
+[
+    [["red"], ["white"]]
+]
+{
+    "bank": [
+        "red", "red", "red", "red", "red",
+        "blue", "blue", "blue", "blue", "blue",
+        "white", "white", "white", "white", "white",
+        "green", "green", "green", "green", "green",
+        "yellow", "yellow", "yellow", "yellow", "yellow"
+    ],
+    "visibles": [
+        {"pebbles": ["blue", "white", "white", "white", "green"], "face?": true},
+        {"pebbles": ["red", "blue", "white", "white", "yellow"], "face?": true},
+        {"pebbles": ["blue", "blue", "blue", "white", "white"], "face?": false},
+        {"pebbles": ["red", "white", "white", "white", "green"], "face?": false}
+    ],
+    "cards": [],
+    "players": [
+        {"wallet": ["red", "blue", "white", "green", "yellow"], "score": 11},
+        {"wallet": ["red", "blue", "white", "green", "yellow"], "score": 11}
+    ]
+}

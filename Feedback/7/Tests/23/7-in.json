@@ -1,0 +1,14 @@
+[["Bobby","purchase-points"],["Billy","purchase-points","request-pebble-or-trades"],["Boo","purchase-points"]]
+[[["red"],["blue"]], [["yellow"],["white"]], [["green"],["blue"]]]
+{"bank": [
+  "green", "green", "green", "green", "green", "green", "green", "green", "green", "green",
+  "green", "green", "green", "green", "green", "green", "green", "green", "green", "green",
+  "red", "red", "red", "red", "red", "red", "red", "red", "red", "red",
+  "red", "red", "red", "red", "red", "red", "red", "red", "red", "red",
+  "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow",
+  "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow",
+  "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue",
+  "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue",
+  "white", "white", "white", "white", "white", "white", "white", "white", "white", "white",
+  "white", "white", "white", "white", "white", "white", "white", "white", "white", "white"
+],"cards":[{"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}, {"face?":false,"pebbles":["green","yellow","red","blue","white"]}],"players":[{"score":0,"wallet":["green","green","green","green","green"]},{"score":0,"wallet":["red","green","blue","red","green"]},{"score":0,"wallet":["white","yellow","red","blue","blue"]}],"visibles":[{"face?":false,"pebbles":["green","yellow","red","blue","white"]},{"face?":false,"pebbles":["green","yellow","red","blue","white"]}]}

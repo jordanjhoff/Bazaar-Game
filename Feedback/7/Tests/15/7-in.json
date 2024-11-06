@@ -1,0 +1,3 @@
+[["James","purchase-points"],["John","purchase-points","request-pebble-or-trades"], ["Tori", "purchase-points"]]
+[[["blue","yellow"],["red","white"]]]
+{"bank":[],"cards":[],"players":[{"score":20,"wallet":["blue","blue","blue","red","green"]},{"score":20,"wallet":["yellow","red","blue","red","red"]}, {"score":10,"wallet":["yellow","red","blue","red","red"]}],"visibles":[]}

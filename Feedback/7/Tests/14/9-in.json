@@ -1,0 +1,69 @@
+[
+  ["winner", "purchase-points"],
+  ["loser", "purchase-size"],
+  ["erroronsetup", "purchase-points", "setup"],
+  ["erroronfirstaction", "purchase-points", "request-pebble-or-trades"],
+  ["erroronsecondaction", "purchase-points", "request-cards"],
+  ["erroronwin", "purchase-points", "win"]
+]
+[
+  [["blue"], ["red","red","red","red"]],
+  [["red"], ["blue"]]
+]
+{
+  "bank": ["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red"],
+  "visibles": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    }
+  ],
+  "cards": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    }
+  ],
+  "players": [
+    {
+      "wallet": ["blue","blue","blue","blue","blue","blue","blue"],
+      "score": 10
+    },
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    }
+  ]
+}

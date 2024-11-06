@@ -4,7 +4,10 @@ import Common.*;
 import Referee.GameState;
 
 import java.awt.*;
+import java.util.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameStateRenderer implements IRenderer<GameState> {
 
@@ -22,13 +25,8 @@ public class GameStateRenderer implements IRenderer<GameState> {
         ImageManipulator imageManipulator = new ImageManipulator(backgroundColor);
         EquationTableRenderer equationTableRenderer = new EquationTableRenderer(atomicSize, backgroundColor);
         CardDeckRenderer cardDeckRenderer = new CardDeckRenderer(atomicSize, backgroundColor);
-        PebbleCollectionCountRenderer pebbleCollectionCountRenderer = new PebbleCollectionCountRenderer(atomicSize, backgroundColor);
-        PlayerInfoRenderer playerInfoRenderer = new PlayerInfoRenderer(atomicSize, backgroundColor);
 
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        image = gameState.players().stream()
-                .map(playerInfoRenderer::render)
-                .reduce(image, imageManipulator::placeBeside);
+        BufferedImage image = renderPlayerInfos(gameState.players());
         BufferedImage middleRow = equationTableRenderer.render(equationTable);
         middleRow = imageManipulator.placeBeside(middleRow, cardDeckRenderer.render(gameState.cards()));
         image = imageManipulator.placeBelow(image, middleRow);
@@ -42,4 +40,23 @@ public class GameStateRenderer implements IRenderer<GameState> {
         BufferedImage image = stringRenderer.render("Bank: ");
         return imageManipulator.placeBeside(image, pebbleCollectionCountRenderer.render(bank));
     }
+
+    private BufferedImage renderPlayerInfos(List<PlayerInformation> players) {
+        ImageManipulator imageManipulator = new ImageManipulator(backgroundColor);
+        PlayerInfoRenderer playerInfoRenderer = new PlayerInfoRenderer(atomicSize, backgroundColor);
+        if (players.isEmpty()) {
+            BufferedImage image = new BufferedImage(atomicSize*6, atomicSize*4, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = image.createGraphics();
+            g.setColor(backgroundColor);
+            g.fillRect(0, 0, image.getWidth(), image.getHeight());
+            g.dispose();
+            return image;
+        }
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        return players.stream()
+                .map(playerInfoRenderer::render)
+                .reduce(image, imageManipulator::placeBeside);
+    }
+
+
 }

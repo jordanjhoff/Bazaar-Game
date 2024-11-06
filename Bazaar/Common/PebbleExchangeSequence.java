@@ -12,6 +12,10 @@ public record PebbleExchangeSequence(List<ExchangeRule> rules) implements Exchan
         this.rules = Objects.requireNonNull(rules).stream().map(Objects::requireNonNull).toList();
     }
 
+    public PebbleExchangeSequence(ExchangeRule... rules) {
+        this(List.of(rules));
+    }
+
     /**
      * Adds a Rule to this sequence and returns the new sequence
      * @param rule The Rule to add

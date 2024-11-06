@@ -6,8 +6,8 @@ import Common.*;
  * This class represents a Player implementation which uses a Strategy to choose moves
  */
 public class Mechanism implements IPlayer {
-    private final String name;
-    private final IStrategy strategy;
+    protected final String name;
+    protected final IStrategy strategy;
 
     public Mechanism(String name, IStrategy strategy) {
         this.name = name;

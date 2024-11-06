@@ -13,6 +13,10 @@ public record CardPurchaseSequence(List<Card> cards) {
     this.cards = Objects.requireNonNull(cards).stream().map(Objects::requireNonNull).toList();
   }
 
+  public CardPurchaseSequence(Card... cards) {
+    this(List.of(cards));
+  }
+
   /**
    * Adds a Card to this sequence and returns the new sequence
    * @param card The Card to add

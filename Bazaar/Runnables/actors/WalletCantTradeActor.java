@@ -8,6 +8,9 @@ import Player.IStrategy;
 
 import java.util.Optional;
 
+/**
+ * This IPlayer implementation cheats by making an exchange that the player can't afford.
+ */
 public class WalletCantTradeActor extends BankCantTradeActor {
 
     public WalletCantTradeActor(String name, IStrategy strategy) {

@@ -7,6 +7,9 @@ import Player.IStrategy;
 import Player.Mechanism;
 import Referee.GameObjectGenerator;
 
+/**
+ * This IPlayer implementation cheats by buying a card it can't afford.
+ */
 public class CantAffordCardActor extends Mechanism {
 
     public CantAffordCardActor(String name, IStrategy strategy) {

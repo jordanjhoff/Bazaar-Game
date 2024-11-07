@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A class that observers an ObservableReferee, and renders GameState in a GUI
+ */
 public class Observer implements EventListener {
 
 
@@ -30,6 +33,11 @@ public class Observer implements EventListener {
         this.shutDown = false;
     }
 
+    /**
+     * Sets up the observer using the maximally useful equationTable and starting state
+     * @param equations
+     * @param startingState
+     */
     public void setup(EquationTable equations, GameState startingState) {
         gameStateHistory.add(startingState);
         this.renderer = new GameStateRenderer(equations, 40, Color.gray.brighter());
@@ -37,6 +45,10 @@ public class Observer implements EventListener {
         openFrame();
     }
 
+    /**
+     * A method to accept new GameStates
+     * @param gs a new GameState
+     */
     public void notifyOfGameStateUpdate(GameState gs) {
         if (!shutDown) {
             updateGameState(gs);
@@ -44,8 +56,10 @@ public class Observer implements EventListener {
     }
 
 
-
-    public void openFrame() {
+    /**
+     * Opens a BazaarObserverPanel in a new JFrame
+     */
+    protected void openFrame() {
         JFrame frame = new JFrame("Bazaar Observer GameState Viewer");
         frame.add(mainPanel);
         frame.setSize(100,100);
@@ -57,14 +71,25 @@ public class Observer implements EventListener {
         mainPanel.repaint();
     }
 
+    /**
+     * Gets the current gamestate that is being viewed
+     * @return the current gamestate
+     */
     public GameState currentGameState() {
         return gameStateHistory.get(gameStatePointer);
     }
 
+    /**
+     * Shuts the observer down so that it no longer accepts updated GameStates
+     */
     public void shutDown() {
         this.shutDown = true;
     }
 
+    /**
+     * Adds a gamestate to the observer's history
+     * @param gs
+     */
     protected void updateGameState(GameState gs) {
         String fileName = gameStateHistory.size() + ".png";
         gameStateHistory.add(gs);
@@ -72,6 +97,11 @@ public class Observer implements EventListener {
         mainPanel.repaint();
     }
 
+    /**
+     * Saves the given GameState as a .png file
+     * @param gameState
+     * @param fileName
+     */
     public void saveGameStateImage(GameState gameState, String fileName){
         enforceSetup();
         File directory = new File("Tmp");
@@ -89,18 +119,29 @@ public class Observer implements EventListener {
     }
 
 
-    public void advancePointer() {
+    /**
+     * Cycles the current visible GameState forwards.
+     */
+    public void moveCurrentGameStateForward() {
         if (gameStatePointer + 1 < gameStateHistory.size()) {
             gameStatePointer++;
         }
     }
 
-    public void retreatPointer() {
+    /**
+     * Cycles the current visible GameState backwards.
+     */
+    public void moveCurrentGameStateBackwards() {
         if (gameStatePointer - 1 >= 0) {
             gameStatePointer--;
         }
     }
 
+    /**
+     * Saves the current gamestate as a json file
+     * @param fileName the filename
+     * @throws IOException
+     */
     public void saveGameStateJson(String fileName) throws IOException {
         enforceSetup();
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
@@ -108,6 +149,9 @@ public class Observer implements EventListener {
         writer.close();
     }
 
+    /**
+     * Ensuures the referee is setup before calling any rendering methods
+     */
     protected void enforceSetup() {
         if (Objects.isNull(renderer)) {
             throw new IllegalStateException("Observer renderer is not setup");

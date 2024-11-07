@@ -1,6 +1,7 @@
 package Referee.gui;
 
 import Common.rendering.GameStateRenderer;
+import Common.rendering.IRenderer;
 import Referee.Observer;
 
 import javax.swing.*;
@@ -12,6 +13,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
 
+/**
+ * A panel class for viewing a BazaarObserver GUI
+ */
 public class BazaarObserverPanel extends JPanel {
 
     protected GameStateRenderer renderer;
@@ -24,6 +28,10 @@ public class BazaarObserverPanel extends JPanel {
         setFocusable(true);
     }
 
+    /**
+     * Sets up the renderer for this panel
+     * @param renderer
+     */
     public void setup(GameStateRenderer renderer) {
         this.renderer = renderer;
     }
@@ -43,7 +51,10 @@ public class BazaarObserverPanel extends JPanel {
     }
 
 
-
+    /**
+     * Dynamically updates the framesize of the parent frame
+     * @param currentImage
+     */
     public void updateFrameSize(BufferedImage currentImage) {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
@@ -52,7 +63,7 @@ public class BazaarObserverPanel extends JPanel {
     }
 
     /**
-     * Private inner class for handling key events within the a BazaarObserverPanel.
+     * Private inner class for handling key events within a BazaarObserverPanel.
      */
     private class MyKeyListener extends KeyAdapter {
         @Override
@@ -61,11 +72,11 @@ public class BazaarObserverPanel extends JPanel {
                 return;
             }
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                parentViewObserver.retreatPointer();
+                parentViewObserver.moveCurrentGameStateBackwards();
                 BazaarObserverPanel.this.repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                parentViewObserver.advancePointer();
+                parentViewObserver.moveCurrentGameStateForward();
                 BazaarObserverPanel.this.repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {

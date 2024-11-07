@@ -6,6 +6,9 @@ import Player.Mechanism;
 
 import java.util.Optional;
 
+/**
+ * This IPlayer implementation cheats by making an exchange that the bank can't afford.
+ */
 public class BankCantTradeActor extends Mechanism {
     private EquationTable equations;
     public BankCantTradeActor(String name, IStrategy strategy) {

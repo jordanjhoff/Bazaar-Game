@@ -11,6 +11,10 @@ public class MockBazaarObserverPanel extends BazaarObserverPanel {
       super(parentViewObserver);
    }
 
+   public MockBazaarObserverPanel() {
+      this(null);
+   }
+
    @Override
    protected void update() {
       System.out.print("update::");

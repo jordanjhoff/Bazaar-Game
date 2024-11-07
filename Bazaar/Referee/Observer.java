@@ -31,9 +31,14 @@ public class Observer implements EventListener {
     protected boolean shutDown;
 
     public Observer() {
-        gameStateHistory = new ArrayList<>();
-        mainPanel = new BazaarObserverPanel(this);
-        this.shutDown = false;
+        this(new ArrayList<>(), new BazaarObserverPanel(), false);
+        mainPanel.setParent(this);
+    }
+
+    public Observer(List<GameState> gameStateHistory, BazaarObserverPanel panel, boolean shutdown) {
+        this.gameStateHistory = gameStateHistory;
+        mainPanel = panel;
+        this.shutDown = shutdown;
     }
 
     /**

@@ -15,10 +15,17 @@ import java.util.List;
 import Common.CardDeck;
 import Common.PebbleCollection;
 import Common.PlayerInformation;
+import Common.RuleBook;
 import Common.converters.JSONDeserializer;
+import Player.IPlayer;
+import Player.Mechanism;
+import Player.Strategy;
+import Player.comparators.MaxCardsComparator;
+import Player.comparators.MaxPointsComparator;
 import Referee.GameObjectGenerator;
 import Referee.GameState;
 import Referee.MockObserver;
+import Referee.ObservableReferee;
 import Referee.Observer;
 
 public class ObserverTests {
@@ -154,17 +161,49 @@ public class ObserverTests {
   }
 
   @Test
-  public void testPanelKeystrokes() {
-
-  }
-
-  @Test
   public void testObservableRefereeNotifies() {
+    Mechanism jordy = new Mechanism("jordy", new Strategy(new MaxCardsComparator()));
+    Mechanism jack = new Mechanism("jack", new Strategy(new MaxCardsComparator()));
+    Mechanism matthias = new Mechanism("matthias", new Strategy(new MaxPointsComparator()));
+    Mechanism benlerner = new Mechanism("benlerner",new Strategy(new MaxPointsComparator()));
 
+    List<IPlayer> players = List.of(jordy, jack, benlerner, matthias);
+    RuleBook ruleBook = new RuleBook(generator.generateRandomEquationTable());
+
+    ObservableReferee ref = new ObservableReferee(players, ruleBook);
+    ref.addListener(ob);
+    ref.runGame();
+
+    String[] output = baos.toString().split("::");
+
+    Assert.assertEquals("shutdown", output[output.length - 1]);
+    Assert.assertTrue(baos.toString().contains("20.png"));
+    System.out.println(baos.toString());
   }
 
   @Test
-  public void testObservableRefereeMultipleObservers() {
+  public void testObservableRefereeMultipleObservers() throws IOException {
+    Mechanism jordy = new Mechanism("jordy", new Strategy(new MaxCardsComparator()));
+    Mechanism jack = new Mechanism("jack", new Strategy(new MaxCardsComparator()));
+    Mechanism matthias = new Mechanism("matthias", new Strategy(new MaxPointsComparator()));
+    Mechanism benlerner = new Mechanism("benlerner",new Strategy(new MaxPointsComparator()));
 
+    List<IPlayer> players = List.of(jordy, jack, benlerner, matthias);
+    RuleBook ruleBook = new RuleBook(generator.generateRandomEquationTable());
+
+    ObservableReferee ref = new ObservableReferee(players, ruleBook);
+    ref.addListener(ob);
+    Observer ob2 = new MockObserver();
+    ref.addListener(ob2);
+    ref.runGame();
+    ((MockObserver) ob).checkPointer();
+    ((MockObserver) ob2).checkPointer();
+    ob.saveGameStateJson("ob1.json");
+    ob2.saveGameStateJson("ob2.json");
+    String[] output = baos.toString().split("::");
+
+    Assert.assertFalse(baos.toString().indexOf("0.png") == baos.toString().lastIndexOf("0.png"));
+    Assert.assertFalse(baos.toString().indexOf("1.png") == baos.toString().lastIndexOf("1.png"));
+    Assert.assertFalse(baos.toString().indexOf("shutdown") == baos.toString().lastIndexOf("shutdown"));
   }
 }

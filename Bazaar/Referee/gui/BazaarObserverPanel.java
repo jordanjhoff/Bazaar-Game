@@ -1,17 +1,17 @@
 package Referee.gui;
-
 import Common.rendering.GameStateRenderer;
 import Common.rendering.IRenderer;
 import Referee.Observer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Objects;
+
 
 /**
  * A panel class for viewing a BazaarObserver GUI
@@ -50,6 +50,12 @@ public class BazaarObserverPanel extends JPanel {
         g.drawImage(currentImage, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
+    /**
+     * Makes a call to update this component. May be overridden for testing purposes.
+     */
+    protected void update() {
+        this.repaint();
+    }
 
     /**
      * Dynamically updates the framesize of the parent frame
@@ -65,19 +71,19 @@ public class BazaarObserverPanel extends JPanel {
     /**
      * Private inner class for handling key events within a BazaarObserverPanel.
      */
-    private class MyKeyListener extends KeyAdapter {
+    protected class MyKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             if (Objects.isNull(renderer)) {
                 return;
             }
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                parentViewObserver.moveCurrentGameStateBackwards();
-                BazaarObserverPanel.this.repaint();
+                parentViewObserver.retreatPointer();
+                update();
             }
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                parentViewObserver.moveCurrentGameStateForward();
-                BazaarObserverPanel.this.repaint();
+                parentViewObserver.advancePointer();
+                update();
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 String filename = JOptionPane.showInputDialog(BazaarObserverPanel.this, "Enter filename to save current state:");

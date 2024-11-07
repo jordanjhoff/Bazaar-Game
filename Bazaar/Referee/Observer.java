@@ -1,19 +1,22 @@
 package Referee;
 
-import Common.EquationTable;
-import Common.converters.JSONSerializer;
-import Common.rendering.GameStateRenderer;
-import Referee.gui.BazaarObserverPanel;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
+import java.util.Objects;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import Common.EquationTable;
+import Common.converters.JSONSerializer;
+import Common.rendering.GameStateRenderer;
+import Referee.gui.BazaarObserverPanel;
 
 /**
  * A class that observers an ObservableReferee, and renders GameState in a GUI
@@ -39,8 +42,8 @@ public class Observer implements EventListener {
      * @param startingState
      */
     public void setup(EquationTable equations, GameState startingState) {
-        gameStateHistory.add(startingState);
         this.renderer = new GameStateRenderer(equations, 40, Color.gray.brighter());
+        updateGameState(startingState);
         this.mainPanel.setup(this.renderer);
         openFrame();
     }
@@ -113,7 +116,7 @@ public class Observer implements EventListener {
             ImageIO.write(renderer.render(gameState), "png", file);
         }
         catch (IOException e){
-            //do nothing for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //do nothing for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO
         }
 
     }

@@ -5,13 +5,14 @@ import Common.ExchangeRule;
 import Common.PebbleExchangeSequence;
 import Common.TurnState;
 import Player.IStrategy;
+import Player.Mechanism;
 
 import java.util.Optional;
 
 /**
  * This IPlayer implementation cheats by making an exchange that the player can't afford.
  */
-public class WalletCantTradeActor extends BankCantTradeActor {
+public class WalletCantTradeActor extends AbstractCantTradeActor {
 
     public WalletCantTradeActor(String name, IStrategy strategy) {
         super(name, strategy);

@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 public class CardRenderer implements IRenderer<Card> {
 
@@ -42,8 +44,8 @@ public class CardRenderer implements IRenderer<Card> {
         }
         else {
             try {
-                File file = new File("Bazaar/Common/rendering/happyFace.jpg");
-                BufferedImage face = ImageIO.read(file);
+                InputStream input  = getClass().getClassLoader().getResourceAsStream("happyFace.jpg");
+                BufferedImage face = ImageIO.read(input);
                 Image scaledImage = face.getScaledInstance(atomicSize, atomicSize, Image.SCALE_SMOOTH);
                 BufferedImage bufferedScaledImage = new BufferedImage(atomicSize, atomicSize, face.getType());
                 Graphics2D g2d = bufferedScaledImage.createGraphics();

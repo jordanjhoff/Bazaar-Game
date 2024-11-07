@@ -27,7 +27,7 @@ public abstract class MilestoneIntegrationTester {
         for (int i = 0; i < inFiles.length; i++) {
             InputStreamReader testInput = new InputStreamReader(new FileInputStream(inFiles[i]));
             InputStreamReader expectedOutput = new InputStreamReader(new FileInputStream(outFiles[i]));
-            String testResult = result(testInput, expectedOutput, i);
+            String testResult = result(testInput, expectedOutput, inFiles[i].getName());
             out.write(testResult);
             if (testResult.contains("failed")) {
                 failures.write(dir);
@@ -63,11 +63,11 @@ public abstract class MilestoneIntegrationTester {
      * Takes an (n)-in.json and an (n)-out.json file, and compares them.
      * @param testInput
      * @param expectedTestOutput
-     * @param testNumber
+     * @param testName
      * @return a string of the result
      * @throws IOException
      */
-    public String result(InputStreamReader testInput, InputStreamReader expectedTestOutput, int testNumber) throws IOException {
+    public String result(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException {
         try {
             StringWriter actualTestOutput = new StringWriter();
             List<Object> list1 = jsonResultToObjects(testResultToNewReader(testInput, actualTestOutput));
@@ -88,9 +88,9 @@ public abstract class MilestoneIntegrationTester {
             }
         }
         catch (Exception e) {
-            return "Test " + testNumber + " failed by exception: " + e.getMessage() + "\n";
+            return "Test " + testName + " failed by exception: " + e.getMessage() + "\n";
         }
-        return "Test " + testNumber + " passed\n";
+        return "Test " + testName + " passed\n";
     }
 
     private File[] getFiles(File parentDir, String regexPattern) {

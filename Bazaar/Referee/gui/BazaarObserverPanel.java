@@ -1,16 +1,17 @@
 package Referee.gui;
 
-import Common.rendering.GameStateRenderer;
-import Referee.Observer;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Objects;
+
+import javax.swing.*;
+
+import Common.rendering.GameStateRenderer;
+import Referee.Observer;
 
 public class BazaarObserverPanel extends JPanel {
 
@@ -42,6 +43,12 @@ public class BazaarObserverPanel extends JPanel {
         g.drawImage(currentImage, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
+    /**
+     * Makes a call to update this component. May be overridden for testing purposes.
+     */
+    protected void update() {
+        this.repaint();
+    }
 
 
     public void updateFrameSize(BufferedImage currentImage) {
@@ -54,7 +61,7 @@ public class BazaarObserverPanel extends JPanel {
     /**
      * Private inner class for handling key events within the a BazaarObserverPanel.
      */
-    private class MyKeyListener extends KeyAdapter {
+    protected class MyKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             if (Objects.isNull(renderer)) {
@@ -62,11 +69,11 @@ public class BazaarObserverPanel extends JPanel {
             }
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 parentViewObserver.retreatPointer();
-                BazaarObserverPanel.this.repaint();
+                update();
             }
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 parentViewObserver.advancePointer();
-                BazaarObserverPanel.this.repaint();
+                update();
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 String filename = JOptionPane.showInputDialog(BazaarObserverPanel.this, "Enter filename to save current state:");

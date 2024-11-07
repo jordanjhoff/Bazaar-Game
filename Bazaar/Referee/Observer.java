@@ -68,9 +68,6 @@ public class Observer implements EventListener {
         this.shutDown = true;
     }
 
-    /**
-     * Requires renderer to be instantiated. todo make safe
-     */
     protected void updateGameState(GameState gs) {
         String fileName = gameStateHistory.size() + ".png";
         gameStateHistory.add(gs);
@@ -78,9 +75,6 @@ public class Observer implements EventListener {
         mainPanel.repaint();
     }
 
-    /**
-     * Requires renderer to be instantiated. todo make safe
-     */
     public void saveGameStateImage(GameState gameState, String fileName){
         enforceSetup();
         File directory = new File("Tmp");

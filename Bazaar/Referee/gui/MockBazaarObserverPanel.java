@@ -25,6 +25,7 @@ public class MockBazaarObserverPanel extends BazaarObserverPanel {
          } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
          }
+         System.out.printf("pressed_%s::",e.getKeyChar());
          k.keyPressed(e);
       }
    }

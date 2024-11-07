@@ -50,8 +50,10 @@ public class MockObserver extends Observer {
   public void saveGameStateImage(GameState gameState, String fileName){
     enforceSetup();
     File directory = new File("Tmp");
+    // always record this attempt for consistency
+    System.out.printf("createDir_Tmp::");
     if (!directory.exists()) {
-      System.out.printf("createDir_Tmp::");
+      // do nothing
     }
     System.out.printf("createFile_%s::", fileName);
     // dump the rendered image

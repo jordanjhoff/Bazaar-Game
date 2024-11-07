@@ -18,3 +18,12 @@ The `GameObjectGenerator` class contains generation and randomization of any gam
 The `Referee`controls individual games of Bazaar. It is in charge of communicating with player components, enforcing 
 Bazaar rules, and executing a full game. It constructs a game, and uses the `RuleBook` class to validate actions within 
 a game.
+
+### Observer:
+The `Observer` is a listener that can be added to `ObservableReferee`. Upon notification of new `GameStates`, it renders
+the states as images, and contains functionality for viewing the `GameState` history in a GUI.
+
+### ObservableReferee:
+The `ObservableReferee` is an extension of `Referee` that controls individual games of Bazaar. It does everything a 
+`Referee` does, in addition to notifying its `Observers` of changes in it's `GameState`.
+

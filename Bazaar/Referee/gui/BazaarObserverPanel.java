@@ -1,5 +1,9 @@
 package Referee.gui;
+import Common.rendering.GameStateRenderer;
+import Common.rendering.IRenderer;
+import Referee.Observer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -8,11 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.swing.*;
 
-import Common.rendering.GameStateRenderer;
-import Referee.Observer;
-
+/**
+ * A panel class for viewing a BazaarObserver GUI
+ */
 public class BazaarObserverPanel extends JPanel {
 
     protected GameStateRenderer renderer;
@@ -25,6 +28,10 @@ public class BazaarObserverPanel extends JPanel {
         setFocusable(true);
     }
 
+    /**
+     * Sets up the renderer for this panel
+     * @param renderer
+     */
     public void setup(GameStateRenderer renderer) {
         this.renderer = renderer;
     }
@@ -50,7 +57,10 @@ public class BazaarObserverPanel extends JPanel {
         this.repaint();
     }
 
-
+    /**
+     * Dynamically updates the framesize of the parent frame
+     * @param currentImage
+     */
     public void updateFrameSize(BufferedImage currentImage) {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
@@ -59,7 +69,7 @@ public class BazaarObserverPanel extends JPanel {
     }
 
     /**
-     * Private inner class for handling key events within the a BazaarObserverPanel.
+     * Private inner class for handling key events within a BazaarObserverPanel.
      */
     protected class MyKeyListener extends KeyAdapter {
         @Override

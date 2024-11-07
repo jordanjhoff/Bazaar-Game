@@ -7,6 +7,9 @@ import Referee.GameObjectGenerator;
 
 import java.util.List;
 
+/**
+ * This IPlayer implementation cheats by using a non-existent equation.
+ */
 public class NonExistentEQActor extends Mechanism {
     private EquationTable equationTable;
     public NonExistentEQActor(String name, IStrategy strategy) {

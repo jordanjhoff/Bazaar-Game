@@ -78,11 +78,11 @@ public class BazaarObserverPanel extends JPanel {
                 return;
             }
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                parentViewObserver.retreatPointer();
+                parentViewObserver.moveCurrentGameStateBackwards();
                 update();
             }
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                parentViewObserver.advancePointer();
+                parentViewObserver.moveCurrentGameStateForward();
                 update();
             }
             if (e.getKeyCode() == KeyEvent.VK_S) {

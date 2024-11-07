@@ -64,12 +64,12 @@ public class MockObserver extends Observer {
 
   public void advancePointer() {
     System.out.print("advance::");
-    super.advancePointer();
+    super.moveCurrentGameStateForward();
   }
 
   public void retreatPointer() {
     System.out.print("retreat::");
-    super.retreatPointer();
+    super.moveCurrentGameStateBackwards();
   }
 
   public void saveGameStateJson(String fileName) throws IOException {

@@ -29,6 +29,16 @@ public record RuleBook(EquationTable equationTable) {
     return players.isEmpty() || this.playerWinWithPoints(players) || noCards || bankEmptyNoPlayersCanBuy;
   }
 
+
+  /**
+   * Determines if a draw request is legal given a turnstate
+   * @param turnState a turnstate
+   * @return true if a draw request is legal, or else false
+   */
+  public boolean validDrawRequest(TurnState turnState) {
+    return !turnState.bank().isEmpty();
+  }
+
   /**
    * Validates the exchanges on the given TurnState by executing them. It executes all the exchanges in sequential order,
    * and if it is valid, returns the updated TurnState.

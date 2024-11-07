@@ -28,14 +28,17 @@ public abstract class MilestoneIntegrationTester {
             InputStreamReader testInput = new InputStreamReader(new FileInputStream(inFiles[i]));
             InputStreamReader expectedOutput = new InputStreamReader(new FileInputStream(outFiles[i]));
             String testResult = result(testInput, expectedOutput, i);
+            out.write(testResult);
             if (testResult.contains("failed")) {
                 failures.write(dir);
                 failures.write(testResult);
+                out.write("Expected Result: \n");
+                String expectedResult = new BufferedReader(new InputStreamReader(new FileInputStream(outFiles[i])))
+                        .lines().collect(Collectors.joining("\n")) + "\n\n";
+                out.write(expectedResult);
                 failures.write("Expected Result: \n");
-                failures.write(new BufferedReader(new InputStreamReader(new FileInputStream(outFiles[i])))
-                        .lines().collect(Collectors.joining("\n")) + "\n\n");
+                failures.write(expectedResult);
             }
-            out.write(testResult);
         }
         out.flush();
     }

@@ -30,7 +30,13 @@ public class Strategy implements IStrategy {
     public Turn getBestTurnCandidate(TurnState turnState) {
         Set<ExchangeRule> usableRules = rulebook.equationTable().usableRulesForPlayer(turnState.getPlayerWallet(), turnState.bank());
         if (usableRules.isEmpty()) {
-            return new Turn(turnState, new PebbleDrawRequest(), getBestPurchase(turnState));
+            CardPurchaseSequence bestPurchase = getBestPurchase(turnState);
+            if (rulebook.validDrawRequest(turnState)) {
+                return new Turn(turnState, new PebbleDrawRequest(), bestPurchase);
+            }
+            else {
+                return new Turn(turnState, new PebbleExchangeSequence(), bestPurchase);
+            }
         }
         return Collections.min(generateAllTurnCandidates(turnState), candidateComparator);
     }

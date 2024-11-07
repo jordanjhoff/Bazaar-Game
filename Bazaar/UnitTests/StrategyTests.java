@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import Player.comparators.MaxCardsComparator;
 import Player.comparators.MaxPointsComparator;
@@ -111,5 +112,27 @@ public class StrategyTests {
         turnCandidateSelector.setRuleBook(rulebook);
         Assert.assertTrue(turnCandidateSelector.getBestTurnCandidate(turnState).cardPurchases().cards().isEmpty());
         Assert.assertTrue(turnCandidateSelector.getBestTurnCandidate(turnState).getExchangeList().isEmpty());
+    }
+
+    @Test
+    public void testDraw() {
+        turnState = new TurnState(randomizer.generateRandomPebbleCollection(5),
+                new PlayerInformation(randomizer.generateRandomPebbleCollection(0), 0),
+                List.of(0,0,0,0),
+                List.of(randomizer.generateRandomCard(), randomizer.generateRandomCard()));
+        turnCandidateSelector = new Strategy(new MaxCardsComparator());
+        turnCandidateSelector.setRuleBook(rulebook);
+        Assert.assertEquals(turnCandidateSelector.getBestTurnCandidate(turnState).exchangeRequest(), new PebbleDrawRequest());
+    }
+
+    @Test
+    public void testSkipDraw() {
+        turnState = new TurnState(randomizer.generateRandomPebbleCollection(0),
+                new PlayerInformation(randomizer.generateRandomPebbleCollection(0), 0),
+                List.of(0,0,0,0),
+                List.of(randomizer.generateRandomCard(), randomizer.generateRandomCard()));
+        turnCandidateSelector = new Strategy(new MaxCardsComparator());
+        turnCandidateSelector.setRuleBook(rulebook);
+        Assert.assertNotEquals(turnCandidateSelector.getBestTurnCandidate(turnState).exchangeRequest(), new PebbleDrawRequest());
     }
 }

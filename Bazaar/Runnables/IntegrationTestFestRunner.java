@@ -4,16 +4,16 @@ import java.io.*;
 
 public class IntegrationTestFestRunner {
     public static void main(String[] args) throws IOException {
-        StringWriter sw = new StringWriter();
-        StringWriter failures = new StringWriter();
-        runMilestoneTests(sw);
-        runTestfestTests(sw);
+        StringWriter milestone = new StringWriter();
+        StringWriter testfest = new StringWriter();
+        runMilestoneTests(milestone);
+        runTestfestTests(testfest);
 
         //View all test results
-        //System.out.println(sw);
-        System.out.println(failures);
-        sw.close();
-        failures.close();
+//        System.out.println(milestone);
+//        System.out.println(testfest);
+        milestone.close();
+        testfest.close();
     }
 
     public static void runMilestoneTests(Writer output) throws IOException {

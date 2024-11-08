@@ -1,18 +1,22 @@
 package Referee;
 
-import Common.EquationTable;
-import Common.RuleBook;
-import Player.IPlayer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import Common.EquationTable;
+import Common.RuleBook;
+import Player.IPlayer;
 
 public class ObservableReferee extends Referee {
 
     protected final List<Observer> listeners = new ArrayList<>();
     public ObservableReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
         super(players, intermediateState, ruleBook, randomizer);
+    }
+
+    public ObservableReferee(List<IPlayer> players, RuleBook ruleBook) {
+        super(players, ruleBook);
     }
 
     public void addListener(Observer listener) {

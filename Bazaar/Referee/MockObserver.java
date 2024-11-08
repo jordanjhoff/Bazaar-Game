@@ -4,11 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import Common.converters.JSONSerializer;
+import Referee.gui.MockBazaarObserverPanel;
 
 public class MockObserver extends Observer {
 
+  public MockObserver() {
+    super(new ArrayList<>(), new MockBazaarObserverPanel(), false);
+    mainPanel.setParent(this);
+  }
 
   public void notifyOfGameStateUpdate(GameState gs) {
     if (!shutDown) {
@@ -38,10 +44,7 @@ public class MockObserver extends Observer {
    */
   protected void updateGameState(GameState gs) {
     System.out.print("update::");
-    String fileName = gameStateHistory.size() + ".png";
-    gameStateHistory.add(gs);
-    saveGameStateImage(gs, fileName);
-    mainPanel.repaint();
+    super.updateGameState(gs);
   }
 
   /**
@@ -62,14 +65,18 @@ public class MockObserver extends Observer {
   }
 
 
-  public void advancePointer() {
+  public void moveCurrentGameStateForward() {
     System.out.print("advance::");
     super.moveCurrentGameStateForward();
   }
 
-  public void retreatPointer() {
+  public void moveCurrentGameStateBackwards() {
     System.out.print("retreat::");
     super.moveCurrentGameStateBackwards();
+  }
+
+  public void checkPointer() {
+    System.out.printf("pointer_%d::", gameStatePointer);
   }
 
   public void saveGameStateJson(String fileName) throws IOException {

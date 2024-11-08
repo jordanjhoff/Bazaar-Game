@@ -1,9 +1,5 @@
 package Referee.gui;
-import Common.rendering.GameStateRenderer;
-import Common.rendering.IRenderer;
-import Referee.Observer;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,6 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+
+import javax.swing.*;
+
+import Common.rendering.GameStateRenderer;
+import Referee.Observer;
 
 
 /**
@@ -21,11 +22,23 @@ public class BazaarObserverPanel extends JPanel {
     protected GameStateRenderer renderer;
     protected Observer parentViewObserver;
 
+    /**
+     * If you use this constructor, you must manually set the parent later
+     * with setParent.
+     */
+    public BazaarObserverPanel() {
+        this(null);
+    }
+
     public BazaarObserverPanel(Observer parentViewObserver) {
-        this.parentViewObserver = parentViewObserver;
         KeyListener keylistener = new MyKeyListener();
         addKeyListener(keylistener);
         setFocusable(true);
+        setParent(parentViewObserver);
+    }
+
+    public void setParent(Observer parentViewObserver) {
+        this.parentViewObserver = parentViewObserver;
     }
 
     /**

@@ -1,6 +1,25 @@
 package Common.converters;
 
-import Common.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import Common.Card;
+import Common.CardDeck;
+import Common.Equation;
+import Common.EquationTable;
+import Common.ExchangeRule;
+import Common.Pebble;
+import Common.PebbleCollection;
+import Common.PebbleExchangeSequence;
+import Common.PlayerInformation;
+import Common.TurnState;
 import Player.IPlayer;
 import Player.Mechanism;
 import Player.Strategy;
@@ -8,13 +27,15 @@ import Player.comparators.ITurnComparator;
 import Player.comparators.MaxCardsComparator;
 import Player.comparators.MaxPointsComparator;
 import Referee.GameState;
-import Common.PlayerInformation;
-import Runnables.actors.*;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import java.util.*;
+import Runnables.actors.BankCantTradeActor;
+import Runnables.actors.BuyUnavaliableCardActor;
+import Runnables.actors.CantAffordCardActor;
+import Runnables.actors.CardExnActor;
+import Runnables.actors.NonExistentEQActor;
+import Runnables.actors.PebblesExnActor;
+import Runnables.actors.SetupExnActor;
+import Runnables.actors.WalletCantTradeActor;
+import Runnables.actors.WinExnActor;
 
 /**
  * A class that reads json and converts it to our Bazaar game objects.
@@ -282,10 +303,10 @@ public class JSONDeserializer {
     String name = jsonActor.get(0).getAsString();
     Strategy strategy = new Strategy(policyFromJson(jsonActor.get(1)));
     return switch (jsonActor.get(2).getAsString()) {
-      case "setup" -> new SetupExnActor(name, strategy);
-      case "request-pebble-or-trades" -> new PebblesExnActor(name, strategy);
-      case "request-cards" -> new CardExnActor(name, strategy);
-      case "win" -> new WinExnActor(name, strategy);
+      case "setup" -> new SetupExnActor(name, strategy, 1);
+      case "request-pebble-or-trades" -> new PebblesExnActor(name, strategy, 1);
+      case "request-cards" -> new CardExnActor(name, strategy, 1);
+      case "win" -> new WinExnActor(name, strategy, 1);
       default -> throw new IllegalArgumentException("Unsupported exn type for actor");
     };
   }

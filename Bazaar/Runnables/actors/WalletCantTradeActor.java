@@ -1,9 +1,6 @@
 package Runnables.actors;
 
-import Common.ExchangeRequest;
-import Common.ExchangeRule;
-import Common.PebbleExchangeSequence;
-import Common.TurnState;
+import Common.*;
 import Player.IStrategy;
 import Player.Mechanism;
 
@@ -12,7 +9,8 @@ import java.util.Optional;
 /**
  * This IPlayer implementation cheats by making an exchange that the player can't afford.
  */
-public class WalletCantTradeActor extends AbstractCantTradeActor {
+public class WalletCantTradeActor extends Mechanism {
+    protected EquationTable equations;
 
     public WalletCantTradeActor(String name, IStrategy strategy) {
         super(name, strategy);
@@ -20,7 +18,7 @@ public class WalletCantTradeActor extends AbstractCantTradeActor {
 
     @Override
     public ExchangeRequest requestPebbleOrTrades(TurnState turnState) {
-        Optional<ExchangeRule> bestCheat = getBestCheat(turnState.getPlayerWallet());
+        Optional<ExchangeRule> bestCheat = getBestWalletCantTradeCheat(turnState.getPlayerWallet());
         if (bestCheat.isPresent()) {
             return new PebbleExchangeSequence(bestCheat.get());
         }
@@ -28,4 +26,32 @@ public class WalletCantTradeActor extends AbstractCantTradeActor {
             return super.requestPebbleOrTrades(turnState);
         }
     }
+
+
+    @Override
+    public void setup(EquationTable equations) {
+        this.equations = equations;
+        super.setup(equations);
+    }
+
+
+    /**
+     * Returns the best cheat, where it gets a rule that can't be used by the wallet
+     * @param wallet
+     * @return
+     */
+    protected Optional<ExchangeRule> getBestWalletCantTradeCheat(PebbleCollection wallet) {
+        Optional<ExchangeRule> bestCheat = Optional.empty();
+        mainLoop:
+        for (Equation eq : equations.equationSet()) {
+            for (ExchangeRule rule : eq.getRules()) {
+                if (!wallet.contains(rule.getInputPebbles())) {
+                    bestCheat = Optional.of(rule);
+                    break mainLoop;
+                }
+            }
+        }
+        return bestCheat;
+    }
+
 }

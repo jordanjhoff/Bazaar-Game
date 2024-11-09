@@ -8,12 +8,16 @@ import Player.Mechanism;
  * This IPlayer implementation throws an exception when the "setup" method is called
  */
 public class SetupExnActor extends Mechanism {
-    public SetupExnActor(String name, IStrategy strategy) {
+    int count;
+    public SetupExnActor(String name, IStrategy strategy, int count) {
         super(name, strategy);
+        this.count = count;
     }
 
     @Override
     public void setup(EquationTable equations) {
-        throw new IllegalStateException("Actor throwing exception on setup");
+        if (--count == 0)
+            throw new IllegalStateException("Actor throwing exception on setup");
+        super.setup(equations);
     }
 }

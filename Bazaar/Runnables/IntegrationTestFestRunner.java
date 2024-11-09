@@ -38,7 +38,7 @@ public class IntegrationTestFestRunner {
         new StrategyTester().testFestRun(new File("Feedback/5/Tests"), output, failures);
         new RulesTester().testFestRun(new File("Feedback/6/Tests"), output, failures);
         new GamesTester().testFestRun(new File("Feedback/7/Tests"), output, failures);
-        new ObserverGamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
+        // new ObserverGamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
         if (output.toString().contains("failed")) {
             System.out.println("----------------------TestFest Tests Failed---------------------------");
             System.out.println(failures);

@@ -92,24 +92,6 @@ public class Referee {
         }
         theOneTrueState = kickNaughtyPlayers();
     }
-//
-//    protected <T> Optional<T> timeout(Callable<T> task, int timeoutSeconds) {
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        Future<T> future = executor.submit(task);
-//        try {
-//            T result = future.get(timeoutSeconds, TimeUnit.SECONDS);
-//            return Optional.ofNullable(result);
-//        } catch (TimeoutException ex) {
-//            // handle the timeout
-//        } catch (InterruptedException e) {
-//            // handle the interrupts
-//        } catch (ExecutionException e) {
-//            // handle other exceptions
-//        } finally {
-//            future.cancel(true); // may or may not desire this
-//        }
-//    }
-
 
     /**
      * Executes a complete single turn for the active player

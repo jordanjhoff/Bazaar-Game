@@ -2,6 +2,7 @@ package Runnables;
 
 import Common.*;
 
+import Common.converters.BadJsonException;
 import com.google.gson.*;
 
 import java.io.*;
@@ -17,14 +18,14 @@ import Common.converters.JSONSerializer;
  * This is a testing class for sending and receiving JSON values
  */
 public class JsonRulesTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, BadJsonException {
         new RulesRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
     }
 }
 
 class RulesRunner implements TestRunner {
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException {
+    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         // Get inputs
@@ -64,12 +65,12 @@ class RulesRunner implements TestRunner {
 class RulesTester extends MilestoneIntegrationTester {
 
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException {
+    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
         new RulesRunner().run(testInput, testOutput);
     }
 
     @Override
-    public List<Object> jsonResultToObjects(InputStreamReader input) {
+    public List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException {
 
         JsonStreamParser p = new JsonStreamParser(input);
         List<Object> objects = new ArrayList<>();

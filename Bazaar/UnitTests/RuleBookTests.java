@@ -1,6 +1,7 @@
 package UnitTests;
 
 import Common.*;
+import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
 import Referee.GameObjectGenerator;
 import Referee.GameState;
@@ -137,7 +138,7 @@ public class RuleBookTests {
     }
 
     @Test
-    public void testJsonUtil() {
+    public void testJsonUtil() throws BadJsonException {
         PebbleCollection collection = JSONDeserializer.pebbleCollectionFromJson(TestingUtils.getJsonElementString("[\"red\"]"));
         Assert.assertEquals(collection, new PebbleCollection(new ArrayList<>(List.of(Pebble.RED))));
     }

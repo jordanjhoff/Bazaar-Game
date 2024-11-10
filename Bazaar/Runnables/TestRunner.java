@@ -1,5 +1,7 @@
 package Runnables;
 
+import Common.converters.BadJsonException;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -14,5 +16,5 @@ public interface TestRunner {
      * @param out the computed json output
      * @throws IOException
      */
-    void run(InputStreamReader input, Writer out) throws IOException;
+    void run(InputStreamReader input, Writer out) throws IOException, BadJsonException;
 }

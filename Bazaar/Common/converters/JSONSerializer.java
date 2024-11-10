@@ -193,4 +193,18 @@ public class JSONSerializer {
     List<Card> cards = purchase.cards();
     return cardListToJson(cards);
   }
+
+  /**
+   * Converts an EquationTable to json
+   * @param equationTable the equationTable to convert
+   * @return Json
+   */
+  public static JsonElement equationTableToJson(EquationTable equationTable) {
+    JsonArray jsonEquations = new JsonArray();
+    for (Equation e: equationTable.equationSet()) {
+      ExchangeRule rule = e.getRules().stream().iterator().next();
+      jsonEquations.add(ruleToJson(rule));
+    }
+    return jsonEquations;
+  }
 }

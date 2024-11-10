@@ -1,5 +1,6 @@
 package UnitTests;
 
+import Common.converters.BadJsonException;
 import com.google.gson.JsonStreamParser;
 
 import org.junit.Assert;
@@ -143,7 +144,7 @@ public class ObserverTests {
    * @throws IOException
    */
   @Test
-  public void testSaveJson() throws IOException {
+  public void testSaveJson() throws IOException, BadJsonException {
     ob.setup(generator.generateRandomEquationTable(), gameState);
 
     ob.saveGameStateJson("first.json");

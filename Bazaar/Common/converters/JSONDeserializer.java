@@ -1,6 +1,5 @@
 package Common.converters;
 
-import Common.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,6 +10,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import Common.Card;
+import Common.CardDeck;
+import Common.Equation;
+import Common.EquationTable;
+import Common.ExchangeRequest;
+import Common.ExchangeRule;
+import Common.Pebble;
+import Common.PebbleCollection;
+import Common.PebbleDrawRequest;
+import Common.PebbleExchangeSequence;
+import Common.PlayerInformation;
+import Common.TurnState;
 import Player.IPlayer;
 import Player.Mechanism;
 import Player.Strategy;
@@ -87,6 +98,8 @@ public class JSONDeserializer {
   public static ExchangeRule ruleFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonRule = json.getAsJsonArray();
+    checkJsonArray(jsonRule.get(0));
+    checkJsonArray(jsonRule.get(1));
     JsonArray leftPebblesArray = jsonRule.get(0).getAsJsonArray();
     JsonArray rightPebblesArray = jsonRule.get(1).getAsJsonArray();
     PebbleCollection inputPebbles = JSONDeserializer.pebbleCollectionFromJson(leftPebblesArray);
@@ -120,6 +133,10 @@ public class JSONDeserializer {
     JsonElement jsonPebbles = jsonCard.get("pebbles");
     PebbleCollection pebbles = pebbleCollectionFromJson(jsonPebbles);
     JsonElement jsonFace = jsonCard.get("face?");
+    if (jsonFace == null || jsonFace.isJsonNull()
+            || !jsonFace.isJsonPrimitive() || !jsonFace.getAsJsonPrimitive().isBoolean()) {
+      throw new IllegalArgumentException("Could not get face from json");
+    }
     boolean face = jsonFace.getAsBoolean();
     return new Card(pebbles, face);
   }
@@ -361,8 +378,8 @@ public class JSONDeserializer {
    * @param json the element to be tested
    */
   private static void checkJsonArray(JsonElement json) throws BadJsonException {
-    if (!json.isJsonArray()) {
-      throw new BadJsonException("Error Parsing JSONArray: " + json);
+    if (json == null || !json.isJsonArray()) {
+        throw new BadJsonException("Error Parsing JSONArray: " + json);
     }
   }
 

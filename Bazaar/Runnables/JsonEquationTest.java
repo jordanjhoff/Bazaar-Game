@@ -1,5 +1,6 @@
 package Runnables;
 
+import Common.converters.BadJsonException;
 import com.google.gson.*;
 
 import java.io.InputStreamReader;
@@ -16,7 +17,7 @@ import Common.converters.JSONSerializer;
  * This is a testing class for sending and receiving JSON values
  */
 public class JsonEquationTest {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws BadJsonException {
     JsonStreamParser p = new JsonStreamParser(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
     JsonElement equationsArray = p.next();

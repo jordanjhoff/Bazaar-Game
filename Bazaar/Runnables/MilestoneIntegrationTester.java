@@ -1,5 +1,7 @@
 package Runnables;
 
+import Common.converters.BadJsonException;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -19,7 +21,7 @@ public abstract class MilestoneIntegrationTester {
      * @param failures
      * @throws IOException
      */
-    public void run(File testDirectory, Writer out, Writer failures) throws IOException {
+    public void run(File testDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
         String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
@@ -43,7 +45,7 @@ public abstract class MilestoneIntegrationTester {
         out.flush();
     }
 
-    public void testFestRun(File testFestDirectory, Writer out, Writer failures) throws IOException {
+    public void testFestRun(File testFestDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
         if (testFestDirectory.isDirectory()) {
             File[] subDirs = testFestDirectory.listFiles(File::isDirectory);
             assert subDirs != null;
@@ -67,7 +69,7 @@ public abstract class MilestoneIntegrationTester {
      * @return a string of the result
      * @throws IOException
      */
-    public String result(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException {
+    public String result(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException, BadJsonException {
         try {
             StringWriter actualTestOutput = new StringWriter();
             List<Object> list1 = jsonResultToObjects(testResultToNewReader(testInput, actualTestOutput));
@@ -104,14 +106,14 @@ public abstract class MilestoneIntegrationTester {
     /*
     Takes an input, runs the test, and writes the result to out. Additionally, returns the output as a new reader for processing.
      */
-    private InputStreamReader testResultToNewReader(InputStreamReader testInput, Writer testOut) throws IOException {
+    private InputStreamReader testResultToNewReader(InputStreamReader testInput, Writer testOut) throws IOException, BadJsonException {
         StringWriter outputOftest = new StringWriter();
         runTest(testInput, outputOftest);
         testOut.write(outputOftest.toString());
         return getInputStreamReaderFromWriter(outputOftest);
     }
 
-    abstract void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException;
+    abstract void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException;
 
     private InputStreamReader getInputStreamReaderFromWriter(Writer writer) {
         StringWriter stringWriter = (StringWriter) writer;
@@ -120,7 +122,7 @@ public abstract class MilestoneIntegrationTester {
         return new InputStreamReader(byteArrayInputStream, StandardCharsets.UTF_8);
     }
 
-    public abstract List<Object> jsonResultToObjects(InputStreamReader input);
+    public abstract List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException;
 
     private static int parseIntOrDefault(String str) {
         try {

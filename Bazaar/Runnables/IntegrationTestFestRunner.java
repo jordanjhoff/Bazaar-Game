@@ -1,22 +1,27 @@
 package Runnables;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import Common.converters.BadJsonException;
 
 public class IntegrationTestFestRunner {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, BadJsonException {
         StringWriter milestone = new StringWriter();
         StringWriter testfest = new StringWriter();
         runMilestoneTests(milestone);
         runTestfestTests(testfest);
 
         //View all test results
-//        System.out.println(milestone);
-//        System.out.println(testfest);
+        System.out.println(milestone);
+        System.out.println(testfest);
         milestone.close();
         testfest.close();
     }
 
-    public static void runMilestoneTests(Writer output) throws IOException {
+    public static void runMilestoneTests(Writer output) throws IOException, BadJsonException {
         StringWriter failures = new StringWriter();
         new TurnTester().run(new File("4/Tests"), output, failures);
         new StrategyTester().run(new File("5/Tests"), output, failures);
@@ -32,19 +37,21 @@ public class IntegrationTestFestRunner {
         }
     }
 
-    public static void runTestfestTests(Writer output) throws IOException {
+    public static void runTestfestTests(Writer output) throws IOException, BadJsonException {
         StringWriter failures = new StringWriter();
         new TurnTester().testFestRun(new File("Feedback/4/Tests"), output, failures);
         new StrategyTester().testFestRun(new File("Feedback/5/Tests"), output, failures);
         new RulesTester().testFestRun(new File("Feedback/6/Tests"), output, failures);
         new GamesTester().testFestRun(new File("Feedback/7/Tests"), output, failures);
-        // new ObserverGamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
-        if (output.toString().contains("failed")) {
+//        new GamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
+        if (failures.toString().contains("failed")) {
             System.out.println("----------------------TestFest Tests Failed---------------------------");
             System.out.println(failures);
+            System.out.println("------------------------TestFest Tests Passed--------------------------");
+            System.out.println(output);
         }
         else {
-            System.out.println("------------------------All TestFest Tests Passed--------------------------");
+            System.out.println("---------------------- All TestFest Tests Passed------------------------");
         }
     }
 }

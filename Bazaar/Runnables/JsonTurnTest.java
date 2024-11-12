@@ -1,6 +1,7 @@
 package Runnables;
 
 import Common.TurnState;
+import Common.converters.BadJsonException;
 import Referee.GameState;
 
 import com.google.gson.*;
@@ -17,14 +18,14 @@ import Common.converters.JSONSerializer;
  * This is a testing class for sending and receiving JSON values
  */
 public class JsonTurnTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, BadJsonException {
         new TurnRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
     }
 }
 
 class TurnRunner implements TestRunner {
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException {
+    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         JsonElement gameStateJson = p.next();
@@ -41,12 +42,12 @@ class TurnRunner implements TestRunner {
 
 class TurnTester extends MilestoneIntegrationTester {
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException {
+    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
         new TurnRunner().run(testInput, testOutput);
     }
 
     @Override
-    public List<Object> jsonResultToObjects(InputStreamReader input) {
+    public List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
         List<Object> objects = new ArrayList<>();
         objects.add(JSONDeserializer.turnStateFromJson(p.next()));

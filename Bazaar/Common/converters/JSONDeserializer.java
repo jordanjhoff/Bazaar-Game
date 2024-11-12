@@ -1,25 +1,6 @@
 package Common.converters;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import Common.Card;
-import Common.CardDeck;
-import Common.Equation;
-import Common.EquationTable;
-import Common.ExchangeRule;
-import Common.Pebble;
-import Common.PebbleCollection;
-import Common.PebbleExchangeSequence;
-import Common.PlayerInformation;
-import Common.TurnState;
+import Common.*;
 import Player.IPlayer;
 import Player.Mechanism;
 import Player.Strategy;
@@ -27,15 +8,13 @@ import Player.comparators.ITurnComparator;
 import Player.comparators.MaxCardsComparator;
 import Player.comparators.MaxPointsComparator;
 import Referee.GameState;
-import Runnables.actors.BankCantTradeActor;
-import Runnables.actors.BuyUnavaliableCardActor;
-import Runnables.actors.CantAffordCardActor;
-import Runnables.actors.CardExnActor;
-import Runnables.actors.NonExistentEQActor;
-import Runnables.actors.PebblesExnActor;
-import Runnables.actors.SetupExnActor;
-import Runnables.actors.WalletCantTradeActor;
-import Runnables.actors.WinExnActor;
+import Common.PlayerInformation;
+import Runnables.actors.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.*;
 
 /**
  * A class that reads json and converts it to our Bazaar game objects.
@@ -47,7 +26,7 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated Equation
    */
-  public static Equation equationFromJSON(JsonElement json) {
+  public static Equation equationFromJSON(JsonElement json) throws BadJsonException {
     ExchangeRule rule = JSONDeserializer.ruleFromJson(json);
     return new Equation(rule);
   }
@@ -57,7 +36,7 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated EquationTable
    */
-  public static EquationTable equationTableFromJSON(JsonElement json) {
+  public static EquationTable equationTableFromJSON(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonEquations = json.getAsJsonArray();
     Set<Equation> equations = new HashSet<>();
@@ -73,7 +52,7 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated PebbleCollection
    */
-  public static PebbleCollection pebbleCollectionFromJson(JsonElement json) {
+  public static PebbleCollection pebbleCollectionFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonPebbles = json.getAsJsonArray();
     List<JsonElement> colorList = new ArrayList<>();
@@ -93,9 +72,11 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated Rule
    */
-  public static ExchangeRule ruleFromJson(JsonElement json) {
+  public static ExchangeRule ruleFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonRule = json.getAsJsonArray();
+    checkJsonArray(jsonRule.get(0));
+    checkJsonArray(jsonRule.get(1));
     JsonArray leftPebblesArray = jsonRule.get(0).getAsJsonArray();
     JsonArray rightPebblesArray = jsonRule.get(1).getAsJsonArray();
     PebbleCollection inputPebbles = JSONDeserializer.pebbleCollectionFromJson(leftPebblesArray);
@@ -108,7 +89,7 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated PebbleExchangeSequence
    */
-  public static PebbleExchangeSequence exchangeSequenceFromJson(JsonElement json) {
+  public static PebbleExchangeSequence exchangeSequenceFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonRules = json.getAsJsonArray();
     List<ExchangeRule> rules = new ArrayList<>();
@@ -123,12 +104,16 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated Card
    */
-  public static Card cardFromJson(JsonElement json) {
+  public static Card cardFromJson(JsonElement json) throws BadJsonException {
     checkJsonObject(json);
     JsonObject jsonCard = json.getAsJsonObject();
     JsonElement jsonPebbles = jsonCard.get("pebbles");
     PebbleCollection pebbles = pebbleCollectionFromJson(jsonPebbles);
     JsonElement jsonFace = jsonCard.get("face?");
+    if (jsonFace == null || jsonFace.isJsonNull()
+            || !jsonFace.isJsonPrimitive() || !jsonFace.getAsJsonPrimitive().isBoolean()) {
+      throw new IllegalArgumentException("Could not get face from json");
+    }
     boolean face = jsonFace.getAsBoolean();
     return new Card(pebbles, face);
   }
@@ -138,7 +123,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated list
    */
-  public static List<Card> cardListFromJson(JsonElement json) {
+  public static List<Card> cardListFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonElements = json.getAsJsonArray();
     List<Card> cards = new ArrayList<>();
@@ -154,7 +139,7 @@ public class JSONDeserializer {
    * @param otherCardsJson the JsonElement of the non-visible cards
    * @return the generated CardDeck
    */
-  public static CardDeck cardDeckFromJson(JsonElement visibleCardsJson, JsonElement otherCardsJson) {
+  public static CardDeck cardDeckFromJson(JsonElement visibleCardsJson, JsonElement otherCardsJson) throws BadJsonException {
     List<Card> visibleCards = cardListFromJson(visibleCardsJson);
     List<Card> otherCards = cardListFromJson(otherCardsJson);
     return new CardDeck(visibleCards, otherCards);
@@ -165,7 +150,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated PlayerInformation
    */
-  public static PlayerInformation playerInformationFromJson(JsonElement json) {
+  public static PlayerInformation playerInformationFromJson(JsonElement json) throws BadJsonException {
     checkJsonObject(json);
     JsonObject jsonPlayer = json.getAsJsonObject();
 
@@ -188,7 +173,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated Deque
    */
-  public static List<PlayerInformation> playersFromJson(JsonElement json) {
+  public static List<PlayerInformation> playersFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonPlayers = json.getAsJsonArray();
     List<PlayerInformation> players = new ArrayList<>();
@@ -203,7 +188,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated GameState
    */
-  public static GameState gameStateFromJson(JsonElement json) {
+  public static GameState gameStateFromJson(JsonElement json) throws BadJsonException {
     checkJsonObject(json);
     JsonObject jsonGameState = json.getAsJsonObject();
     PebbleCollection bank = pebbleCollectionFromJson(jsonGameState.get("bank"));
@@ -217,7 +202,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated list
    */
-  public static List<Integer> scoresFromJson(JsonElement json) {
+  public static List<Integer> scoresFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonScores = json.getAsJsonArray();
     List<Integer> scores = new ArrayList<>();
@@ -232,7 +217,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated TurnState
    */
-  public static TurnState turnStateFromJson(JsonElement json) {
+  public static TurnState turnStateFromJson(JsonElement json) throws BadJsonException {
     checkJsonObject(json);
     JsonObject jsonTurnState = json.getAsJsonObject();
     PebbleCollection bank = pebbleCollectionFromJson(jsonTurnState.get("bank"));
@@ -247,12 +232,12 @@ public class JSONDeserializer {
    * @param jsonPolicy The Json string of the policy to use
    * @return The chosen Comparator
    */
-  public static ITurnComparator policyFromJson(JsonElement jsonPolicy) {
+  public static ITurnComparator policyFromJson(JsonElement jsonPolicy) throws BadJsonException {
     String stringPolicy = jsonPolicy.getAsString();
     return switch (stringPolicy) {
       case "purchase-points" -> new MaxPointsComparator();
       case "purchase-size" -> new MaxCardsComparator();
-      default -> throw new IllegalArgumentException("Invalid policy");
+      default -> throw new BadJsonException("Invalid policy");
     };
   }
 
@@ -261,7 +246,7 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return the generated IPlayer
    */
-  public static IPlayer actorFromJson(JsonElement json) {
+  public static IPlayer actorFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonActor = json.getAsJsonArray();
     String name = jsonActor.get(0).getAsString();
@@ -274,13 +259,13 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return the generated IPlayer
    */
-  public static IPlayer cheatActorFromJson(JsonElement json) {
+  public static IPlayer cheatActorFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonCheatActor = json.getAsJsonArray();
     String name = jsonCheatActor.get(0).getAsString();
     Strategy strategy = new Strategy(policyFromJson(jsonCheatActor.get(1)));
     if (!Objects.equals(jsonCheatActor.get(2).getAsString(), "a cheat")) {
-      throw new IllegalArgumentException("Invalid cheat actor");
+      throw new BadJsonException("Invalid cheat actor");
     }
     return switch (jsonCheatActor.get(3).getAsString()) {
       case "use-non-existent-equation" -> new NonExistentEQActor(name, strategy);
@@ -288,7 +273,7 @@ public class JSONDeserializer {
       case "wallet-cannot-trade" -> new WalletCantTradeActor(name, strategy);
       case "buy-unavailable-card" -> new BuyUnavaliableCardActor(name, strategy);
       case "wallet-cannot-buy-card" -> new CantAffordCardActor(name, strategy);
-      default -> throw new IllegalArgumentException("Unsupported exn type for actor");
+      default -> throw new BadJsonException("Unsupported exn type for actor");
     };
   }
 
@@ -297,17 +282,17 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return the generated IPlayer
    */
-  public static IPlayer exnActorFromJson(JsonElement json) {
+  public static IPlayer exnActorFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonActor = json.getAsJsonArray();
     String name = jsonActor.get(0).getAsString();
     Strategy strategy = new Strategy(policyFromJson(jsonActor.get(1)));
     return switch (jsonActor.get(2).getAsString()) {
-      case "setup" -> new SetupExnActor(name, strategy, 1);
-      case "request-pebble-or-trades" -> new PebblesExnActor(name, strategy, 1);
-      case "request-cards" -> new CardExnActor(name, strategy, 1);
-      case "win" -> new WinExnActor(name, strategy, 1);
-      default -> throw new IllegalArgumentException("Unsupported exn type for actor");
+      case "setup" -> new SetupExnActor(name, strategy);
+      case "request-pebble-or-trades" -> new PebblesExnActor(name, strategy);
+      case "request-cards" -> new CardExnActor(name, strategy);
+      case "win" -> new WinExnActor(name, strategy);
+      default -> throw new BadJsonException("Unsupported exn type for actor");
     };
   }
 
@@ -316,7 +301,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated list of IPlayer
    */
-  public static List<IPlayer> actorsFromJson(JsonElement json) {
+  public static List<IPlayer> actorsFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonActors = json.getAsJsonArray();
     List<IPlayer> actors = new ArrayList<>();
@@ -330,7 +315,7 @@ public class JSONDeserializer {
         actors.add(cheatActorFromJson(jsonActor));
       }
       else {
-        throw new IllegalArgumentException("Actor Json of unsupported size");
+        throw new BadJsonException("Actor Json of unsupported size");
       }
     }
     return actors;
@@ -341,7 +326,7 @@ public class JSONDeserializer {
    * @param json the JsonElement to be deserialized
    * @return the generated List of Strings
    */
-  public static List<String> namesFromJson(JsonElement json) {
+  public static List<String> namesFromJson(JsonElement json) throws BadJsonException {
     checkJsonArray(json);
     JsonArray jsonNames = json.getAsJsonArray();
     List<String> names = new ArrayList<>();
@@ -351,13 +336,27 @@ public class JSONDeserializer {
     return names;
   }
 
+  public static ExchangeRequest exchangeRequestFromJson(JsonElement json) throws BadJsonException {
+    if (json.isJsonPrimitive()) {
+      if (!json.getAsJsonPrimitive().isBoolean() || json.getAsJsonPrimitive().getAsBoolean()) {
+        throw new BadJsonException("Bad json: expected false primitive for draw request");
+      }
+      else {
+        return new PebbleDrawRequest();
+      }
+    }
+    else {
+      return exchangeSequenceFromJson(json);
+    }
+  }
+
   /**
    * Checks that this JsonElement is a valid JsonArray
    * @param json the element to be tested
    */
-  private static void checkJsonArray(JsonElement json) {
-    if (!json.isJsonArray()) {
-      throw new IllegalArgumentException("Error Parsing JSONArray: " + json);
+  private static void checkJsonArray(JsonElement json) throws BadJsonException {
+    if (json == null || !json.isJsonArray()) {
+        throw new BadJsonException("Error Parsing JSONArray: " + json);
     }
   }
 
@@ -365,9 +364,9 @@ public class JSONDeserializer {
    * Checks that this JsonElement is a valid JsonObject
    * @param json the element to be tested
    */
-  private static void checkJsonObject(JsonElement json) {
+  private static void checkJsonObject(JsonElement json) throws BadJsonException {
     if (!json.isJsonObject()) {
-      throw new IllegalArgumentException("Error Parsing JSONObject: " + json);
+      throw new BadJsonException("Error Parsing JSONObject: " + json);
     }
   }
 
@@ -376,9 +375,9 @@ public class JSONDeserializer {
    * @param json The JsonElement to be deserialized
    * @return The generated PebbleColor
    */
-  private static Pebble pebbleFromJson(JsonElement json) {
+  private static Pebble pebbleFromJson(JsonElement json) throws BadJsonException {
     if (!json.isJsonPrimitive()) {
-      throw new IllegalArgumentException("Parsing error");
+      throw new BadJsonException("Parsing error");
     }
     String color = json.getAsString();
     return switch (color) {
@@ -387,7 +386,7 @@ public class JSONDeserializer {
       case "white" -> Pebble.WHITE;
       case "green" -> Pebble.GREEN;
       case "yellow" -> Pebble.YELLOW;
-      default -> throw new IllegalArgumentException();
+      default -> throw new BadJsonException("Not a real pebble color");
     };
   }
 }

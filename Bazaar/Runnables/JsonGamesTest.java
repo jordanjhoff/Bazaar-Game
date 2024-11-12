@@ -1,6 +1,7 @@
 package Runnables;
 
 import Common.*;
+import Common.converters.BadJsonException;
 import Player.IPlayer;
 
 import Referee.GameState;
@@ -20,7 +21,7 @@ import Common.converters.JSONSerializer;
  * This is a testing class for sending and receiving JSON values
  */
 public class JsonGamesTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, BadJsonException {
         new GamesRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
     }
 }
@@ -28,7 +29,7 @@ public class JsonGamesTest {
 class GamesRunner implements TestRunner {
 
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException {
+    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
 
         JsonStreamParser p = new JsonStreamParser(input);
         // Get inputs
@@ -57,7 +58,7 @@ class GamesRunner implements TestRunner {
         out.close();
     }
 
-    protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException {
+    protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException, BadJsonException {
         Referee referee = new Referee(players, gameState, ruleBook, new DeterministicObjectGenerator());
         return referee.runGame();
     }
@@ -66,12 +67,12 @@ class GamesRunner implements TestRunner {
 class GamesTester extends MilestoneIntegrationTester {
 
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException {
+    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
         new GamesRunner().run(testInput, testOutput);
     }
 
     @Override
-    public List<Object> jsonResultToObjects(InputStreamReader input) {
+    public List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
         List<Object> objects = new ArrayList<>();
         objects.add(JSONDeserializer.namesFromJson(p.next()));

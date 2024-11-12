@@ -1,6 +1,8 @@
 package Common.converters;
 
 import Common.*;
+import Player.IPlayer;
+import Referee.GameResult;
 import Referee.GameState;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -193,4 +195,34 @@ public class JSONSerializer {
     List<Card> cards = purchase.cards();
     return cardListToJson(cards);
   }
+
+  /**
+   * Converts an EquationTable to json
+   * @param equationTable the equationTable to convert
+   * @return Json
+   */
+  public static JsonElement equationTableToJson(EquationTable equationTable) {
+    JsonArray jsonEquations = new JsonArray();
+    for (Equation e: equationTable.equationSet()) {
+      ExchangeRule rule = e.getRules().stream().iterator().next();
+      jsonEquations.add(ruleToJson(rule));
+    }
+    return jsonEquations;
+  }
+
+  /**
+   * Converts a gameResult to json
+   * @param gameResult the result to convert
+   * @return Json
+   */
+  public static JsonElement gameResultToJson(GameResult gameResult) {
+    JsonArray jsonGameResult = new JsonArray();
+    List<String> winners = gameResult.winners().stream().map(IPlayer::name).toList();
+    List<String> naughty = gameResult.kicked().stream().map(IPlayer::name).toList();
+    jsonGameResult.add(namesToJson(winners));
+    jsonGameResult.add(namesToJson(naughty));
+    return jsonGameResult;
+  }
+
+
 }

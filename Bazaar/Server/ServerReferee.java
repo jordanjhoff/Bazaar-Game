@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
 
+/**
+ * Represents an ObservableReferee, with additional functionality to time out if a move is not received within a certain amount of time.
+ */
 public class ServerReferee extends ObservableReferee {
 
     public static int moveTimeoutMS = 10000;

@@ -15,6 +15,9 @@ import com.google.gson.JsonStreamParser;
 
 import java.io.*;
 
+/**
+ * Represents a proxy player, that uses input and output s
+ */
 public class Player implements IPlayer {
     protected String name;
 
@@ -22,8 +25,8 @@ public class Player implements IPlayer {
     protected JsonStreamParser jsonStreamIn;
     protected InputStream streamIn;
 
-    public Player(InputStream streamIn, OutputStream streamOut) throws IOException {
-        this.name = "sda";
+    public Player(String name, InputStream streamIn, OutputStream streamOut) throws IOException {
+        this.name = name;
         outputStream = new PrintWriter(streamOut);
         this.streamIn = streamIn;
         jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
@@ -57,7 +60,6 @@ public class Player implements IPlayer {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
         outputStream.write(packageFunctionCall("request-cards", ts));
         outputStream.flush();
-
         return readPlayerJSONInput(input -> new CardPurchaseSequence(JSONDeserializer.cardListFromJson(input)));
     }
 
@@ -79,13 +81,13 @@ public class Player implements IPlayer {
         return functionCall.toString();
     }
 
-    protected <R> R readPlayerJSONInput(BadJsonFunction<JsonElement, R> function) {
+    protected <R> R readPlayerJSONInput(BadJsonFunction<JsonElement, R> applyToInput) {
         try {
             while (streamIn.available() == 0) {
                 Thread.sleep(10);
             }
             if (jsonStreamIn.hasNext()) {
-                return function.apply(jsonStreamIn.next());
+                return applyToInput.apply(jsonStreamIn.next());
             }
         }
         catch (InterruptedException | BadJsonException e) {

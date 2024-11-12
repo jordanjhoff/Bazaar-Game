@@ -52,6 +52,7 @@ public class ClientReferee {
     } catch (IOException e) {
       System.err.printf("Could not establish socket: %s", e.getMessage());
       e.printStackTrace();
+      throw new RuntimeException();
     }
     outputStream.write(client.name());
     outputStream.flush();
@@ -89,7 +90,9 @@ public class ClientReferee {
    * @return jsonelement with the request
    */
   public JsonArray readUpdate() {
-    return null; // todo
+    if (!jsonStreamIn.hasNext())
+      throw new IllegalStateException("Reading update when not ready");
+    return jsonStreamIn.next().getAsJsonArray();
   }
 
   /**

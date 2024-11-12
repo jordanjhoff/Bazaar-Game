@@ -5,6 +5,7 @@ import Common.converters.BadJsonException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,54 @@ public abstract class MilestoneIntegrationTester {
             }
         }
         out.flush();
+    }
+
+    public void parallelRun(File testDirectory, Writer out, Writer failures) throws IOException, InterruptedException {
+        File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
+        File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
+        String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
+        out.write(dir);
+
+        int threadCount = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        List<Future<String>> futures = new ArrayList<>();
+
+        for (int i = 0; i < inFiles.length; i++) {
+            final int index = i;
+            Future<String> future = executor.submit(() -> {
+                StringBuilder testOutput = new StringBuilder();
+                InputStreamReader testInput = new InputStreamReader(new FileInputStream(inFiles[index]));
+                InputStreamReader expectedOutput = new InputStreamReader(new FileInputStream(outFiles[index]));
+                String testResult = result(testInput, expectedOutput, inFiles[index].getName());
+                testOutput.append(testResult);
+
+                if (testResult.contains("failed")) {
+                    testOutput.append(dir);
+                    testOutput.append(testResult);
+                    testOutput.append("Expected Result: \n");
+
+                    String expectedResult = new BufferedReader(new InputStreamReader(new FileInputStream(outFiles[index])))
+                            .lines().collect(Collectors.joining("\n")) + "\n\n";
+                    testOutput.append(expectedResult);
+                }
+                return testOutput.toString();
+            });
+            futures.add(future);
+        }
+
+        for (Future<String> future : futures) {
+            try {
+                String result = future.get();
+                out.write(result);
+                if (result.contains("failed")) {
+                    failures.write(result);
+                }
+            }
+            catch (ExecutionException | InterruptedException e) {
+                failures.write(e.getMessage());
+            }
+        }
+        executor.shutdown();
     }
 
     public void testFestRun(File testFestDirectory, Writer out, Writer failures) throws IOException, BadJsonException {

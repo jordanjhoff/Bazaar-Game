@@ -32,7 +32,7 @@ public class ServerReferee extends ObservableReferee {
     }
     @Override
     protected Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
-        Callable<Optional<GameState>> method = () -> secondPlayerRequest(stateAfterExchanges);
+        Callable<Optional<GameState>> method = () -> super.secondPlayerRequest(stateAfterExchanges);
         Optional<Optional<GameState>> result = timeout(method, moveTimeoutMS);
         return result.orElseGet(Optional::empty);
     }
@@ -46,7 +46,7 @@ public class ServerReferee extends ObservableReferee {
         } catch (TimeoutException | ExecutionException | InterruptedException ex) {
             future.cancel(true);
         } finally {
-            future.cancel(true);
+            executor.shutdownNow();
         }
         return Optional.empty();
     }

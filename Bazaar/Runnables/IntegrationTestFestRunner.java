@@ -1,14 +1,11 @@
 package Runnables;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 
 import Common.converters.BadJsonException;
 
 public class IntegrationTestFestRunner {
-    public static void main(String[] args) throws IOException, BadJsonException {
+    public static void main(String[] args) throws IOException, BadJsonException, InterruptedException {
         StringWriter milestone = new StringWriter();
         StringWriter testfest = new StringWriter();
         runMilestoneTests(milestone);
@@ -21,13 +18,14 @@ public class IntegrationTestFestRunner {
         testfest.close();
     }
 
-    public static void runMilestoneTests(Writer output) throws IOException, BadJsonException {
+    public static void runMilestoneTests(Writer output) throws IOException, BadJsonException, InterruptedException {
         StringWriter failures = new StringWriter();
         new TurnTester().run(new File("4/Tests"), output, failures);
         new StrategyTester().run(new File("5/Tests"), output, failures);
         new RulesTester().run(new File("6/Tests"), output, failures);
         new GamesTester().run(new File("7/Tests"), output, failures);
         new ObserverGamesTester().run(new File("8/Tests"), output, failures);
+        new ResourceGamesTester().parallelRun(new File("9/Tests"), output, failures);
         if (output.toString().contains("failed")) {
             System.out.println("--------------Milestone Tests Failed------------------");
             System.out.println(failures);
@@ -43,7 +41,8 @@ public class IntegrationTestFestRunner {
         new StrategyTester().testFestRun(new File("Feedback/5/Tests"), output, failures);
         new RulesTester().testFestRun(new File("Feedback/6/Tests"), output, failures);
         new GamesTester().testFestRun(new File("Feedback/7/Tests"), output, failures);
-//        new GamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
+        new GamesTester().testFestRun(new File("Feedback/8/Tests"), output, failures);
+        //new ResourceGamesTester().testFestRun(new File("Feedback/9/Tests"), output, failures);
         if (failures.toString().contains("failed")) {
             System.out.println("----------------------TestFest Tests Failed---------------------------");
             System.out.println(failures);

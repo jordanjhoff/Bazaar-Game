@@ -202,6 +202,9 @@ public class Referee {
     protected List<IPlayer> notifyWinners(List<IPlayer> winners) {
         List<IPlayer> successfulWinners = new ArrayList<>(winners);
         for (IPlayer player : this.players.values()) {
+            if (naughtyPlayers.contains(player)) {
+                continue;
+            }
             try {
                 player.win(winners.contains(player));
             } catch (Exception e) {

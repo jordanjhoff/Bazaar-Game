@@ -6,6 +6,7 @@ import Referee.GameObjectGenerator;
 import Referee.GameState;
 import Referee.ObservableReferee;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -25,13 +26,29 @@ public class ServerReferee extends ObservableReferee {
     }
 
     @Override
+    /**
+     * Provides all players with the equation table
+     */
+    protected void notifyPlayersOfStart() {
+        for (String name : players.keySet()) {
+            IPlayer player = players.get(name);
+            try {
+                player.setup(this.ruleBook.equationTable());
+            } catch (Exception e) {
+                naughtyPlayers.add(player);
+            }
+        }
+        theOneTrueState = kickNaughtyPlayers();
+    }
+
+    @Override
     protected Optional<GameState> firstPlayerRequest() {
         Callable<Optional<GameState>> method = super::firstPlayerRequest;
         Optional<Optional<GameState>> result = timeout(method, moveTimeoutMS);
         return result.orElseGet(Optional::empty);
     }
     @Override
-    protected Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
+        protected Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
         Callable<Optional<GameState>> method = () -> super.secondPlayerRequest(stateAfterExchanges);
         Optional<Optional<GameState>> result = timeout(method, moveTimeoutMS);
         return result.orElseGet(Optional::empty);

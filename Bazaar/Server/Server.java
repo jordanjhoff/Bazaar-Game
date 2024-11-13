@@ -24,7 +24,8 @@ public class Server {
     private final ServerSocket serverSocket;
     private final List<IPlayer> proxies = new ArrayList<>();
     public static void main(String[] args) throws IOException {
-        new Server(4114).lobby();
+        Server s = new Server(4114);
+        s.startBazaarServer();
     }
 
     public Server(int port) throws IOException {
@@ -68,8 +69,10 @@ public class Server {
 
 
     public boolean lobby() throws IOException {
+        System.out.println("Waiting room 1");
         waitingRoom(20000);
         if (this.proxies.size() < 2) {
+            System.out.println("Waiting room 2");
             waitingRoom(20000);
         }
         return this.proxies.size() >= 2;
@@ -77,7 +80,7 @@ public class Server {
 
     public void waitingRoom(int waitTimeMs) {
         long startingTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() + waitTimeMs < startingTime) {
+        while (startingTime + waitTimeMs > System.currentTimeMillis()) {
             try {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
@@ -91,6 +94,7 @@ public class Server {
 
 
     public GameResult playGame(List<Observer> observers) throws IOException {
+        System.out.println("Starting game with " + proxies.size() + " players.");
         GameObjectGenerator g = new GameObjectGenerator();
         ServerReferee serverReferee = new ServerReferee(this.proxies, new RuleBook(g.generateRandomEquationTable()));
         for (Observer observer : observers) {
@@ -118,6 +122,7 @@ public class Server {
         }
         synchronized (proxies) {
             proxies.add(guy);
+            System.out.println(guy.name() + " connected.");
             proxies.notifyAll();
         }
     }

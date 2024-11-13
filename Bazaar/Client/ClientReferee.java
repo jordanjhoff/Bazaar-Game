@@ -54,7 +54,7 @@ public class ClientReferee {
       e.printStackTrace();
       throw new RuntimeException();
     }
-    outputStream.write(client.name());
+    outputStream.write("\"" + client.name() + "\"");
     outputStream.flush();
   }
 
@@ -64,7 +64,8 @@ public class ClientReferee {
       JsonArray json = readUpdate();
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
-      delegateRequest(MName, Argument);
+      outputStream.write(delegateRequest(MName, Argument));
+      outputStream.flush();
     }
   }
 
@@ -92,7 +93,9 @@ public class ClientReferee {
   public JsonArray readUpdate() {
     if (!jsonStreamIn.hasNext())
       throw new IllegalStateException("Reading update when not ready");
-    return jsonStreamIn.next().getAsJsonArray();
+    JsonArray update = jsonStreamIn.next().getAsJsonArray();
+    System.out.println(update);
+    return update;
   }
 
   /**
@@ -118,7 +121,7 @@ public class ClientReferee {
 
   public String setup(EquationTable table) throws BadJsonException {
     client.setup(table);
-    return "void";
+    return "\"void\"";
   }
 
   /**
@@ -142,6 +145,6 @@ public class ClientReferee {
 
   public String win(Boolean b) {
     client.win(b);
-    return "void";
+    return "\"void\"";
   }
 }

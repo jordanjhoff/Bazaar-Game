@@ -18,12 +18,12 @@ import java.util.concurrent.*;
  */
 public class Referee {
 
-    private final Map<String, IPlayer> players;
+    protected final Map<String, IPlayer> players;
 
     protected GameState theOneTrueState;
     protected final RuleBook ruleBook;
-    private final List<IPlayer> naughtyPlayers = new ArrayList<>();
-    private final GameObjectGenerator randomizer;
+    protected final List<IPlayer> naughtyPlayers = new ArrayList<>();
+    protected final GameObjectGenerator randomizer;
 
     public Referee(List<IPlayer> players, RuleBook ruleBook) {
         this(players,

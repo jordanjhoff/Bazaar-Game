@@ -8,10 +8,7 @@ import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
 import Common.converters.JSONSerializer;
 import Player.IPlayer;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonStreamParser;
+import com.google.gson.*;
 
 import java.io.*;
 
@@ -78,6 +75,7 @@ public class Player implements IPlayer {
         JsonArray functionCall = new JsonArray();
         functionCall.add(funcName);
         functionCall.add(funcArg);
+        System.out.println("Sent: " +functionCall);
         return functionCall.toString();
     }
 
@@ -87,7 +85,9 @@ public class Player implements IPlayer {
                 Thread.sleep(10);
             }
             if (jsonStreamIn.hasNext()) {
-                return applyToInput.apply(jsonStreamIn.next());
+                JsonElement reply = jsonStreamIn.next();
+                System.out.println("Received: " + reply);
+                return applyToInput.apply(reply);
             }
         }
         catch (InterruptedException | BadJsonException e) {

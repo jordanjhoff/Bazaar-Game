@@ -75,27 +75,23 @@ public class Player implements IPlayer {
         JsonArray functionCall = new JsonArray();
         functionCall.add(funcName);
         functionCall.add(funcArg);
-        System.out.println("Sent: " +functionCall);
+        System.out.println("Sent: " + functionCall);
         return functionCall.toString();
     }
 
     protected <R> R readPlayerJSONInput(BadJsonFunction<JsonElement, R> applyToInput) {
         try {
-            while (streamIn.available() == 0) {
-                Thread.sleep(10);
-            }
-            if (jsonStreamIn.hasNext()) {
-                JsonElement reply = jsonStreamIn.next();
-                System.out.println("Received: " + reply);
-                return applyToInput.apply(reply);
-            }
+            System.out.println("Waiting");
+            Thread.sleep(10);
+            System.out.println("Received: ");
+            JsonElement reply = jsonStreamIn.next();
+            System.out.println(reply);
+            return applyToInput.apply(reply);
         }
         catch (InterruptedException | BadJsonException e) {
+            System.out.println(e.getMessage());
             throw new PlayerException();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        throw new PlayerException();
     }
 
     @FunctionalInterface

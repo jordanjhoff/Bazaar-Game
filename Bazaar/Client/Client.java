@@ -1,5 +1,6 @@
 package Client;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -26,7 +27,7 @@ public class Client {
   /**
    * Attempts to connect to the server
    */
-  public void start(InetAddress addr, int port) {
+  public void start(InetAddress addr, int port) throws IOException {
     ref = new ClientReferee(player);
     ref.connect(addr, port);
     ref.run();
@@ -36,7 +37,7 @@ public class Client {
   public void start() {
     try {
       start(InetAddress.getLocalHost(), 4114);
-    } catch (UnknownHostException e) {
+    } catch (IOException e) {
       System.err.printf("Could not resolve localhost: %s", e.getMessage());
     }
   }

@@ -65,7 +65,7 @@ public class ClientReferee {
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
       String s = delegateRequest(MName, Argument);
-      outputStream.write(s);
+      outputStream.println(s);
       outputStream.flush();
     }
   }
@@ -132,7 +132,7 @@ public class ClientReferee {
   public String requestPT(TurnState t) {
     ExchangeRequest r = client.requestPebbleOrTrades(t);
     if (r instanceof PebbleDrawRequest)
-      return "False";
+      return "false";
     return JSONSerializer.exchangeSequenceToJson(
             ((PebbleExchangeSequence) r))
             .toString();

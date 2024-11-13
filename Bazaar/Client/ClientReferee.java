@@ -64,7 +64,8 @@ public class ClientReferee {
       JsonArray json = readUpdate();
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
-      outputStream.write(delegateRequest(MName, Argument));
+      String s = delegateRequest(MName, Argument);
+      outputStream.write(s);
       outputStream.flush();
     }
   }

@@ -84,6 +84,7 @@ public class Server {
             try {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
+                playerSocket.setSoLinger(true, 0);
                 createPlayerProxy(playerSocket);
             }
             catch (IOException ex) {

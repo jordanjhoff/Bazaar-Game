@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import Common.EquationTable;
@@ -60,8 +61,7 @@ public class ClientReferee {
   }
 
   public void run() {
-    while (!socket.isClosed()) {
-      waitForUpdate();
+    while (waitForUpdate()) {
       JsonArray json = readUpdate();
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
@@ -74,18 +74,23 @@ public class ClientReferee {
   /**
    * Sleep until the socket's ready.
    */
-  public void waitForUpdate() {
+  public boolean waitForUpdate() {
     try {
-      while (!socket.isClosed() && streamIn.available() == 0) {
-        Thread.sleep(10);
+      while (streamIn.available() == 0) {
+        Thread.sleep(100);
+        // schrodinger's TCP connection FUCK YOU
+        socket.getOutputStream().write(' ');
       }
     }
     catch (InterruptedException e) {
       // this should never happen
+    } catch (SocketException e) {
+      return false;
     } catch (IOException e) {
       // something has gone wrong with socket availability
       throw new RuntimeException(e);
     }
+    return true;
   }
 
   /**

@@ -25,7 +25,10 @@ public class JsonObserverGamesTest {
         if (args.length == 1 && args[0].equals("--show")) {
             new ObserverGamesRunner(true).run(new InputStreamReader(System.in), new PrintWriter(System.out));
         }
-        new ObserverGamesRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
+        else {
+            new ObserverGamesRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
+        }
+
     }
 }
 

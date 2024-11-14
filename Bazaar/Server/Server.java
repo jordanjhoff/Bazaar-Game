@@ -84,7 +84,7 @@ public class Server {
             try {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
-                new Thread(() -> createPlayerProxy(playerSocket)).start();
+                createPlayerProxy(playerSocket);
             }
             catch (IOException ex) {
                 //do nothing
@@ -121,10 +121,16 @@ public class Server {
             return; //doesn't add player to list
         }
         synchronized (proxies) {
-            proxies.add(guy);
-            System.out.println(guy.name() + " connected.");
+            if (uniqueName(guy.name())) {
+                proxies.add(guy);
+                System.out.println(guy.name() + " connected.");
+            }
             proxies.notifyAll();
         }
+    }
+
+    private boolean uniqueName(String name) {
+        return !proxies.stream().map(p -> p.name()).toList().contains(name);
     }
 
 }

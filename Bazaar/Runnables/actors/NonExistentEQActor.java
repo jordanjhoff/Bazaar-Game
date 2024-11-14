@@ -25,6 +25,7 @@ public class NonExistentEQActor extends Mechanism {
     public ExchangeRequest requestPebbleOrTrades(TurnState turnState) {
         GameObjectGenerator generator = new GameObjectGenerator();
         ExchangeRule nonexistingeq;
+        // todo: fix. relying on random generation is bad per 11/13 codewalk
         do {
             nonexistingeq = generator.generateRandomRule();
         }

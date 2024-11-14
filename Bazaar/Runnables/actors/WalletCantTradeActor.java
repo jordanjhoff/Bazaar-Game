@@ -38,20 +38,16 @@ public class WalletCantTradeActor extends Mechanism {
     /**
      * Returns the best cheat, where it gets a rule that can't be used by the wallet
      * @param wallet
-     * @return
      */
     protected Optional<ExchangeRule> getBestWalletCantTradeCheat(PebbleCollection wallet) {
-        Optional<ExchangeRule> bestCheat = Optional.empty();
-        mainLoop:
         for (Equation eq : equations.equationSet()) {
             for (ExchangeRule rule : eq.getRules()) {
                 if (!wallet.contains(rule.getInputPebbles())) {
-                    bestCheat = Optional.of(rule);
-                    break mainLoop;
+                    return Optional.of(rule);
                 }
             }
         }
-        return bestCheat;
+        return Optional.empty();
     }
 
 }

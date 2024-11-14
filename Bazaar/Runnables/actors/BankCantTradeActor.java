@@ -34,22 +34,18 @@ public class BankCantTradeActor extends Mechanism {
 
 
     /**
-     * Returns the best cheat, where an gets a rule that can't be used by the givel pebbles
+     * Returns the best cheat, a rule that can't be used by the given pebbles
      * @param bank
-     * @return
      */
     protected Optional<ExchangeRule> getBestBankCheat(PebbleCollection bank) {
-        Optional<ExchangeRule> bestCheat = Optional.empty();
-        mainLoop:
         for (Equation eq : equations.equationSet()) {
             for (ExchangeRule rule : eq.getRules()) {
                 if (!bank.contains(rule.getOutputPebbles())) {
-                    bestCheat = Optional.of(rule);
-                    break mainLoop;
+                    return Optional.of(rule);
                 }
             }
         }
-        return bestCheat;
+        return Optional.empty();
     }
 
 }

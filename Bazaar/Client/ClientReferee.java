@@ -2,6 +2,7 @@ package Client;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonStreamParser;
 import com.google.gson.stream.JsonWriter;
 
@@ -54,7 +55,7 @@ public class ClientReferee {
       e.printStackTrace();
       throw new RuntimeException();
     }
-    outputStream.write("\"" + client.name() + "\"");
+    outputStream.println(new JsonPrimitive(client.name()));
     outputStream.flush();
   }
 
@@ -75,13 +76,14 @@ public class ClientReferee {
    */
   public void waitForUpdate() {
     try {
-      while (streamIn.available() == 0) {
+      while (!socket.isClosed() && streamIn.available() == 0) {
         Thread.sleep(10);
       }
     }
     catch (InterruptedException e) {
-
+      // this should never happen
     } catch (IOException e) {
+      // something has gone wrong with socket availability
       throw new RuntimeException(e);
     }
   }
@@ -116,13 +118,13 @@ public class ClientReferee {
         default -> throw new BadJsonException("Bad MName: " + MName);
       };
     } catch (BadJsonException e) {
-      throw new RuntimeException("Not supposed to be getting bad json! " + e.getMessage());
+      throw new RuntimeException("Not supposed to be getting bad json from the server! " + e.getMessage());
     }
   }
 
   public String setup(EquationTable table) throws BadJsonException {
     client.setup(table);
-    return "\"void\"";
+    return new JsonPrimitive("void").toString();
   }
 
   /**
@@ -132,7 +134,9 @@ public class ClientReferee {
   public String requestPT(TurnState t) {
     ExchangeRequest r = client.requestPebbleOrTrades(t);
     if (r instanceof PebbleDrawRequest)
-      return "false";
+      return new JsonPrimitive(false).toString();
+
+    // else
     return JSONSerializer.exchangeSequenceToJson(
             ((PebbleExchangeSequence) r))
             .toString();
@@ -146,6 +150,6 @@ public class ClientReferee {
 
   public String win(Boolean b) {
     client.win(b);
-    return "\"void\"";
+    return new JsonPrimitive("void").toString();
   }
 }

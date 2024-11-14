@@ -5,7 +5,6 @@ import Common.CardPurchaseSequence;
 import Common.TurnState;
 import Player.IStrategy;
 import Player.Mechanism;
-import Referee.GameObjectGenerator;
 
 /**
  * This IPlayer implementation cheats by buying a card it can't afford.

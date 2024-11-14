@@ -271,7 +271,7 @@ public class JSONDeserializer {
       case "use-non-existent-equation" -> new NonExistentEQActor(name, strategy);
       case "bank-cannot-trade" -> new BankCantTradeActor(name, strategy);
       case "wallet-cannot-trade" -> new WalletCantTradeActor(name, strategy);
-      case "buy-unavailable-card" -> new BuyUnavaliableCardActor(name, strategy);
+      case "buy-unavailable-card" -> new BuyUnavailableCardActor(name, strategy);
       case "wallet-cannot-buy-card" -> new CantAffordCardActor(name, strategy);
       default -> throw new BadJsonException("Unsupported exn type for actor");
     };

@@ -75,7 +75,7 @@ public class Player implements IPlayer {
         JsonArray functionCall = new JsonArray();
         functionCall.add(funcName);
         functionCall.add(funcArg);
-        System.out.println("Sent: " + functionCall);
+        System.out.print("Sent to " + this.name + " :"+ functionCall);
         return functionCall.toString();
     }
 

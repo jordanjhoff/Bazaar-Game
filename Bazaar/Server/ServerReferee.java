@@ -25,19 +25,24 @@ public class ServerReferee extends ObservableReferee {
         super(players, ruleBook);
     }
 
-    @Override
+
     /**
      * Provides all players with the equation table
      */
+    @Override
     protected void notifyPlayersOfStart() {
         for (String name : players.keySet()) {
             IPlayer player = players.get(name);
-            try {
+            Callable<Boolean> setupTask = () -> {
                 player.setup(this.ruleBook.equationTable());
-            } catch (Exception e) {
+                return true;
+            };
+            Optional<Boolean> result = timeout(setupTask, moveTimeoutMS);
+            if (result.isEmpty()) {
                 naughtyPlayers.add(player);
             }
         }
+        setupListeners(ruleBook.equationTable());
         theOneTrueState = kickNaughtyPlayers();
     }
 
@@ -52,6 +57,27 @@ public class ServerReferee extends ObservableReferee {
         Callable<Optional<GameState>> method = () -> super.secondPlayerRequest(stateAfterExchanges);
         Optional<Optional<GameState>> result = timeout(method, moveTimeoutMS);
         return result.orElseGet(Optional::empty);
+    }
+
+    @Override
+    protected List<IPlayer> notifyWinners(List<IPlayer> winners) {
+        List<IPlayer> successfulWinners = new ArrayList<>(winners);
+        for (IPlayer player : this.players.values()) {
+            if (naughtyPlayers.contains(player)) {
+                continue;
+            }
+            Callable<Boolean> winTask = () -> {
+              player.win(winners.contains(player));
+              return true;
+            };
+            Optional<Boolean> result = timeout(winTask, moveTimeoutMS);
+            if (result.isEmpty()) {
+                naughtyPlayers.add(player);
+            }
+        }
+        notifyListeners(theOneTrueState);
+        shutDownListeners();
+        return successfulWinners;
     }
 
     protected <T> Optional<T> timeout(Callable<T> task, int timeoutMs) {

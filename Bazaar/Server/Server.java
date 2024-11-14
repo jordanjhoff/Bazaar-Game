@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.*;
 
 public class Server {
-    private static final int waitingRoomMS = 5000;
+    private static final int waitingRoomMS = 10000;
     private final ServerSocket serverSocket;
     private final List<IPlayer> proxies = new ArrayList<>();
     public static void main(String[] args) throws IOException {

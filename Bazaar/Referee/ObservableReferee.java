@@ -1,8 +1,10 @@
 package Referee;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import Common.EquationTable;
 import Common.RuleBook;
@@ -10,7 +12,7 @@ import Player.IPlayer;
 
 public class ObservableReferee extends Referee {
 
-    protected final List<Observer> listeners = new ArrayList<>();
+    protected final Set<Observer> listeners = new HashSet<>();
     public ObservableReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
         super(players, intermediateState, ruleBook, randomizer);
     }

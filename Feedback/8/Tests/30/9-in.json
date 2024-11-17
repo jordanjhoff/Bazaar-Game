@@ -1,0 +1,356 @@
+[
+    [
+        "abe",
+        "purchase-points"
+    ],
+    [
+        "tower",
+        "purchase-size",
+        "a cheat",
+        "buy-unavailable-card"
+    ],
+    [
+        "row",
+        "purchase-points"
+    ],
+    [
+        "jerry",
+        "purchase-size"
+    ],
+    [
+        "ryan",
+        "purchase-points"
+    ],
+    [
+        "jeff",
+        "purchase-size"
+    ]
+]
+[
+    [
+        [
+            "green",
+            "white"
+        ],
+        [
+            "blue",
+            "yellow"
+        ]
+    ],
+    [
+        [
+            "green"
+        ],
+        [
+            "red",
+            "yellow"
+        ]
+    ],
+    [
+        [
+            "green"
+        ],
+        [
+            "blue",
+            "red"
+        ]
+    ],
+    [
+        [
+            "blue",
+            "red",
+            "red",
+            "white"
+        ],
+        [
+            "green",
+            "green"
+        ]
+    ],
+    [
+        [
+            "yellow"
+        ],
+        [
+            "blue",
+            "blue",
+            "green"
+        ]
+    ],
+    [
+        [
+            "yellow"
+        ],
+        [
+            "blue",
+            "blue"
+        ]
+    ],
+    [
+        [
+            "white"
+        ],
+        [
+            "red",
+            "yellow",
+            "yellow"
+        ]
+    ],
+    [
+        [
+            "blue",
+            "blue",
+            "blue",
+            "white"
+        ],
+        [
+            "green",
+            "red",
+            "yellow",
+            "yellow"
+        ]
+    ],
+    [
+        [
+            "green",
+            "red",
+            "red"
+        ],
+        [
+            "blue",
+            "yellow"
+        ]
+    ],
+    [
+        [
+            "red",
+            "red",
+            "white"
+        ],
+        [
+            "blue",
+            "blue",
+            "green"
+        ]
+    ]
+]
+{
+    "bank": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "green",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "red",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+    ],
+    "visibles": [
+        {
+            "pebbles": [
+                "green",
+                "red",
+                "red",
+                "red",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "blue",
+                "green",
+                "red",
+                "yellow",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "blue",
+                "blue",
+                "red",
+                "yellow",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "red",
+                "white",
+                "white",
+                "yellow",
+                "yellow"
+            ],
+            "face?": false
+        }
+    ],
+    "cards": [
+        {
+            "pebbles": [
+                "blue",
+                "green",
+                "red",
+                "yellow",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "blue",
+                "green",
+                "red",
+                "white",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "blue",
+                "green",
+                "red",
+                "red",
+                "yellow"
+            ],
+            "face?": true
+        },
+        {
+            "pebbles": [
+                "blue",
+                "green",
+                "white",
+                "yellow",
+                "yellow"
+            ],
+            "face?": false
+        },
+        {
+            "pebbles": [
+                "blue",
+                "blue",
+                "yellow",
+                "yellow",
+                "yellow"
+            ],
+            "face?": true
+        }
+    ],
+    "players": [
+        {
+            "wallet": [
+                "green",
+                "green",
+                "yellow",
+                "yellow",
+                "yellow"
+            ],
+            "score": 5
+        },
+        {
+            "wallet": [
+                "red",
+                "red",
+                "red",
+                "white",
+                "yellow"
+            ],
+            "score": 6
+        },
+        {
+            "wallet": [
+                "red",
+                "red",
+                "white",
+                "white",
+                "yellow"
+            ],
+            "score": 8
+        },
+        {
+            "wallet": [
+                "blue",
+                "white",
+                "yellow",
+                "yellow",
+                "yellow"
+            ],
+            "score": 6
+        },
+        {
+            "wallet": [
+                "green",
+                "green",
+                "red",
+                "red",
+                "white"
+            ],
+            "score": 6
+        },
+        {
+            "wallet": [
+                "green",
+                "green",
+                "red",
+                "red",
+                "yellow"
+            ],
+            "score": 3
+        }
+    ]
+}

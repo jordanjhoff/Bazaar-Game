@@ -16,7 +16,7 @@ import java.util.concurrent.*;
  */
 public class ServerReferee extends ObservableReferee {
 
-    public static int moveTimeoutMS = 10000;
+    public static int moveTimeoutMS = 5000;
     public ServerReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
         super(players, intermediateState, ruleBook, randomizer);
     }
@@ -63,17 +63,18 @@ public class ServerReferee extends ObservableReferee {
     protected List<IPlayer> notifyWinners(List<IPlayer> winners) {
         List<IPlayer> successfulWinners = new ArrayList<>(winners);
         for (IPlayer player : this.players.values()) {
-            if (naughtyPlayers.contains(player)) {
-                continue;
+            if (!naughtyPlayers.contains(player)) {
+                Callable<Boolean> winTask = () -> {
+                    player.win(winners.contains(player));
+                    return true;
+                };
+                Optional<Boolean> result = timeout(winTask, moveTimeoutMS);
+                if (result.isEmpty()) {
+                    successfulWinners.remove(player);
+                    naughtyPlayers.add(player);
+                }
             }
-            Callable<Boolean> winTask = () -> {
-              player.win(winners.contains(player));
-              return true;
-            };
-            Optional<Boolean> result = timeout(winTask, moveTimeoutMS);
-            if (result.isEmpty()) {
-                naughtyPlayers.add(player);
-            }
+
         }
         notifyListeners(theOneTrueState);
         shutDownListeners();

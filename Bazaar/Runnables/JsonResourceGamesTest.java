@@ -27,37 +27,7 @@ public class JsonResourceGamesTest {
     }
 }
 
-class ResourceGamesRunner implements TestRunner {
-
-    @Override
-    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
-
-        JsonStreamParser p = new JsonStreamParser(input);
-        // Get inputs
-        JsonElement jsonActors = p.next();
-        JsonElement jsonEquations = p.next();
-        JsonElement jsonGameState = p.next();
-
-        // Deserialize
-        List<IPlayer> players = JSONDeserializer.actorsFromJson(jsonActors);
-        EquationTable equationTable = JSONDeserializer.equationTableFromJSON(jsonEquations);
-        GameState gameState = JSONDeserializer.gameStateFromJson(jsonGameState);
-
-        // Run game
-        RuleBook ruleBook = new RuleBook(equationTable);
-        GameResult result = runGame(players, gameState, ruleBook);
-        List<String> winners = result.winners().stream().map(IPlayer::name).toList();
-        List<String> kicked = result.kicked().stream().map(IPlayer::name).toList();
-
-        // Serialize
-        JsonElement jsonWinners = JSONSerializer.namesToJson(winners);
-        JsonElement jsonKicked = JSONSerializer.namesToJson(kicked);
-
-        // Output
-        out.write(jsonWinners.toString());
-        out.write(jsonKicked.toString());
-        out.close();
-    }
+class ResourceGamesRunner extends GamesRunner {
 
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException, BadJsonException {
         ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator());
@@ -68,8 +38,8 @@ class ResourceGamesRunner implements TestRunner {
 class ResourceGamesTester extends MilestoneIntegrationTester {
 
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-        new ResourceGamesRunner().run(testInput, testOutput);
+    List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+        return new ResourceGamesRunner().run(testInput, testOutput);
     }
 
     @Override

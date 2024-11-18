@@ -12,19 +12,19 @@ public class IntegrationTestFestRunner {
         runTestfestTests(testfest);
 
         //View all test results
-        System.out.println(milestone);
-        System.out.println(testfest);
+        //System.out.println(milestone);
+        //System.out.println(testfest);
         milestone.close();
         testfest.close();
     }
 
     public static void runMilestoneTests(Writer output) throws IOException, BadJsonException, InterruptedException {
         StringWriter failures = new StringWriter();
-        new TurnTester().run(new File("4/Tests"), output, failures);
-        new StrategyTester().run(new File("5/Tests"), output, failures);
-        new RulesTester().run(new File("6/Tests"), output, failures);
-        new GamesTester().run(new File("7/Tests"), output, failures);
-        new ObserverGamesTester().run(new File("8/Tests"), output, failures);
+        new TurnTester().runAllTests(new File("4/Tests"), output, failures);
+        new StrategyTester().runAllTests(new File("5/Tests"), output, failures);
+        new RulesTester().runAllTests(new File("6/Tests"), output, failures);
+        new GamesTester().runAllTests(new File("7/Tests"), output, failures);
+        new ObserverGamesTester().runAllTests(new File("8/Tests"), output, failures);
         new ResourceGamesTester().parallelRun(new File("9/Tests"), output, failures);
         if (output.toString().contains("failed")) {
             System.out.println("--------------Milestone Tests Failed------------------");

@@ -3,7 +3,6 @@ package Runnables;
 import Common.converters.BadJsonException;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Pattern;
@@ -22,35 +21,26 @@ public abstract class MilestoneIntegrationTester {
      * @param failures
      * @throws IOException
      */
-    public void run(File testDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
+    public void runAllTests(File testDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
-        String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
-        out.write(dir);
+        out.write("Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n");
         for (int i = 0; i < inFiles.length; i++) {
-            InputStreamReader testInput = new InputStreamReader(new FileInputStream(inFiles[i]));
-            InputStreamReader expectedOutput = new InputStreamReader(new FileInputStream(outFiles[i]));
-            String testResult = result(testInput, expectedOutput, inFiles[i].getName());
+            String testResult = runOneTest(new InputStreamReader(new FileInputStream(inFiles[i])), new InputStreamReader(new FileInputStream(outFiles[i])),
+                    new InputStreamReader(new FileInputStream(outFiles[i])), inFiles[i].getName());
             out.write(testResult);
             if (testResult.contains("failed")) {
-                failures.write(dir);
                 failures.write(testResult);
-                out.write("Expected Result: \n");
-                String expectedResult = new BufferedReader(new InputStreamReader(new FileInputStream(outFiles[i])))
-                        .lines().collect(Collectors.joining("\n")) + "\n\n";
-                out.write(expectedResult);
-                failures.write("Expected Result: \n");
-                failures.write(expectedResult);
             }
         }
+        failures.flush();
         out.flush();
     }
 
     public void parallelRun(File testDirectory, Writer out, Writer failures) throws IOException, InterruptedException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
-        String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
-        out.write(dir);
+        out.write("Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n");
 
         int threadCount = Runtime.getRuntime().availableProcessors();
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
@@ -59,22 +49,9 @@ public abstract class MilestoneIntegrationTester {
         for (int i = 0; i < inFiles.length; i++) {
             final int index = i;
             Future<String> future = executor.submit(() -> {
-                StringBuilder testOutput = new StringBuilder();
-                InputStreamReader testInput = new InputStreamReader(new FileInputStream(inFiles[index]));
-                InputStreamReader expectedOutput = new InputStreamReader(new FileInputStream(outFiles[index]));
-                String testResult = result(testInput, expectedOutput, inFiles[index].getName());
-                testOutput.append(testResult);
-
-                if (testResult.contains("failed")) {
-                    testOutput.append(dir);
-                    testOutput.append(testResult);
-                    testOutput.append("Expected Result: \n");
-
-                    String expectedResult = new BufferedReader(new InputStreamReader(new FileInputStream(outFiles[index])))
-                            .lines().collect(Collectors.joining("\n")) + "\n\n";
-                    testOutput.append(expectedResult);
-                }
-                return testOutput.toString();
+                return runOneTest(new InputStreamReader(new FileInputStream(inFiles[index])),
+                        new InputStreamReader(new FileInputStream(outFiles[index])),
+                        new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName());
             });
             futures.add(future);
         }
@@ -100,7 +77,7 @@ public abstract class MilestoneIntegrationTester {
             assert subDirs != null;
             Arrays.sort(subDirs, Comparator.comparing(file -> parseIntOrDefault(file.getName())));
             for (File subDir : subDirs) {
-                run(subDir, out, failures);
+                runAllTests(subDir, out, failures);
             }
         } else {
             String message = "Testing failed: " + testFestDirectory.getAbsolutePath() + " is not a directory.\n";
@@ -110,38 +87,63 @@ public abstract class MilestoneIntegrationTester {
         out.flush();
     }
 
-    /**
-     * Takes an (n)-in.json and an (n)-out.json file, and compares them.
-     * @param testInput
-     * @param expectedTestOutput
-     * @param testName
-     * @return a string of the result
-     * @throws IOException
-     */
-    public String result(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException, BadJsonException {
+
+    private String executeAndCompare(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException, BadJsonException {
         try {
-            StringWriter actualTestOutput = new StringWriter();
-            List<Object> list1 = jsonResultToObjects(testResultToNewReader(testInput, actualTestOutput));
+            StringWriter executedOutput = new StringWriter();
+            List<Object> list1 = runTest(testInput, executedOutput);
             List<Object> list2 = jsonResultToObjects(expectedTestOutput);
-            StringBuilder validityString = new StringBuilder();
-            boolean testFailed = false;
-            for (int i = 0; i < Objects.requireNonNull(list1).size(); i++) {
-                assert list2 != null;
-                if (!list1.get(i).equals(list2.get(i))) {
-                    testFailed = true;
-                    validityString.append(i).append(", ");
-                }
-            }
-            if (testFailed) {
-                validityString.append("\nOutput of test:\n ");
-                validityString.append(actualTestOutput).append("\n");
-                throw new IllegalStateException("Inequality with JSON Elements " + validityString);
-            }
+            compareResults(list1, list2, executedOutput.toString());
         }
         catch (Exception e) {
             return "Test " + testName + " failed by exception: " + e.getMessage() + "\n";
         }
         return "Test " + testName + " passed\n";
+    }
+
+    abstract List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException;
+
+    public abstract List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException;
+
+    /**
+     * Takes an (n)-in.json and an (n)-out.json file, and compares them. Takes an additional copy of the expected output
+     * to write in case of failure.
+     * @param testInput
+     * @param expectedOutput
+     * @param testName
+     * @return a string of the result
+     * @throws IOException
+     */
+    private String runOneTest(InputStreamReader testInput, InputStreamReader expectedOutput, InputStreamReader expectedTestOutput2, String testName) throws IOException, BadJsonException {
+        StringBuilder testOutput = new StringBuilder();
+        String testResult = executeAndCompare(testInput, expectedOutput, testName);
+        testOutput.append(testResult);
+
+        if (testResult.contains("failed")) {
+            testOutput.append("Expected Result: \n");
+
+            String expectedResult = new BufferedReader(expectedTestOutput2)
+                    .lines().collect(Collectors.joining("\n")) + "\n\n";
+            testOutput.append(expectedResult);
+        }
+        return testOutput.toString();
+    }
+
+    private void compareResults(List<Object> list1, List<Object> list2, String executedOutput) {
+        StringBuilder validityString = new StringBuilder();
+        boolean testFailed = false;
+        for (int i = 0; i < Objects.requireNonNull(list1).size(); i++) {
+            assert list2 != null;
+            if (!list1.get(i).equals(list2.get(i))) {
+                testFailed = true;
+                validityString.append(i).append(", ");
+            }
+        }
+        if (testFailed) {
+            validityString.append("\nOutput of test:\n ");
+            validityString.append(executedOutput).append("\n");
+            throw new IllegalStateException("Inequality with JSON Elements " + validityString);
+        }
     }
 
     private File[] getFiles(File parentDir, String regexPattern) {
@@ -152,26 +154,7 @@ public abstract class MilestoneIntegrationTester {
         return files;
     }
 
-    /*
-    Takes an input, runs the test, and writes the result to out. Additionally, returns the output as a new reader for processing.
-     */
-    private InputStreamReader testResultToNewReader(InputStreamReader testInput, Writer testOut) throws IOException, BadJsonException {
-        StringWriter outputOftest = new StringWriter();
-        runTest(testInput, outputOftest);
-        testOut.write(outputOftest.toString());
-        return getInputStreamReaderFromWriter(outputOftest);
-    }
 
-    abstract void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException;
-
-    private InputStreamReader getInputStreamReaderFromWriter(Writer writer) {
-        StringWriter stringWriter = (StringWriter) writer;
-        String content = stringWriter.toString();
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-        return new InputStreamReader(byteArrayInputStream, StandardCharsets.UTF_8);
-    }
-
-    public abstract List<Object> jsonResultToObjects(InputStreamReader input) throws BadJsonException;
 
     private static int parseIntOrDefault(String str) {
         try {

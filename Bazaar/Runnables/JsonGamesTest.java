@@ -29,7 +29,7 @@ public class JsonGamesTest {
 class GamesRunner implements TestRunner {
 
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
 
         JsonStreamParser p = new JsonStreamParser(input);
         // Get inputs
@@ -45,8 +45,8 @@ class GamesRunner implements TestRunner {
         // Run game
         RuleBook ruleBook = new RuleBook(equationTable);
         GameResult result = runGame(players, gameState, ruleBook);
-        List<String> winners = result.winners().stream().map(IPlayer::name).toList();
-        List<String> kicked = result.kicked().stream().map(IPlayer::name).toList();
+        List<String> winners = result.winners().stream().map(IPlayer::name).sorted().toList();
+        List<String> kicked = result.kicked().stream().map(IPlayer::name).sorted().toList();
 
         // Serialize
         JsonElement jsonWinners = JSONSerializer.namesToJson(winners);
@@ -56,6 +56,7 @@ class GamesRunner implements TestRunner {
         out.write(jsonWinners.toString());
         out.write(jsonKicked.toString());
         out.close();
+        return List.of(winners, kicked);
     }
 
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException, BadJsonException {
@@ -67,8 +68,8 @@ class GamesRunner implements TestRunner {
 class GamesTester extends MilestoneIntegrationTester {
 
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-        new GamesRunner().run(testInput, testOutput);
+    List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+        return new GamesRunner().run(testInput, testOutput);
     }
 
     @Override

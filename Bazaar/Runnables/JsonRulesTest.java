@@ -25,7 +25,7 @@ public class JsonRulesTest {
 
 class RulesRunner implements TestRunner {
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         // Get inputs
@@ -53,20 +53,25 @@ class RulesRunner implements TestRunner {
             // Output
             out.write(jsonWallet.toString());
             out.write(jsonBank.toString());
+            out.close();
+            return List.of(after.getPlayerWallet(), after.bank());
         }
         else {
             // Output
             out.write("false");
+            out.close();
+            return List.of(false);
+
         }
-        out.close();
+
     }
 }
 
 class RulesTester extends MilestoneIntegrationTester {
 
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-        new RulesRunner().run(testInput, testOutput);
+    List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+        return new RulesRunner().run(testInput, testOutput);
     }
 
     @Override
@@ -76,7 +81,7 @@ class RulesTester extends MilestoneIntegrationTester {
         List<Object> objects = new ArrayList<>();
         JsonElement next = p.next();
         if (next.isJsonPrimitive()) {
-            objects.add(next.getAsString());
+            objects.add(next.getAsBoolean());
         }
         else {
             objects.add(JSONDeserializer.pebbleCollectionFromJson(next));

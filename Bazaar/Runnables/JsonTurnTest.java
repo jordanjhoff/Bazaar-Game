@@ -25,7 +25,7 @@ public class JsonTurnTest {
 
 class TurnRunner implements TestRunner {
     @Override
-    public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         JsonElement gameStateJson = p.next();
@@ -37,13 +37,14 @@ class TurnRunner implements TestRunner {
 
         out.write(turnStateJson.toString());
         out.close();
+        return List.of(turnState);
     }
 }
 
 class TurnTester extends MilestoneIntegrationTester {
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-        new TurnRunner().run(testInput, testOutput);
+    List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+        return new TurnRunner().run(testInput, testOutput);
     }
 
     @Override

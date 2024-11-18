@@ -26,7 +26,7 @@ public class JsonStrategyTest {
 class StrategyRunner implements TestRunner {
 
   @Override
-  public void run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+  public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
 
     JsonStreamParser p = new JsonStreamParser(input);
     // Get inputs
@@ -58,14 +58,15 @@ class StrategyRunner implements TestRunner {
     out.write(turnScore + "");
     out.write(jsonWallet.toString());
     out.close();
+    return List.of(turn.pebbleExchangeSequence(), turn.cardPurchases().cards(), turnScore, afterPurchases.getPlayerWallet());
   }
 }
 
 class StrategyTester extends MilestoneIntegrationTester {
 
   @Override
-  void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-    new StrategyRunner().run(testInput, testOutput);
+  List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+    return new StrategyRunner().run(testInput, testOutput);
   }
 
   @Override
@@ -74,7 +75,7 @@ class StrategyTester extends MilestoneIntegrationTester {
     List<Object> objects = new ArrayList<>();
     objects.add(JSONDeserializer.exchangeSequenceFromJson(p.next()));
     objects.add(JSONDeserializer.cardListFromJson(p.next()));
-    objects.add(p.next());
+    objects.add(p.next().getAsInt());
     objects.add(JSONDeserializer.pebbleCollectionFromJson(p.next()));
     return objects;
   }

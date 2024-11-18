@@ -64,7 +64,7 @@ class ObserverGamesRunner extends GamesRunner {
 
 class ObserverGamesTester extends GamesTester {
     @Override
-    void runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
-        new ObserverGamesRunner().run(testInput, testOutput);
+    List<Object> runTest(InputStreamReader testInput, StringWriter testOutput) throws IOException, BadJsonException {
+        return new ObserverGamesRunner().run(testInput, testOutput);
     }
 }

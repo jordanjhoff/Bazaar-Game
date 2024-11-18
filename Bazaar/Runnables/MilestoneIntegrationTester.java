@@ -24,12 +24,14 @@ public abstract class MilestoneIntegrationTester {
     public void runAllTests(File testDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
-        out.write("Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n");
+        String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
+        out.write(dir);
         for (int i = 0; i < inFiles.length; i++) {
             String testResult = runOneTest(new InputStreamReader(new FileInputStream(inFiles[i])), new InputStreamReader(new FileInputStream(outFiles[i])),
                     new InputStreamReader(new FileInputStream(outFiles[i])), inFiles[i].getName());
             out.write(testResult);
             if (testResult.contains("failed")) {
+                failures.write(dir);
                 failures.write(testResult);
             }
         }
@@ -40,7 +42,6 @@ public abstract class MilestoneIntegrationTester {
     public void parallelRun(File testDirectory, Writer out, Writer failures) throws IOException, InterruptedException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
-        out.write("Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n");
 
         int threadCount = Runtime.getRuntime().availableProcessors();
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
@@ -48,25 +49,29 @@ public abstract class MilestoneIntegrationTester {
 
         for (int i = 0; i < inFiles.length; i++) {
             final int index = i;
-            Future<String> future = executor.submit(() -> {
-                return runOneTest(new InputStreamReader(new FileInputStream(inFiles[index])),
+            Future<String> future = executor.submit(() -> runOneTest(new InputStreamReader(new FileInputStream(inFiles[index])),
                         new InputStreamReader(new FileInputStream(outFiles[index])),
-                        new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName());
-            });
+                        new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName()));
             futures.add(future);
         }
 
         for (Future<String> future : futures) {
-            try {
-                String result = future.get();
-                out.write(result);
-                if (result.contains("failed")) {
-                    failures.write(result);
+            synchronized (out) {
+                try {
+                    String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
+                    out.write(dir);
+                    String result = future.get();
+                    out.write(result);
+                    if (result.contains("failed")) {
+                        failures.write(dir);
+                        failures.write(result);
+                    }
+                }
+                catch (ExecutionException | InterruptedException e) {
+                    failures.write(e.getMessage());
                 }
             }
-            catch (ExecutionException | InterruptedException e) {
-                failures.write(e.getMessage());
-            }
+
         }
         executor.shutdown();
     }
@@ -87,6 +92,50 @@ public abstract class MilestoneIntegrationTester {
         out.flush();
     }
 
+    public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
+        if (testFestDirectory.isDirectory()) {
+            File[] subDirs = testFestDirectory.listFiles(File::isDirectory);
+            assert subDirs != null;
+            ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            List<Future<Void>> futures = new ArrayList<>();
+
+            for (File subDir : subDirs) {
+                Future<Void> future = executor.submit(() -> {
+                    parallelRun(subDir, out, failures);
+                    return null;
+                });
+                futures.add(future);
+            }
+
+            for (Future<Void> future : futures) {
+                try {
+                    future.get();
+                } catch (ExecutionException | InterruptedException e) {
+                    synchronized (failures) {
+                        failures.write("Error processing directories: " + e.getMessage() + "\n");
+                    }
+                }
+            }
+
+            executor.shutdown();
+        } else {
+            String message = "Testing failed: " + testFestDirectory.getAbsolutePath() + " is not a directory.\n";
+            synchronized (out) {
+                out.write(message);
+            }
+            synchronized (failures) {
+                failures.write(message);
+            }
+        }
+
+        // Ensure all data is flushed at the end
+        synchronized (out) {
+            out.flush();
+        }
+        synchronized (failures) {
+            failures.flush();
+        }
+    }
 
     private String executeAndCompare(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException, BadJsonException {
         try {

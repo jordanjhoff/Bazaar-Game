@@ -39,12 +39,17 @@ public abstract class MilestoneIntegrationTester {
         out.flush();
     }
 
-    public void parallelRun(File testDirectory, Writer out, Writer failures) throws IOException, InterruptedException {
+    /**
+     * Iterates over files in a single directory runs them in parallel, and writes all results and failures
+     * @param testDirectory
+     * @param out
+     * @param failures
+     * @throws IOException
+     */
+    public void parallelRun(File testDirectory, Writer out, Writer failures, ExecutorService executor) throws IOException, InterruptedException {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
 
-        int threadCount = Runtime.getRuntime().availableProcessors();
-        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         List<Future<String>> futures = new ArrayList<>();
 
         for (int i = 0; i < inFiles.length; i++) {
@@ -54,24 +59,21 @@ public abstract class MilestoneIntegrationTester {
                         new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName()));
             futures.add(future);
         }
-
-        for (Future<String> future : futures) {
-            synchronized (out) {
+        synchronized (out) {
+            String dir = getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + ":\n";
+            out.write(dir);
+            for (Future<String> future : futures) {
                 try {
-                    String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
-                    out.write(dir);
                     String result = future.get();
                     out.write(result);
                     if (result.contains("failed")) {
                         failures.write(dir);
                         failures.write(result);
                     }
-                }
-                catch (ExecutionException | InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     failures.write(e.getMessage());
                 }
             }
-
         }
         executor.shutdown();
     }
@@ -80,7 +82,7 @@ public abstract class MilestoneIntegrationTester {
         if (testFestDirectory.isDirectory()) {
             File[] subDirs = testFestDirectory.listFiles(File::isDirectory);
             assert subDirs != null;
-            Arrays.sort(subDirs, Comparator.comparing(file -> parseIntOrDefault(file.getName())));
+            Arrays.sort(subDirs, Comparator.comparing(File::getName));
             for (File subDir : subDirs) {
                 runAllTests(subDir, out, failures);
             }
@@ -92,16 +94,15 @@ public abstract class MilestoneIntegrationTester {
         out.flush();
     }
 
-    public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures) throws IOException, BadJsonException {
+    public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures, ExecutorService executor) throws IOException, BadJsonException {
         if (testFestDirectory.isDirectory()) {
             File[] subDirs = testFestDirectory.listFiles(File::isDirectory);
             assert subDirs != null;
-            ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-            List<Future<Void>> futures = new ArrayList<>();
 
+            List<Future<Void>> futures = new ArrayList<>();
             for (File subDir : subDirs) {
                 Future<Void> future = executor.submit(() -> {
-                    parallelRun(subDir, out, failures);
+                    parallelRun(subDir, out, failures, executor);
                     return null;
                 });
                 futures.add(future);
@@ -111,7 +112,7 @@ public abstract class MilestoneIntegrationTester {
                 try {
                     future.get();
                 } catch (ExecutionException | InterruptedException e) {
-                    synchronized (failures) {
+                    synchronized (out) {
                         failures.write("Error processing directories: " + e.getMessage() + "\n");
                     }
                 }
@@ -201,16 +202,6 @@ public abstract class MilestoneIntegrationTester {
         assert files != null;
         Arrays.sort(files, Comparator.comparing(File::getName));
         return files;
-    }
-
-
-
-    private static int parseIntOrDefault(String str) {
-        try {
-            return Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 
 }

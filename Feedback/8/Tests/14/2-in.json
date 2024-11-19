@@ -1,41 +1,16 @@
 [
-    ["David", "purchase-size", "a cheat", "use-non-existent-equation"],
-    ["Crystal", "purchase-size", "request-cards"]
-]
-[
-    [
-        [
-            "red"
-        ],
-        [
-            "blue",
-            "blue",
-            "blue"
-        ]
-    ],
-    [
-        [
-            "green"
-        ],
-        [
-            "white",
-            "yellow"
-        ]
-    ]
-]
-{
-    "bank": [
-        "blue",
-        "blue",
-        "blue",
-        "blue",
-        "blue",
-        "blue"
-    ],
-    "visibles":[{"pebbles":["blue", "blue", "blue", "blue", "green"], "face?": false}, 
-                {"pebbles":["blue", "blue", "blue", "blue", "green"], "face?": false}, 
-                {"pebbles":["white", "white", "red", "blue", "red"], "face?": true}, 
-                {"pebbles":["red", "blue", "green", "green", "red"], "face?": false}],
-    "cards":[{"pebbles":["red", "red", "red", "white", "yellow"], "face?": true}, {"pebbles":["white", "white", "blue", "blue", "blue"], "face?": false}],
-    "players":[{"wallet": ["red", "blue", "green"], "score":12}, {"wallet": ["red", "blue", "green"], "score":12}]
-}
+    ["firstPlayer", "purchase-points"],
+    ["secondPlayer", "purchase-size", "setup"],
+    ["thirdPlayer", "purchase-size", "a cheat", "wallet-cannot-trade"]
+  ]
+  [[["red", "blue", "blue", "blue"], ["green"]],
+   [["red"], ["blue"]]]
+  {"bank": ["red", "blue"],
+   "visibles": [{"pebbles": ["red", "blue", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "white", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "green", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "yellow", "blue", "white", "red"], "face?": true}],
+   "cards": [{"pebbles": ["red", "red", "blue", "white", "red"], "face?": true}],
+   "players": [{"wallet": ["red", "blue", "blue", "white", "red"], "score": 0},
+               {"wallet": ["red", "red", "blue", "white", "red"], "score": 9999999999999999988935498273598701004597577818920492838394},
+               {"wallet": ["red", "yellow", "blue", "white", "red"], "score": 0}]}

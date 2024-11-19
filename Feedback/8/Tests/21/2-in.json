@@ -1,31 +1,3 @@
-[["Player1","purchase-points"],
-  ["Player2","purchase-size"],
-  ["CheatBankCantTrade","purchase-size","a cheat","bank-cannot-trade"],
-  ["CheatWalletCantTrade","purchase-points","a cheat", "wallet-cannot-trade"]]
-[
-  [["white"],["green", "yellow", "blue"]],
-  [["green", "green"],["blue"]],
-  [["red"],["green", "white"]],
-  [["blue", "green"],["red","yellow"]],
-  [["yellow"],["white", "white", "white", "white"]]
-]
-{ "bank":["red", "blue", "green", "yellow", "red", "blue", "red", "green", "yellow", "white",  "white",  "white"],
-  "cards":[
-    {"pebbles": ["red", "blue", "red", "blue", "green"],"face?": true },
-    {"pebbles": ["green", "blue", "red", "white", "yellow"],"face?": false},
-    {"pebbles": ["green", "blue", "red", "white", "yellow"],"face?": false},
-    {"pebbles": ["green", "blue", "red", "white", "yellow"],"face?": false}
-  ],
-  "players":[
-    {"score":10,"wallet":["red","blue"]},
-    {"score":10,"wallet":["red", "yellow", "red", "white"]},
-    {"score":3,"wallet":["green","red", "blue", "yellow"]},
-    {"score":10,"wallet":["white","red", "blue", "yellow"]}
-  ],
-  "visibles":[
-    {"pebbles":["red","blue","green","red","white"], "face?":true},
-    {"pebbles": ["blue", "yellow", "red", "blue", "green"],"face?": true},
-    {"pebbles": ["white", "white", "white", "white", "white"],"face?": false},
-    {"pebbles": ["blue", "blue", "white", "green", "yellow"],"face?": true}
-  ]
-}
+[["bob","purchase-points"],["jhon","purchase-points"],["player1234","purchase-size"]]
+[[["green","green","green","green"],["red","blue","yellow"]],[["white","white","white"],["blue"]],[["green","green","white","white"],["yellow","yellow","yellow","yellow"]],[["white","white","red","blue"],["green","green","green"]],[["yellow","blue","white"],["green","green","red"]]]
+{"bank": ["blue", "blue", "red", "white", "white", "green", "green"], "visibles": [{"pebbles": ["yellow", "red", "red", "white", "white"], "face?": false}], "cards": [], "players": [{"wallet": ["blue", "green", "green", "white", "white", "yellow", "yellow"], "score": 7}, {"wallet": ["yellow", "red", "red", "red", "red", "green", "white"], "score": 3}, {"wallet": ["blue", "blue", "yellow", "yellow", "red", "red", "green"], "score": 8}]}

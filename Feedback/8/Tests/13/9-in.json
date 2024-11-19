@@ -1,27 +1,3 @@
-[
-    ["firstPlayer", "purchase-points"],
-    ["secondPlayer", "purchase-size"],
-    ["thirdPlayer", "purchase-points"],
-    ["fourthPlayer", "purchase-points"],
-    ["fifthPlayer", "purchase-points", "win"],
-    ["sixthPlayer", "purchase-points", "a cheat", "buy-unavailable-card"]
-  ]
-  [[["red", "blue", "blue", "blue"], ["green"]],
-   [["red"], ["blue"]]]
-  {"bank": ["red", "blue"],
-   "visibles": [{"pebbles": ["red", "blue", "blue", "white", "red"], "face?": true},
-                {"pebbles": ["red", "white", "blue", "white", "red"], "face?": true},
-                {"pebbles": ["red", "green", "blue", "white", "red"], "face?": true},
-                {"pebbles": ["red", "yellow", "blue", "white", "red"], "face?": true}],
-   "cards": [{"pebbles": ["red", "red", "blue", "white", "red"], "face?": true},
-             {"pebbles": ["red", "red", "blue", "white", "red"], "face?": true},
-             {"pebbles": ["red", "red", "blue", "white", "red"], "face?": true},
-             {"pebbles": ["red", "red", "blue", "white", "red"], "face?": true},
-             {"pebbles": ["red", "red", "blue", "white", "red"], "face?": true},
-             {"pebbles": ["red", "red", "blue", "white", "red"], "face?": true}],
-   "players": [{"wallet": [], "score": 0},
-               {"wallet": [], "score": 2},
-               {"wallet": [], "score": 2},
-               {"wallet": [], "score": 4},
-               {"wallet": ["red", "red", "blue", "white", "red"], "score": 19},
-               {"wallet": ["red", "blue", "blue", "white", "red"], "score": 19}]}
+[["a", "purchase-points", "request-pebble-or-trades"], ["b", "purchase-points", "a cheat", "wallet-cannot-buy-card"]]
+[]
+{"bank": ["blue", "red"], "visibles": [{"pebbles": ["red", "blue", "blue", "red", "yellow"], "face?": false}], "cards": [], "players": [{"wallet": ["yellow"], "score": 0}, {"wallet": ["blue", "blue"], "score": 0}]}

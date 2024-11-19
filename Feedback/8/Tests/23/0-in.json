@@ -1,3 +1,17 @@
-[["Satono","purchase-points"]]
 []
-{"bank":["red"],"cards":[],"players":[{"score":0,"wallet":["red"]}],"visibles":[{"face?":false,"pebbles":["red","red","red","red","red"]}]}
+[]
+{
+  "bank": [],
+  "visibles": [
+    {
+      "pebbles": ["red","red","blue","blue","blue"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": false
+    }
+  ],
+  "cards": [],
+  "players": []
+}

@@ -1,11 +1,99 @@
-[["player1", "purchase-size", "a cheat", "wallet-cannot-buy-card"],
-  ["player2", "purchase-size", "request-pebble-or-trades"]]
-[]
-{"bank": ["white", "red", "red"],
-  "visibles": [
-    {"pebbles" : ["red", "white", "blue", "blue", "blue"], "face?": true},
-    {"pebbles" : ["red", "green", "green", "green", "green"], "face?": true}],
+[
+  [
+    "Lerner",
+    "purchase-points",
+    "a cheat",
+    "use-non-existent-equation"
+  ],
+  [
+    "Jasmine",
+    "purchase-points",
+    "setup"
+  ],
+  [
+    "Matthias",
+    "purchase-points",
+    "a cheat",
+    "use-non-existent-equation"
+  ],
+  [
+    "Andre",
+    "purchase-points",
+    "setup"
+  ]
+]
+[[["red"], ["white"]]]
+{
+  "bank": [
+    "red",
+    "red",
+    "blue",
+    "red",
+    "red"
+  ],
   "cards": [],
-  "players":[
-    {"wallet": ["red", "white", "blue", "blue", "blue", "green"], "score": 0},
-    {"wallet": ["red", "white", "blue", "blue", "blue", "green"], "score": 0}]}
+  "players": [
+    {
+      "score": 0,
+      "wallet": [
+        "green",
+        "green",
+        "green",
+        "green",
+        "green"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "red",
+        "green",
+        "blue",
+        "red",
+        "green"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "white",
+        "yellow",
+        "red",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "white",
+        "yellow",
+        "red",
+        "blue",
+        "blue"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": false,
+      "pebbles": [
+        "white",
+        "yellow",
+        "red",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "green",
+        "green",
+        "green",
+        "green",
+        "green"
+      ]
+    }
+  ]
+}

@@ -1,47 +1,29 @@
-[["ezlose","purchase-points", "a cheat", "wallet-cannot-trade"]]
-[
-  [["blue"], ["red", "red", "red", "red"]],
-  [["blue"], ["white", "white", "white", "white"]]
+[["Player1","purchase-points"],
+  ["Player2","purchase-size"],
+  ["CheatUnavailableCard","purchase-size","a cheat", "buy-unavailable-card"]
 ]
-{
-  "bank": ["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","white",
-    "white","white","white","white","white","white","white","white","white","white","white","white","white","white"],
-  "visibles": [
-    {
-      "pebbles": ["red","red","red","red","red"],
-      "face?": true
-    },
-    {
-      "pebbles": ["white","white","white","white","white"],
-      "face?": true
-    },
-    {
-      "pebbles": ["red","red","red","red","red"],
-      "face?": true
-    },
-    {
-      "pebbles": ["white","white","white","white","white"],
-      "face?": true
-    }
+[
+  [["white"],["green", "yellow", "blue"]],
+  [["green", "green"],["blue"]],
+  [["blue", "green"],["red","yellow"]],
+  [["yellow"],["white", "white", "white", "white"]]
+]
+{ "bank":[],
+  "cards":[
+    {"pebbles": ["red", "blue", "red", "blue", "green"],"face?": true },
+    {"pebbles": ["green", "blue", "blue", "white", "yellow"],"face?": false},
+    {"pebbles": ["green", "blue", "red", "white", "yellow"],"face?": false},
+    {"pebbles": ["green", "blue", "red", "white", "yellow"],"face?": false}
   ],
-  "cards": [
-    {
-      "pebbles": ["red","red","red","red","red"],
-      "face?": true
-    },
-    {
-      "pebbles": ["white","white","white","white","white"],
-      "face?": true
-    },
-    {
-      "pebbles": ["red","red","red","red","red"],
-      "face?": true
-    }
+  "players":[
+    {"score":10,"wallet":["red"]},
+    {"score":10,"wallet":["red"]},
+    {"score":10,"wallet":["red","yellow", "red", "white"]}
   ],
-  "players": [
-    {
-      "wallet": ["blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue"],
-      "score": 0
-    }
+  "visibles":[
+    {"pebbles":["red","blue","green","red","white"], "face?":true},
+    {"pebbles": ["green", "yellow", "red", "blue", "green"],"face?": true},
+    {"pebbles": ["white", "white", "white", "white", "white"],"face?": false},
+    {"pebbles": ["blue", "blue", "white", "green", "yellow"],"face?": true}
   ]
 }

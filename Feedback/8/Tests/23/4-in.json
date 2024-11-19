@@ -1,3 +1,47 @@
-[["Bobb","purchase-points"],["Haaland","purchase-size"],["DeBruyne","purchase-size"],["Stones","purchase-size"]]
-[[["red","red","red"],["blue"]]]
-{"bank":["blue","red","green"],"cards":[],"players":[{"score":10,"wallet":["yellow"]},{"score":0,"wallet":["white"]},{"score":0,"wallet":["red"]},{"score":0,"wallet":["green"]}],"visibles":[{"face?":true,"pebbles":["red","red","red","red","red"]}]}
+[["ezlose","purchase-points", "request-pebble-or-trades"]]
+[
+  [["blue"], ["red", "red", "red", "red"]],
+  [["blue"], ["white", "white", "white", "white"]]
+]
+{
+  "bank": ["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","white",
+    "white","white","white","white","white","white","white","white","white","white","white","white","white","white"],
+  "visibles": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    }
+  ],
+  "cards": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    }
+  ],
+  "players": [
+    {
+      "wallet": ["blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue"],
+      "score": 0
+    }
+  ]
+}

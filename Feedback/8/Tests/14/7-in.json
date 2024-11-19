@@ -1,44 +1,12 @@
 [
-    ["David", "purchase-size"],
-    ["Crystal", "purchase-points", "setup"]
+    ["firstPlayer", "purchase-points"]
 ]
-[
-    [
-        [
-            "white"
-        ],
-        [
-            "red",
-            "red",
-            "red",
-            "red"
-        ]
-    ],
-    [
-        [
-            "green"
-        ],
-        [
-            "white",
-            "yellow"
-        ]
-    ]
-]
-{
-    "bank": [
-        "red",
-        "red",
-        "red",
-        "red",
-        "white",
-        "white",
-        "green",
-        "green",
-        "blue",
-        "blue",
-        "blue"
-    ],
-    "visibles":[{"pebbles":["red", "red", "red", "red", "red"], "face?": false}],
-    "cards":[],
-    "players":[{"wallet": ["red", "white"], "score":19}, {"wallet": ["red", "red", "red", "red", "red"], "score":10}]
-}
+  [[["red", "blue", "blue", "blue"], ["green"]],
+   [["red"], ["blue"]]]
+  {"bank": ["red", "blue"],
+   "visibles": [{"pebbles": ["red", "blue", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "white", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "green", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "yellow", "blue", "white", "red"], "face?": true}],
+   "cards": [{"pebbles": ["red", "red", "blue", "white", "red"], "face?": true}],
+   "players": [{"wallet": ["red", "white", "blue", "white", "red"], "score": 0}]}

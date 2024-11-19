@@ -1,40 +1,93 @@
-[["Jack", "purchase-points", "a cheat", "use-non-existent-equation"],
-  ["Willem", "purchase-points", "win"]]
-[[["green"],["red"]],[["red"],["white"]]]
-{
-  "bank": ["red", "blue", "green", "white", "yellow"],
-  "visibles": [
-    {
-      "pebbles":["red", "blue", "green", "white", "yellow"],
-      "face?": false
-    },
-    {
-      "pebbles":["red", "blue", "green", "white", "yellow"],
-      "face?": false
-    },
-    {
-      "pebbles":["red", "blue", "green", "white", "yellow"],
-      "face?": false
-    },
-    {
-      "pebbles":["red", "blue", "green", "white", "yellow"],
-      "face?": false
-    }
-  ],
-  "cards": [
-    {
-      "pebbles":["red", "blue", "green", "white", "yellow"],
-      "face?": false
-    }
-  ],
-  "players": [
-    {
-      "wallet": ["red", "blue", "green", "white", "yellow"],
-      "score": 0
-    },
-    {
-      "wallet": ["red", "blue", "green", "white", "yellow"],
-      "score": 0
-    }
-  ]
+[
+    ["kobe", "purchase-points"],
+    ["lerner", "purchase-size", "a cheat", "buy-unavailable-card"]
+]
+
+[
+    [
+        ["red"],
+        ["white"]
+    ], 
+    [
+        ["white"],
+        ["blue"]
+    ]
+]
+
+{ 
+    "bank" : [
+        "red", 
+        "red",
+        "red",
+        "red",
+        "red", 
+        "red",
+        "red",
+        "red",
+        "red", 
+        "red",
+        "red",
+        "red",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white"
+    ],
+    "visibles" : [
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        }
+    ],
+    "cards": [
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        }
+    ],
+    "players": [
+        {
+            "wallet": [],
+            "score": 6
+        },
+        {
+            "wallet": ["green", "green", "green"],
+            "score": 6
+        }
+    ]
 }

@@ -1,3 +1,50 @@
-[["Zeina","purchase-points", "a cheat", "wallet-cannot-buy-card"],["Yolanda","purchase-points"],["Adam","purchase-points"]]
-[[["green","green","blue"],["red","white"]]]
-{"bank":["red","red","blue","red","red"],"cards":[],"players":[{"score":0,"wallet":["green","green","green","green","green"]},{"score":0,"wallet":["red","green","blue","red","green"]},{"score":0,"wallet":["white","yellow","red","blue","blue"]}],"visibles":[{"face?":false,"pebbles":["white","yellow","red","blue","blue"]},{"face?":false,"pebbles":["green","green","green","green","green"]}]}
+[["good1", "purchase-points"], ["bad1", "purchase-size", "a cheat", "buy-unavailable-card"]]
+[[["red"], ["blue", "blue"]], [["green"], ["red", "red"]]]
+{ "bank": ["red", "blue", "red", "red", "red", "red", "red", "blue", "blue", "blue", "green", "green", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"],
+  "visibles": [
+    {
+      "pebbles": ["red", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["green", "green", "yellow", "yellow", "yellow"],
+      "face?": false
+    },
+    {
+      "pebbles": ["blue", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["green", "blue", "yellow", "yellow", "yellow"],
+      "face?": false
+    }
+  ],
+  "cards": [
+    {
+      "pebbles": ["red", "blue", "yellow", "yellow", "yellow"],
+      "face?": false
+    },
+    {
+      "pebbles": ["green", "green", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["blue", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["blue", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    }
+  ],
+  "players":  [
+    {
+      "wallet": ["red", "blue", "yellow", "yellow", "yellow"],
+      "score": 3
+    },
+    {
+      "wallet": ["green", "green", "yellow", "yellow", "yellow"],
+      "score": 1
+    }
+  ]
+}

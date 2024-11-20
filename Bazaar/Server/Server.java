@@ -1,7 +1,6 @@
 package Server;
 
 import Common.RuleBook;
-import Common.converters.JSONDeserializer;
 import Common.converters.JSONSerializer;
 import Player.IPlayer;
 import Referee.GameObjectGenerator;
@@ -12,9 +11,7 @@ import com.google.gson.JsonStreamParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.server.ServerRef;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -69,6 +66,7 @@ public class Server {
             log.info("Starting waiting room 2");
             players.addAll(waitingRoom());
         }
+        log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
         return players;
     }
 
@@ -80,34 +78,19 @@ public class Server {
         List<IPlayer> players = new ArrayList<>();
         long startingTime = System.currentTimeMillis();
         ExecutorService executor = createDaemonExecutor();
-        while (startingTime + waitingRoomMS - receiveNameTimeoutMS > System.currentTimeMillis()) {
+        while (startingTime + waitingRoomMS > System.currentTimeMillis()) {
             try {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
                 playerSocket.setSoLinger(true, 0);
-                Callable<Void> createProxyTask = () -> {
-                    IPlayer playerProxy = createPlayerProxy(playerSocket);
-                    if (uniqueName(playerProxy.name(), players) && players.size() < maxNumPlayers) {
-                        synchronized (players) {
-                            players.add(playerProxy);
-                        }
-                    }
-                    return null;
-                };
-                executor.submit(createProxyTask);
+                executor.submit(() -> createProxyPlayerTask(players, playerSocket,
+                        (int)Math.min(moveTimeoutMS, System.currentTimeMillis() - (startingTime + waitingRoomMS))));
             }
             catch (IOException ex) {
                 //do nothing
             }
         }
-        try {
-            executor.awaitTermination(receiveNameTimeoutMS, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
-            executor.shutdownNow();
-        }
+        executor.shutdownNow();
         return new ArrayList<>(players);
     }
 
@@ -123,13 +106,13 @@ public class Server {
     }
 
 
-    private IPlayer createPlayerProxy(Socket playerSocket) {
+    private IPlayer createPlayerProxy(Socket playerSocket, int moveTimeoutMS) {
         log.info("Received player connection");
         try {
             InputStream serverStreamIn = playerSocket.getInputStream();
             JsonStreamParser parse = new JsonStreamParser(new InputStreamReader(serverStreamIn));
             Callable<String> getNameFromPlayer = () -> parse.next().getAsString();
-            Optional<String> playerName = CommunicationUtils.timeout(getNameFromPlayer, 3000);
+            Optional<String> playerName = CommunicationUtils.timeout(getNameFromPlayer, moveTimeoutMS);
             log.info("Player name: " + playerName.orElseThrow());
             return new Player(playerName.orElseThrow(), serverStreamIn, playerSocket.getOutputStream(), log);
         }
@@ -140,5 +123,14 @@ public class Server {
 
     private boolean uniqueName(String name, List<IPlayer> players) {
         return !players.stream().map(p -> p.name()).toList().contains(name);
+    }
+
+    private void createProxyPlayerTask(List<IPlayer> playerListToMutate, Socket playerSocket, int moveTimeoutMS) {
+        IPlayer playerProxy = createPlayerProxy(playerSocket, moveTimeoutMS);
+        synchronized (playerListToMutate) {
+            if (uniqueName(playerProxy.name(), playerListToMutate) && playerListToMutate.size() < maxNumPlayers) {
+                playerListToMutate.add(playerProxy);
+            }
+        }
     }
 }

@@ -1,17 +1,17 @@
 package Client;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonStreamParser;
+import com.google.gson.*;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import Common.EquationTable;
 import Common.ExchangeRequest;
@@ -49,61 +49,29 @@ public class ClientReferee {
       streamIn = socket.getInputStream();
       jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
     } catch (IOException e) {
-      System.err.printf("Could not establish socket: %s", e.getMessage());
-      e.printStackTrace();
-      throw new RuntimeException();
+      throw new RuntimeException(e.getMessage());
     }
-    outputStream.println(new JsonPrimitive(client.name()));
-    outputStream.flush();
-  }
-
-  private void write(JsonElement e) {
-    outputStream.write(e.toString());
-    outputStream.flush();
+    sendToServer(new JsonPrimitive(client.name()));
   }
 
   public void run() {
-    while (waitForUpdate()) {
-      JsonArray json = readUpdate();
+    while (true) {
+      JsonArray json;
+      try {
+         json = jsonStreamIn.next().getAsJsonArray();
+      }
+      catch (JsonIOException e) {
+        break;
+      }
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
-      write(handleRequest(MName, Argument));
+      sendToServer(delegateRequest(MName, Argument));
     }
   }
 
-  /**
-   * Sleep until the socket's ready.
-   */
-  public boolean waitForUpdate() {
-    try {
-      while (streamIn.available() == 0) {
-        Thread.sleep(100);
-        // schrodinger's TCP connection FUCK YOU
-        socket.getOutputStream().write(' ');
-      }
-    }
-    catch (InterruptedException e) {
-      // this should never happen
-    } catch (SocketException e) {
-      return false;
-    } catch (IOException e) {
-      // something has gone wrong with socket availability
-      throw new RuntimeException(e);
-    }
-    return true;
-  }
-
-  /**
-   * Read the update from the socket and return the JSON
-   * The JSON is 'safe'. trust me bro
-   * @return jsonelement with the request
-   */
-  public JsonArray readUpdate() {
-    if (!jsonStreamIn.hasNext())
-      throw new IllegalStateException("Reading update when not ready");
-    JsonArray update = jsonStreamIn.next().getAsJsonArray();
-    System.out.println(update);
-    return update;
+  private void sendToServer(JsonElement request) {
+    outputStream.println(request);
+    outputStream.flush();
   }
 
   /**
@@ -113,7 +81,8 @@ public class ClientReferee {
    * @param Argument
    * @throws BadJsonException
    */
-  public JsonElement handleRequest(String MName, JsonElement Argument) {
+  public JsonElement delegateRequest(String MName, JsonElement Argument) {
+    isConnected();
     try {
       return switch (MName) {
         case "setup" -> setup(JSONDeserializer.equationTableFromJSON(Argument.getAsJsonArray()));
@@ -127,7 +96,7 @@ public class ClientReferee {
     }
   }
 
-  public JsonPrimitive setup(EquationTable table) throws BadJsonException {
+  public JsonElement setup(EquationTable table) throws BadJsonException {
     client.setup(table);
     return new JsonPrimitive("void");
   }
@@ -138,12 +107,13 @@ public class ClientReferee {
    */
   public JsonElement requestPT(TurnState t) {
     ExchangeRequest r = client.requestPebbleOrTrades(t);
-    if (r instanceof PebbleDrawRequest)
+    if (r instanceof PebbleDrawRequest) {
       return new JsonPrimitive(false);
-
-    // else
-    return JSONSerializer.exchangeSequenceToJson(
-            ((PebbleExchangeSequence) r));
+    }
+    else {
+      return JSONSerializer.exchangeSequenceToJson(
+              ((PebbleExchangeSequence) r));
+    }
   }
 
   public JsonElement requestCards(TurnState t) {
@@ -151,8 +121,14 @@ public class ClientReferee {
             client.requestCards(t).cards());
   }
 
-  public JsonPrimitive win(Boolean b) {
+  public JsonElement win(Boolean b) {
     client.win(b);
     return new JsonPrimitive("void");
+  }
+
+  private void isConnected() {
+    if (socket == null || outputStream == null || jsonStreamIn == null || streamIn == null) {
+      throw new IllegalStateException("Socket not connected");
+    }
   }
 }

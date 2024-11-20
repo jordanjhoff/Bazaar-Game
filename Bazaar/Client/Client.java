@@ -12,6 +12,10 @@ import Player.comparators.MaxCardsComparator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+/**
+ * This class accepts an IPlayer mechanism, and initializes a connection to a Server.
+ * It delegates the playing of a Bazaar game to it's client referee
+ */
 public class Client {
   // proxy referee to bridge gap between server's referee and our player
   ClientReferee ref;
@@ -52,15 +56,11 @@ public class Client {
       System.exit(1);
     }
 
-    if (args.length == 2) {
+    if (args.length == 1) {
       JsonArray arr = new JsonArray();
-      arr.add(JsonParser.parseString(args[1]));
+      arr.add(JsonParser.parseString(args[0]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
       new Client(mechanism).start();
-    }
-    else {
-      new Client(new Mechanism(args[0], new Strategy(new MaxCardsComparator())))
-              .start();
     }
   }
 }

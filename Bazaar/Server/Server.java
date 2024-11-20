@@ -18,11 +18,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
+
+import static Server.CommunicationUtils.createDaemonExecutor;
 
 public class Server {
-    private static final int waitingRoomMS = 10000;
+    private static final Logger log = Logger.getLogger(Server.class.getName());
+    private static final int waitingRoomMS = 20000;
+    private static final int moveTimeoutMS = 5000;
+    private static final int receiveNameTimeoutMS = 3000;
+    private static final int maxNumPlayers = 6;
     private final ServerSocket serverSocket;
-    private final List<IPlayer> proxies = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         Server s = new Server(4114);
         s.startBazaarServer();
@@ -34,27 +40,12 @@ public class Server {
 
     public void startBazaarServer(Observer... observers) throws IOException {
         GameResult result = new GameResult(new ArrayList<>(), new ArrayList<>());
-        if (lobby()) {
-            result = playGame(Arrays.stream(observers).toList());
+        List<IPlayer> acceptedPlayers = lobby();
+        if (acceptedPlayers.size() > 1) {
+            result = playGame(acceptedPlayers, observers);
         }
         sendResults(result, new PrintWriter(System.out));
         shutDown();
-    }
-
-
-
-    protected <T> Optional<T> timeout(Callable<T> task, int timeoutMs) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Future<T> future = executor.submit(task);
-        try {
-            T result = future.get(timeoutMs, TimeUnit.MILLISECONDS);
-            return Optional.of(result);
-        } catch (TimeoutException | ExecutionException | InterruptedException ex) {
-            future.cancel(true);
-        } finally {
-            future.cancel(true);
-        }
-        return Optional.empty();
     }
 
     public void sendResults(GameResult result, Writer out) throws IOException {
@@ -67,37 +58,64 @@ public class Server {
     }
 
 
-
-    public boolean lobby() throws IOException {
-        System.out.println("Waiting room 1");
-        waitingRoom(waitingRoomMS);
-        if (this.proxies.size() < 2) {
-            System.out.println("Waiting room 2");
-            waitingRoom(waitingRoomMS);
+    /**
+     * Creates two waiting rooms, and accepts player connections
+     * @return a list of accepted IPlayers
+     */
+    public List<IPlayer> lobby() {
+        log.info("Starting waiting room 1");
+        List<IPlayer> players = new ArrayList<>(waitingRoom());
+        if (players.size() < 2) {
+            log.info("Starting waiting room 2");
+            players.addAll(waitingRoom());
         }
-        return this.proxies.size() >= 2;
+        return players;
     }
 
-    public void waitingRoom(int waitTimeMs) {
+    /**
+     * Accepts player connections
+     * @return a list of accepted IPlayers
+     */
+    public List<IPlayer> waitingRoom() {
+        List<IPlayer> players = new ArrayList<>();
         long startingTime = System.currentTimeMillis();
-        while (startingTime + waitTimeMs > System.currentTimeMillis()) {
+        ExecutorService executor = createDaemonExecutor();
+        while (startingTime + waitingRoomMS - receiveNameTimeoutMS > System.currentTimeMillis()) {
             try {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
                 playerSocket.setSoLinger(true, 0);
-                createPlayerProxy(playerSocket);
+                Callable<Void> createProxyTask = () -> {
+                    IPlayer playerProxy = createPlayerProxy(playerSocket);
+                    if (uniqueName(playerProxy.name(), players) && players.size() < maxNumPlayers) {
+                        synchronized (players) {
+                            players.add(playerProxy);
+                        }
+                    }
+                    return null;
+                };
+                executor.submit(createProxyTask);
             }
             catch (IOException ex) {
                 //do nothing
             }
         }
+        try {
+            executor.awaitTermination(receiveNameTimeoutMS, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
+            executor.shutdownNow();
+        }
+        return new ArrayList<>(players);
     }
 
 
-    public GameResult playGame(List<Observer> observers) throws IOException {
-        System.out.println("Starting game with " + proxies.size() + " players.");
+    public GameResult playGame(List<IPlayer> acceptedPlayers, Observer... observers)  {
+        log.info("Starting game with " + acceptedPlayers.size() + " players.");
         GameObjectGenerator g = new GameObjectGenerator();
-        ServerReferee serverReferee = new ServerReferee(this.proxies, new RuleBook(g.generateRandomEquationTable()));
+        ServerReferee serverReferee = new ServerReferee(acceptedPlayers, new RuleBook(g.generateRandomEquationTable()), moveTimeoutMS);
         for (Observer observer : observers) {
             serverReferee.addListener(observer);
         }
@@ -105,33 +123,22 @@ public class Server {
     }
 
 
-    private void createPlayerProxy(Socket playerSocket) {
-        IPlayer guy;
+    private IPlayer createPlayerProxy(Socket playerSocket) {
+        log.info("Received player connection");
         try {
             InputStream serverStreamIn = playerSocket.getInputStream();
-            OutputStream serverStreamOut = playerSocket.getOutputStream();
             JsonStreamParser parse = new JsonStreamParser(new InputStreamReader(serverStreamIn));
-            long startTime = System.currentTimeMillis();
-            while (!parse.hasNext() && startTime + 3000 < System.currentTimeMillis() ) {
-                Thread.sleep(100);
-            }
-            String name = parse.next().getAsString();
-            guy = new Player(name, serverStreamIn, serverStreamOut);
+            Callable<String> getNameFromPlayer = () -> parse.next().getAsString();
+            Optional<String> playerName = CommunicationUtils.timeout(getNameFromPlayer, 3000);
+            log.info("Player name: " + playerName.orElseThrow());
+            return new Player(playerName.orElseThrow(), serverStreamIn, playerSocket.getOutputStream(), log);
         }
         catch (Exception ex) {
-            return; //doesn't add player to list
-        }
-        synchronized (proxies) {
-            if (uniqueName(guy.name())) {
-                proxies.add(guy);
-                System.out.println(guy.name() + " connected.");
-            }
-            proxies.notifyAll();
+            throw new PlayerException(ex.getMessage());
         }
     }
 
-    private boolean uniqueName(String name) {
-        return !proxies.stream().map(p -> p.name()).toList().contains(name);
+    private boolean uniqueName(String name, List<IPlayer> players) {
+        return !players.stream().map(p -> p.name()).toList().contains(name);
     }
-
 }

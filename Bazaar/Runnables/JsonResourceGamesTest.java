@@ -30,7 +30,7 @@ public class JsonResourceGamesTest {
 class ResourceGamesRunner extends GamesRunner {
 
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException, BadJsonException {
-        ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator());
+        ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), 3000);
         return referee.runGame();
     }
 }

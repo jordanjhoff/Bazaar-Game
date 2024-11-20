@@ -25,18 +25,12 @@ public abstract class MilestoneIntegrationTester {
         File[] inFiles = getFiles(testDirectory, "^(\\d+)-(in)\\.json$");
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
         String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
-        out.write(dir);
+        writeToOut(out, failures, dir);
         for (int i = 0; i < inFiles.length; i++) {
             String testResult = runOneTest(new InputStreamReader(new FileInputStream(inFiles[i])), new InputStreamReader(new FileInputStream(outFiles[i])),
-                    new InputStreamReader(new FileInputStream(outFiles[i])), inFiles[i].getName());
-            out.write(testResult);
-            if (testResult.contains("failed")) {
-                failures.write(dir);
-                failures.write(testResult);
-            }
+                    new InputStreamReader(new FileInputStream(outFiles[i])), inFiles[i].getName(), dir);
+            writeToOut(out, failures, testResult);
         }
-        failures.flush();
-        out.flush();
     }
 
     /**
@@ -51,28 +45,20 @@ public abstract class MilestoneIntegrationTester {
         File[] outFiles = getFiles(testDirectory, "^(\\d+)-(out)\\.json$");
 
         List<Future<String>> futures = new ArrayList<>();
-
+        String dir = "Testing: " + getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + "\n";
+        writeToOut(out, failures, dir);
         for (int i = 0; i < inFiles.length; i++) {
             final int index = i;
             Future<String> future = executor.submit(() -> runOneTest(new InputStreamReader(new FileInputStream(inFiles[index])),
                         new InputStreamReader(new FileInputStream(outFiles[index])),
-                        new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName()));
+                        new InputStreamReader(new FileInputStream(outFiles[index])), inFiles[index].getName(), dir));
             futures.add(future);
         }
-        synchronized (out) {
-            String dir = getClass().getSimpleName() + " in directory " + testDirectory.getAbsolutePath() + ":\n";
-            out.write(dir);
-            for (Future<String> future : futures) {
-                try {
-                    String result = future.get();
-                    out.write(result);
-                    if (result.contains("failed")) {
-                        failures.write(dir);
-                        failures.write(result);
-                    }
-                } catch (ExecutionException | InterruptedException e) {
-                    failures.write(e.getMessage());
-                }
+        for (Future<String> future : futures) {
+            try {
+                writeToOut(out, failures, future.get());
+            } catch (ExecutionException | InterruptedException e) {
+                writeToOut(out, failures, e.getMessage());
             }
         }
         executor.shutdown();
@@ -87,11 +73,8 @@ public abstract class MilestoneIntegrationTester {
                 runAllTests(subDir, out, failures);
             }
         } else {
-            String message = "Testing failed: " + testFestDirectory.getAbsolutePath() + " is not a directory.\n";
-            out.write(message);
-            failures.write(message);
+            writeToOut(out, failures,"Testing failed: " + testFestDirectory.getAbsolutePath() + " is not a directory.\n");
         }
-        out.flush();
     }
 
     public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures, ExecutorService executor) throws IOException, BadJsonException {
@@ -112,28 +95,24 @@ public abstract class MilestoneIntegrationTester {
                 try {
                     future.get();
                 } catch (ExecutionException | InterruptedException e) {
-                    synchronized (out) {
-                        failures.write("Error processing directories: " + e.getMessage() + "\n");
-                    }
+                    writeToOut(out,failures,"Error processing directories: " + e.getMessage() + "\n");
                 }
             }
 
             executor.shutdown();
-        } else {
-            String message = "Testing failed: " + testFestDirectory.getAbsolutePath() + " is not a directory.\n";
-            synchronized (out) {
-                out.write(message);
-            }
-            synchronized (failures) {
+        }
+        else {
+            writeToOut(out, failures, "Testing failed:" + testFestDirectory.getAbsolutePath() + " is not a directory.\n");
+        }
+    }
+
+    private void writeToOut(Writer out, Writer failures, String message) throws IOException {
+        synchronized (out) {
+            out.write(message);
+            if (message.contains("fail")) {
                 failures.write(message);
             }
-        }
-
-        // Ensure all data is flushed at the end
-        synchronized (out) {
             out.flush();
-        }
-        synchronized (failures) {
             failures.flush();
         }
     }
@@ -164,17 +143,22 @@ public abstract class MilestoneIntegrationTester {
      * @return a string of the result
      * @throws IOException
      */
-    private String runOneTest(InputStreamReader testInput, InputStreamReader expectedOutput, InputStreamReader expectedTestOutput2, String testName) throws IOException, BadJsonException {
+    private String runOneTest(InputStreamReader testInput, InputStreamReader expectedOutput, InputStreamReader expectedTestOutput2, String testName, String testDir) throws IOException, BadJsonException {
         StringBuilder testOutput = new StringBuilder();
         String testResult = executeAndCompare(testInput, expectedOutput, testName);
-        testOutput.append(testResult);
+
 
         if (testResult.contains("failed")) {
+            testOutput.append(testDir);
+            testOutput.append(testResult);
             testOutput.append("Expected Result: \n");
 
             String expectedResult = new BufferedReader(expectedTestOutput2)
                     .lines().collect(Collectors.joining("\n")) + "\n\n";
             testOutput.append(expectedResult);
+        }
+        else {
+            testOutput.append(testResult);
         }
         return testOutput.toString();
     }

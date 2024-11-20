@@ -15,7 +15,7 @@ public class IntegrationTestFestRunner {
 
         //View all test results
         //System.out.println(milestone);
-        System.out.println(testfest);
+       // System.out.println(testfest);
         milestone.close();
         testfest.close();
     }

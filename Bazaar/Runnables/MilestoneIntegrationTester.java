@@ -95,7 +95,7 @@ public abstract class MilestoneIntegrationTester {
                 try {
                     future.get();
                 } catch (ExecutionException | InterruptedException e) {
-                    writeToOut(out,failures,"Error processing directories: " + e.getMessage() + "\n");
+                    writeToOut(out,failures,"Failed processing directories: " + e.getMessage() + "\n");
                 }
             }
 

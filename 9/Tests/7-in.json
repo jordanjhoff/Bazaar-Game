@@ -1,10 +1,10 @@
-[["Ben","purchase-points","win",1],
-  ["Jordy","purchase-size","a cheat", "bank-cannot-trade"],
-  ["Matthias","purchase-size"],
-  ["BenLerner","purchase-size"]]
+[["Ben","purchase-points","a cheat", "wallet-cannot-trade"],
+  ["Jordy","purchase-points","a cheat", "bank-cannot-trade"],
+  ["Matthias","purchase-size","request-cards", 7],
+  ["BenLerner","purchase-size","request-cards", 1]]
 [[["white"],["blue"]]]
 {
-  "bank":["white"],
+  "bank":["red","blue","blue","blue","blue","blue","white","white","white","white","white"],
   "players":[
     {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},
     {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},

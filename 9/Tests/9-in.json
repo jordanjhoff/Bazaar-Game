@@ -1,0 +1,23 @@
+[["Jordy", "purchase-points"],
+  ["BenLerner", "purchase-size", "request-pebble-or-trades", 2]]
+[[["green"],["red"]],[["red"],["white"]], [["blue"],["yellow"]]]
+{
+  "bank": [],
+  "visibles": [
+    {
+      "pebbles":["red", "blue", "green", "white", "yellow"],
+      "face?": true
+    }
+  ],
+  "cards": [],
+  "players": [
+    {
+      "wallet": [],
+      "score": 0
+    },
+    {
+      "wallet": [],
+      "score": 0
+    }
+  ]
+}

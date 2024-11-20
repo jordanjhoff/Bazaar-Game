@@ -37,8 +37,7 @@ public class Player implements IPlayer {
     @Override
     public void setup(EquationTable e) {
         JsonElement equations = JSONSerializer.equationTableToJson(e);
-        outputStream.write(packageFunctionCall("setup", equations));
-        outputStream.flush();
+        write(packageFunctionCall("setup", equations));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }
@@ -47,16 +46,14 @@ public class Player implements IPlayer {
     @Override
     public ExchangeRequest requestPebbleOrTrades(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        outputStream.write(packageFunctionCall("request-pebble-or-trades", ts));
-        outputStream.flush();
+        write(packageFunctionCall("request-pebble-or-trades", ts));
         return readPlayerJSONInput(JSONDeserializer::exchangeRequestFromJson);
     }
 
     @Override
     public CardPurchaseSequence requestCards(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        outputStream.write(packageFunctionCall("request-cards", ts));
-        outputStream.flush();
+        write(packageFunctionCall("request-cards", ts));
         return readPlayerJSONInput(input -> new CardPurchaseSequence(JSONDeserializer.cardListFromJson(input)));
     }
 
@@ -64,32 +61,40 @@ public class Player implements IPlayer {
     @Override
     public void win(boolean w) {
         JsonElement bool = new JsonPrimitive(w);
-        outputStream.write(packageFunctionCall("win", bool));
-        outputStream.flush();
+        write(packageFunctionCall("win", bool));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }
     }
 
-    protected String packageFunctionCall(String funcName, JsonElement funcArg) {
+    /**
+     * Sends a function call to the remote player
+     * @param e JsonElement containing the function call
+     */
+    private void write(JsonElement e) {
+        outputStream.write(e.toString());
+        outputStream.flush();
+    }
+
+    protected JsonElement packageFunctionCall(String funcName, JsonElement funcArg) {
         JsonArray functionCall = new JsonArray();
         functionCall.add(funcName);
         functionCall.add(funcArg);
-        System.out.print("Sent to " + this.name + " :"+ functionCall);
-        return functionCall.toString();
+        System.err.print("Sent to " + this.name + " :"+ functionCall);
+        return functionCall;
     }
 
     protected <R> R readPlayerJSONInput(BadJsonFunction<JsonElement, R> applyToInput) {
         try {
-            System.out.println("Waiting");
+            System.err.println("Waiting");
             Thread.sleep(10);
-            System.out.println("Received: ");
+            System.err.println("Received: ");
             JsonElement reply = jsonStreamIn.next();
-            System.out.println(reply);
+            System.err.println(reply);
             return applyToInput.apply(reply);
         }
         catch (InterruptedException | BadJsonException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             throw new PlayerException();
         }
     }
@@ -98,10 +103,6 @@ public class Player implements IPlayer {
     protected interface BadJsonFunction<T, R> {
         R apply(T t) throws BadJsonException;
     }
-
-
 }
-
-
 
 class PlayerException extends RuntimeException {}

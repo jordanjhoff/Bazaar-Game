@@ -4,17 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonStreamParser;
-import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import Common.EquationTable;
 import Common.ExchangeRequest;
@@ -60,14 +57,17 @@ public class ClientReferee {
     outputStream.flush();
   }
 
+  private void write(JsonElement e) {
+    outputStream.write(e.toString());
+    outputStream.flush();
+  }
+
   public void run() {
     while (waitForUpdate()) {
       JsonArray json = readUpdate();
       String MName = json.get(0).getAsString();
       JsonElement Argument = json.get(1);
-      String s = delegateRequest(MName, Argument);
-      outputStream.println(s);
-      outputStream.flush();
+      write(handleRequest(MName, Argument));
     }
   }
 
@@ -113,7 +113,7 @@ public class ClientReferee {
    * @param Argument
    * @throws BadJsonException
    */
-  public String delegateRequest(String MName, JsonElement Argument) {
+  public JsonElement handleRequest(String MName, JsonElement Argument) {
     try {
       return switch (MName) {
         case "setup" -> setup(JSONDeserializer.equationTableFromJSON(Argument.getAsJsonArray()));
@@ -127,34 +127,32 @@ public class ClientReferee {
     }
   }
 
-  public String setup(EquationTable table) throws BadJsonException {
+  public JsonPrimitive setup(EquationTable table) throws BadJsonException {
     client.setup(table);
-    return new JsonPrimitive("void").toString();
+    return new JsonPrimitive("void");
   }
 
   /**
    * Ask the player for their pebble or trade request and return the json string
    * @param t turn state
    */
-  public String requestPT(TurnState t) {
+  public JsonElement requestPT(TurnState t) {
     ExchangeRequest r = client.requestPebbleOrTrades(t);
     if (r instanceof PebbleDrawRequest)
-      return new JsonPrimitive(false).toString();
+      return new JsonPrimitive(false);
 
     // else
     return JSONSerializer.exchangeSequenceToJson(
-            ((PebbleExchangeSequence) r))
-            .toString();
+            ((PebbleExchangeSequence) r));
   }
 
-  public String requestCards(TurnState t) {
+  public JsonElement requestCards(TurnState t) {
     return JSONSerializer.cardListToJson(
-            client.requestCards(t).cards())
-            .toString();
+            client.requestCards(t).cards());
   }
 
-  public String win(Boolean b) {
+  public JsonPrimitive win(Boolean b) {
     client.win(b);
-    return new JsonPrimitive("void").toString();
+    return new JsonPrimitive("void");
   }
 }

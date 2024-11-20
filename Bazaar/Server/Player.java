@@ -82,7 +82,7 @@ public class Player implements IPlayer {
     }
 
     protected void sendToClient(JsonElement message) {
-        outputStream.write(message.toString());
+        outputStream.println(message);
         outputStream.flush();
     }
 

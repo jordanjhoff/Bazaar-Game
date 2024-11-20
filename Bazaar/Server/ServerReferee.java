@@ -13,23 +13,27 @@ import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 /**
- * Represents an ObservableReferee, with additional functionality to time out if a move is not received within a certain amount of time.
+ * Represents an ObservableReferee, with additional functionality to kick a player if a move is not received within a certain amount of time (movetimeoutms)
  */
 public class ServerReferee extends ObservableReferee {
+    // how long players have to return from a request, in milliseconds
     private final int moveTimeoutMS;
+
+    /**
+     * Dispatches other arguments to the superclass (Referee).
+     * @param moveTimeoutMS How long players have to return from a move.
+     */
     public ServerReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer, int moveTimeoutMS) {
         super(players, intermediateState, ruleBook, randomizer);
         this.moveTimeoutMS = moveTimeoutMS;
     }
-
     public ServerReferee(List<IPlayer> players, RuleBook ruleBook, int moveTimeoutMS) {
         super(players, ruleBook);
         this.moveTimeoutMS = moveTimeoutMS;
     }
 
-
     /**
-     * Provides all players with the equation table
+     * Provides all players with the equation table. Timeout applies!
      */
     @Override
     protected void notifyPlayersOfStart() {
@@ -48,12 +52,19 @@ public class ServerReferee extends ObservableReferee {
         theOneTrueState = kickNaughtyPlayers();
     }
 
+    /**
+     * Requests the player's first move. Timeout Applies
+     */
     @Override
     protected Optional<GameState> firstPlayerRequest() {
         Callable<Optional<GameState>> method = super::firstPlayerRequest;
         Optional<Optional<GameState>> result = CommunicationUtils.timeout(method, moveTimeoutMS);
         return result.orElseGet(Optional::empty);
     }
+
+    /**
+     * Requests the player's second move. Timeout applies.
+     */
     @Override
         protected Optional<GameState> secondPlayerRequest(GameState stateAfterExchanges) {
         Callable<Optional<GameState>> method = () -> super.secondPlayerRequest(stateAfterExchanges);
@@ -61,6 +72,11 @@ public class ServerReferee extends ObservableReferee {
         return result.orElseGet(Optional::empty);
     }
 
+    /**
+     * Notifies players of a win (or loss). Timeout applies.
+     * NOTE: Players who have WON the game may be KICKED if they don't return in time!
+     * Sportsmanship is important.
+     */
     @Override
     protected List<IPlayer> notifyWinners(List<IPlayer> winners) {
         List<IPlayer> successfulWinners = new ArrayList<>(winners);

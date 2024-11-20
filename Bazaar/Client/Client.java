@@ -6,9 +6,6 @@ import java.net.InetAddress;
 import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
 import Player.IPlayer;
-import Player.Mechanism;
-import Player.Strategy;
-import Player.comparators.MaxCardsComparator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
@@ -32,7 +29,7 @@ public class Client {
   }
 
   /**
-   * Attempts to connect to the server
+   * Spawns a ClientReferee, tells it to connect to the server and run
    */
   public void start(InetAddress addr, int port) throws IOException {
     ref = new ClientReferee(player);

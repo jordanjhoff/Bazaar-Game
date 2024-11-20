@@ -83,8 +83,8 @@ public class Server {
                 serverSocket.setSoTimeout(100);
                 Socket playerSocket = serverSocket.accept();
                 playerSocket.setSoLinger(true, 0);
-                executor.submit(() -> createProxyPlayerTask(players, playerSocket,
-                        (int)Math.min(moveTimeoutMS, System.currentTimeMillis() - (startingTime + waitingRoomMS))));
+                int maxtimetosendname =  (int)Math.min(receiveNameTimeoutMS,(startingTime + waitingRoomMS) - System.currentTimeMillis());
+                executor.submit(() -> createProxyPlayerTask(players, playerSocket, maxtimetosendname));
             }
             catch (IOException ex) {
                 //do nothing

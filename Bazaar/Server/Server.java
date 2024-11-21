@@ -30,7 +30,7 @@ public class Server {
   // time for a single waiting room
   private static final int waitingRoomMS = 20000;
   // time before a single move is timed out
-  private static final int moveTimeoutMS = 5000;
+  private static final int moveTimeoutMS = 1000;
   // time before a player is timed out for not sending name
   private static final int receiveNameTimeoutMS = 3000;
   // max number of players in one Bazaar game

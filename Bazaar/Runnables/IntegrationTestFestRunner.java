@@ -39,7 +39,7 @@ public class IntegrationTestFestRunner {
     }
 
     public static void runTestfestTests(Writer output) throws IOException, BadJsonException {
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executor = Executors.newCachedThreadPool();
         StringWriter failures = new StringWriter();
         new TurnTester().testFestRun(new File("Feedback/4/Tests"), output, failures);
         new StrategyTester().testFestRun(new File("Feedback/5/Tests"), output, failures);

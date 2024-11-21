@@ -33,7 +33,7 @@ class ResourceGamesRunner extends GamesRunner {
     /** BIG IMPORTANT
      * BIG IMPORTANT
      */
-    public static final int moveTimeoutMS = 3000;
+    public static final int moveTimeoutMS = 1000;
 
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) {
         ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), moveTimeoutMS);

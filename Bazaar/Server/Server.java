@@ -81,10 +81,10 @@ public class Server {
    */
   private List<IPlayer> lobby(ServerSocket serverSocket) throws IOException {
     log.info("Starting waiting room 1");
-    List<IPlayer> players = new ArrayList<>(waitingRoom(serverSocket));
+    List<IPlayer> players = waitingRoom(serverSocket, new ArrayList<>());
     if (players.size() < 2) {
       log.info("Starting waiting room 2");
-      players.addAll(waitingRoom(serverSocket));
+      players = (waitingRoom(serverSocket, players));
     }
     log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
     return players;
@@ -96,8 +96,8 @@ public class Server {
    * @param serverSocket the socket to be used for this current game
    * @return the list of accepted players during this waiting room
    */
-  private List<IPlayer> waitingRoom(ServerSocket serverSocket) {
-    List<IPlayer> players = new ArrayList<>();
+  private List<IPlayer> waitingRoom(ServerSocket serverSocket, List<IPlayer> previousPlayers) {
+    List<IPlayer> players = new ArrayList<>(previousPlayers);
     long startingTime = System.currentTimeMillis();
     ExecutorService executor = createDaemonExecutor();
     while (startingTime + waitingRoomMS > System.currentTimeMillis()) {

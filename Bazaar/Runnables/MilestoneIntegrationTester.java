@@ -77,23 +77,25 @@ public abstract class MilestoneIntegrationTester {
         }
     }
 
-    public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures, ExecutorService executor) throws IOException, BadJsonException {
+    public void paralleltestFestRun(File testFestDirectory, Writer out, Writer failures, ExecutorService executor) throws IOException {
         if (testFestDirectory.isDirectory()) {
             File[] subDirs = testFestDirectory.listFiles(File::isDirectory);
             assert subDirs != null;
 
-            List<Future<Void>> futures = new ArrayList<>();
+            List<Future<StringWriter>> futures = new ArrayList<>();
             for (File subDir : subDirs) {
-                Future<Void> future = executor.submit(() -> {
-                    parallelRun(subDir, out, failures, executor);
-                    return null;
+                Future<StringWriter> future = executor.submit(() -> {
+                    StringWriter buffer = new StringWriter();
+                    parallelRun(subDir, buffer, failures, executor);
+                    return buffer;
                 });
                 futures.add(future);
             }
 
-            for (Future<Void> future : futures) {
+            for (Future<StringWriter> future : futures) {
                 try {
-                    future.get();
+                    StringWriter dirResult = future.get();
+                    writeToOut(out, failures, dirResult.toString());
                 } catch (ExecutionException | InterruptedException e) {
                     writeToOut(out,failures,"Failed processing directories: " + e.getMessage() + "\n");
                 }

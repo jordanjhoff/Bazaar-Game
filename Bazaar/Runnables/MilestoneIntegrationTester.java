@@ -131,16 +131,21 @@ public abstract class MilestoneIntegrationTester {
      * @throws BadJsonException
      */
     private String executeAndCompare(InputStreamReader testInput, InputStreamReader expectedTestOutput, String testName) throws IOException, BadJsonException {
+        long startTime;
+        long endTime;
         try {
             StringWriter executedOutput = new StringWriter();
+            startTime = System.currentTimeMillis();
             List<Object> list1 = runTest(testInput, executedOutput);
             List<Object> list2 = jsonResultToObjects(expectedTestOutput);
             compareResults(list1, list2, executedOutput.toString());
+            endTime = System.currentTimeMillis();
         }
         catch (Exception e) {
             return "Test " + testName + " failed by exception: " + e.getMessage() + "\n";
         }
-        return "Test " + testName + " passed\n";
+        int elapseTime = (int)(endTime - startTime);
+        return "Test " + testName + " passed in " + elapseTime + "ms\n";
     }
 
     /**

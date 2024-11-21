@@ -107,12 +107,13 @@ public class ClientReferee {
    */
   public JsonElement delegateRequest(String MName, JsonElement Argument) {
     isConnected();
+    JsonElement firstArgument = Argument.getAsJsonArray().get(0);
     try {
       return switch (MName) {
-        case "setup" -> setup(JSONDeserializer.equationTableFromJSON(Argument.getAsJsonArray()));
-        case "request-pebble-or-trades" -> requestPT(JSONDeserializer.turnStateFromJson(Argument));
-        case "request-cards" -> requestCards(JSONDeserializer.turnStateFromJson(Argument));
-        case "win" -> win(Argument.getAsBoolean());
+        case "setup" -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
+        case "request-pebble-or-trades" -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
+        case "request-cards" -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
+        case "win" -> win(firstArgument.getAsBoolean());
         default -> throw new BadJsonException("Bad MName: " + MName);
       };
     } catch (BadJsonException e) {

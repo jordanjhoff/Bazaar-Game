@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
@@ -47,17 +48,25 @@ public class Client {
   }
 
   // runnable for tinkering purposes...
-  public static void main(String[] args) throws BadJsonException {
+  public static void main(String[] args) throws BadJsonException, IOException {
     if (args.length < 1) {
       System.err.println("Must provide player name as an argument");
       System.exit(1);
     }
-
     if (args.length == 1) {
       JsonArray arr = new JsonArray();
       arr.add(JsonParser.parseString(args[0]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
       new Client(mechanism).start();
+    }
+
+    if (args.length == 3) {
+      JsonArray arr = new JsonArray();
+      InetAddress address = InetAddress.getByName(args[0]);
+      int port = Integer.parseInt(args[1]);
+      arr.add(JsonParser.parseString(args[2]));
+      IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
+      new Client(mechanism).start(address, port);
     }
   }
 }

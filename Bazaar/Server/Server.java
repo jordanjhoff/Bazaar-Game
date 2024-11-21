@@ -145,9 +145,9 @@ public class Server {
       JsonStreamParser parse = new JsonStreamParser(new InputStreamReader(serverStreamIn));
       Callable<String> getNameFromPlayer = () -> parse.next().getAsString();
       Optional<String> playerName = CommunicationUtils.timeout(getNameFromPlayer, acceptNameTimeoutMS);
-      log.info("Player name: " + playerName.orElseThrow());
       return new Player(playerName.orElseThrow(), serverStreamIn, playerSocket.getOutputStream(), log);
     } catch (Exception ex) {
+      log.info("Did not accept player");
       throw new PlayerException(ex.getMessage());
     }
   }
@@ -176,6 +176,10 @@ public class Server {
     synchronized (playerListToMutate) {
       if (uniqueName(playerProxy.name(), playerListToMutate) && playerListToMutate.size() < maxNumPlayers) {
         playerListToMutate.add(playerProxy);
+        log.info("Player name: " +  playerProxy.name());
+      }
+      else {
+        log.info("Did not accept player: " + playerProxy.name());
       }
     }
   }

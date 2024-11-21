@@ -73,10 +73,12 @@ public class Player implements IPlayer {
         }
     }
 
-    protected JsonElement packageFunctionCall(String funcName, JsonElement funcArg) {
+    protected JsonElement packageFunctionCall(String funcName, JsonElement argument) {
         JsonArray functionCall = new JsonArray();
         functionCall.add(funcName);
-        functionCall.add(funcArg);
+        JsonArray functionArgs = new JsonArray();
+        functionArgs.add(argument);
+        functionCall.add(functionArgs);
         log.info("Sent to " + this.name + " :"+ functionCall);
         return functionCall;
     }

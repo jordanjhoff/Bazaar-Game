@@ -1,28 +1,25 @@
 package Referee;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import Common.EquationTable;
 import Common.RuleBook;
 import Player.IPlayer;
 
+/**
+ * An extension of Referee, with additional functionality to support observers upon construction
+ */
 public class ObservableReferee extends Referee {
 
-    protected final Set<Observer> listeners = new HashSet<>();
-    public ObservableReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
+    protected final Set<Observer> observers = new HashSet<>();
+    public ObservableReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer, Observer... observers) {
         super(players, intermediateState, ruleBook, randomizer);
+        this.observers.addAll(Arrays.asList(observers));
     }
 
-    public ObservableReferee(List<IPlayer> players, RuleBook ruleBook) {
+    public ObservableReferee(List<IPlayer> players, RuleBook ruleBook, Observer... observers) {
         super(players, ruleBook);
-    }
-
-    public void addListener(Observer listener) {
-        this.listeners.add(listener);
+        this.observers.addAll(Arrays.asList(observers));
     }
 
     @Override
@@ -66,19 +63,19 @@ public class ObservableReferee extends Referee {
     }
 
     protected void notifyListeners(GameState gs) {
-        for (Observer listener : listeners) {
+        for (Observer listener : observers) {
             listener.notifyOfGameStateUpdate(gs);
         }
     }
 
     protected void setupListeners(EquationTable equationTable) {
-        for (Observer listener : listeners) {
+        for (Observer listener : observers) {
             listener.setup(equationTable, theOneTrueState);
         }
     }
 
     protected void shutDownListeners() {
-        for (Observer listener : listeners) {
+        for (Observer listener : observers) {
             listener.shutDown();
         }
     }

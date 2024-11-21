@@ -27,3 +27,6 @@ the states as images, and contains functionality for viewing the `GameState` his
 The `ObservableReferee` is an extension of `Referee` that controls individual games of Bazaar. It does everything a 
 `Referee` does, in addition to notifying its `Observers` of changes in it's `GameState`.
 
+__How to use ObservableReferee__
+To attach an `Observer` to the `ObservableReferee`, pass as many `Observer` as desired upon construction. 
+

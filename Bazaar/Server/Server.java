@@ -125,10 +125,7 @@ public class Server {
   private GameResult playGame(List<IPlayer> players, Observer... observers) {
     log.info("Starting game with " + players.size() + " players.");
     GameObjectGenerator g = new GameObjectGenerator();
-    ServerReferee serverReferee = new ServerReferee(players, new RuleBook(g.generateRandomEquationTable()), moveTimeoutMS);
-    for (Observer observer : observers) {
-      serverReferee.addListener(observer);
-    }
+    ServerReferee serverReferee = new ServerReferee(players, new RuleBook(g.generateRandomEquationTable()), moveTimeoutMS, observers);
     return serverReferee.runGame();
   }
 

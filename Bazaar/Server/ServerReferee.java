@@ -5,6 +5,7 @@ import Player.IPlayer;
 import Referee.GameObjectGenerator;
 import Referee.GameState;
 import Referee.ObservableReferee;
+import Referee.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,12 @@ public class ServerReferee extends ObservableReferee {
      * Dispatches other arguments to the superclass (Referee).
      * @param moveTimeoutMS How long players have to return from a move.
      */
-    public ServerReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer, int moveTimeoutMS) {
-        super(players, intermediateState, ruleBook, randomizer);
+    public ServerReferee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer, int moveTimeoutMS, Observer... observers) {
+        super(players, intermediateState, ruleBook, randomizer, observers);
         this.moveTimeoutMS = moveTimeoutMS;
     }
-    public ServerReferee(List<IPlayer> players, RuleBook ruleBook, int moveTimeoutMS) {
-        super(players, ruleBook);
+    public ServerReferee(List<IPlayer> players, RuleBook ruleBook, int moveTimeoutMS, Observer... observers) {
+        super(players, ruleBook, observers);
         this.moveTimeoutMS = moveTimeoutMS;
     }
 

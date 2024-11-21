@@ -171,8 +171,7 @@ public class ObserverTests {
     List<IPlayer> players = List.of(jordy, jack, benlerner, matthias);
     RuleBook ruleBook = new RuleBook(generator.generateRandomEquationTable());
 
-    ObservableReferee ref = new ObservableReferee(players, ruleBook);
-    ref.addListener(ob);
+    ObservableReferee ref = new ObservableReferee(players, ruleBook, ob);
     ref.runGame();
 
     String[] output = baos.toString().split("::");
@@ -191,11 +190,8 @@ public class ObserverTests {
 
     List<IPlayer> players = List.of(jordy, jack, benlerner, matthias);
     RuleBook ruleBook = new RuleBook(generator.generateRandomEquationTable());
-
-    ObservableReferee ref = new ObservableReferee(players, ruleBook);
-    ref.addListener(ob);
     Observer ob2 = new MockObserver();
-    ref.addListener(ob2);
+    ObservableReferee ref = new ObservableReferee(players, ruleBook, ob, ob2);
     ref.runGame();
     ((MockObserver) ob).checkPointer();
     ((MockObserver) ob2).checkPointer();

@@ -48,17 +48,14 @@ class ObserverGamesRunner extends GamesRunner {
 
     @Override
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException {
-        referee = new ObservableReferee(players, gameState, ruleBook, new DeterministicObjectGenerator());
-        addObserversToRef();
+        if (withObserver) {
+            referee = new ObservableReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), new Observer());
+        }
+        else {
+            referee = new ObservableReferee(players, gameState, ruleBook, new DeterministicObjectGenerator());
+        }
         return referee.runGame();
     }
-
-    protected void addObserversToRef() {
-        if (withObserver) {
-            referee.addListener(new Observer());
-        }
-    }
-
 
 }
 

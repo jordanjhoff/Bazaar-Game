@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 
 import Common.EquationTable;
 import Common.ExchangeRequest;
@@ -83,7 +84,7 @@ public class ClientReferee {
         System.out.println(json.toString());
       }
       // exception occurs when .next() throws, indicates that the socket has been closed
-      catch (JsonIOException e) {
+      catch (JsonIOException | NoSuchElementException e) {
         break;
       }
       String MName = json.get(0).getAsString();

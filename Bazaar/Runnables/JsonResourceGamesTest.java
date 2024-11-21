@@ -22,6 +22,7 @@ import Common.converters.JSONSerializer;
  * This is a testing class for sending and receiving JSON values
  */
 public class JsonResourceGamesTest {
+
     public static void main(String[] args) throws IOException, BadJsonException {
         new ResourceGamesRunner().run(new InputStreamReader(System.in), new PrintWriter(System.out));
     }
@@ -29,8 +30,13 @@ public class JsonResourceGamesTest {
 
 class ResourceGamesRunner extends GamesRunner {
 
-    protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) throws IOException, BadJsonException {
-        ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), 3000);
+    /** BIG IMPORTANT
+     * BIG IMPORTANT
+     */
+    public static final int moveTimeoutMS = 3000;
+
+    protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) {
+        ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), moveTimeoutMS);
         return referee.runGame();
     }
 }

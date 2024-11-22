@@ -19,6 +19,8 @@ The `Bazaar/Server/Player` literally implements the same interface https://githu
 - explain how it receives the TCP connection that enables it to communicate with a client
 
 `player` is not responsible for managing the socket. it is constructed with an InputStream and OutputStream. This is especially useful for mock testing. In `Bazaar/Server/Server`, when a remote player sends their name and is accepted into the game, a new `Bazaar/Server/Player` is constructed with the input/output streams from the socket used to receive the name.
+https://github.khoury.northeastern.edu/CS4500-F24/likeable-gophers/blob/6868ad05359ddfd0358555058e45dda700d18f60/Bazaar/Server/Server.java#L141
+https://github.khoury.northeastern.edu/CS4500-F24/likeable-gophers/blob/6868ad05359ddfd0358555058e45dda700d18f60/Bazaar/Server/Server.java#L148
 
 - point to unit tests that check whether it writes (proper) JSON to a mock output device
 

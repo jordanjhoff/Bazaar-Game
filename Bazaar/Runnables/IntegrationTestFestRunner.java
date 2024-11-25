@@ -24,7 +24,7 @@ public class IntegrationTestFestRunner {
     public void runMilestone4() throws IOException {
         StringWriter output = new StringWriter();
         new TurnTester().parallelRun(new File("4/Tests"), output, executor);
-        new StrategyTester().paralleltestFestRun(new File("Feedback/5/Tests"), output, executor);
+        new TurnTester().paralleltestFestRun(new File("Feedback/4/Tests"), output, executor);
         System.out.println(output);
         Assert.assertFalse(output.toString().contains("failed"));
 
@@ -34,7 +34,7 @@ public class IntegrationTestFestRunner {
     public void runMilestone5() throws IOException {
         StringWriter output = new StringWriter();
         new StrategyTester().parallelRun(new File("5/Tests"), output, executor);
-        new TurnTester().paralleltestFestRun(new File("Feedback/4/Tests"), output, executor);
+        new StrategyTester().paralleltestFestRun(new File("Feedback/5/Tests"), output, executor);
         System.out.println(output);
         Assert.assertFalse(output.toString().contains("failed"));
 

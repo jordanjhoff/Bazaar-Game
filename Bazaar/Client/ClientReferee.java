@@ -1,5 +1,6 @@
 package Client;
 
+import Common.converters.MName;
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 
@@ -106,16 +107,16 @@ public class ClientReferee {
    * We assume that clients bear no responsibility for sanitising JSON.
    * Delegates requests to the IPlayer client.
    */
-  public JsonElement delegateRequest(String MName, JsonElement Argument) {
+  public JsonElement delegateRequest(String methodName, JsonElement Argument) {
     isConnected();
     JsonElement firstArgument = Argument.getAsJsonArray().get(0);
     try {
-      return switch (MName) {
-        case "setup" -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
-        case "request-pebble-or-trades" -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
-        case "request-cards" -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
-        case "win" -> win(firstArgument.getAsBoolean());
-        default -> throw new BadJsonException("Bad MName: " + MName);
+      MName methodEnum = MName.fromString(methodName);
+      return switch (methodEnum) {
+        case MName.SETUP -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
+        case MName.REQUESTPT -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
+        case MName.REQUESTCARDS -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
+        case MName.WIN -> win(firstArgument.getAsBoolean());
       };
     } catch (BadJsonException e) {
       throw new RuntimeException("Not supposed to be getting bad json from the server! " + e.getMessage());

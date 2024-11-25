@@ -7,6 +7,7 @@ import Common.TurnState;
 import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
 import Common.converters.JSONSerializer;
+import Common.converters.MName;
 import Player.IPlayer;
 import com.google.gson.*;
 
@@ -43,7 +44,7 @@ public class Player implements IPlayer {
     @Override
     public void setup(EquationTable e) {
         JsonElement equations = JSONSerializer.equationTableToJson(e);
-        sendToClient(packageFunctionCall("setup", equations));
+        sendToClient(packageFunctionCall(MName.SETUP.toString(), equations));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }
@@ -52,14 +53,14 @@ public class Player implements IPlayer {
     @Override
     public ExchangeRequest requestPebbleOrTrades(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        sendToClient(packageFunctionCall("request-pebble-or-trades", ts));
+        sendToClient(packageFunctionCall(MName.REQUESTPT.toString(), ts));
         return readPlayerJSONInput(JSONDeserializer::exchangeRequestFromJson);
     }
 
     @Override
     public CardPurchaseSequence requestCards(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        sendToClient(packageFunctionCall("request-cards", ts));
+        sendToClient(packageFunctionCall(MName.REQUESTCARDS.toString(), ts));
         return readPlayerJSONInput(input -> new CardPurchaseSequence(JSONDeserializer.cardListFromJson(input)));
     }
 
@@ -67,7 +68,7 @@ public class Player implements IPlayer {
     @Override
     public void win(boolean w) {
         JsonElement bool = new JsonPrimitive(w);
-        sendToClient(packageFunctionCall("win", bool));
+        sendToClient(packageFunctionCall(MName.WIN.toString(), bool));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }

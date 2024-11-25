@@ -135,6 +135,7 @@ public abstract class MilestoneIntegrationTester {
         long endTime;
         try {
             StringWriter executedOutput = new StringWriter();
+            // this is not a critical use of elapsed time; no need to use nanotime.
             startTime = System.currentTimeMillis();
             List<Object> list1 = runTest(testInput, executedOutput);
             List<Object> list2 = jsonResultToObjects(expectedTestOutput);

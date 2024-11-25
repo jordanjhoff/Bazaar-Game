@@ -29,12 +29,18 @@ public class Server {
   private static final Logger log = Logger.getLogger(Server.class.getName());
   // time for a single waiting room
   private static final int waitingRoomMS = 20000;
+  // number of times to restart waiting room
+  private static final int numWaitingRoom = 2;
   // time before a single move is timed out
   private static final int moveTimeoutMS = 1000;
   // time before a player is timed out for not sending name
   private static final int receiveNameTimeoutMS = 3000;
+  // num players before exiting the waiting room
+  private static final int numPlayersToExitWaitingRoom = 2;
   // max number of players in one Bazaar game
   private static final int maxNumPlayers = 6;
+  // number of at most players before the game returns default result
+  private static final int numPlayersToStartGame = 1;
   // the socket port used for communication
   private final int port;
 
@@ -65,8 +71,8 @@ public class Server {
   public void startBazaarServer(OutputStream out, Observer... observers) throws IOException {
     ServerSocket serverSocket = new ServerSocket(port);
     GameResult result = new GameResult(new ArrayList<>(), new ArrayList<>());
-    List<IPlayer> acceptedPlayers = lobby(serverSocket);
-    if (acceptedPlayers.size() > 1) {
+    List<IPlayer> acceptedPlayers = runWaitingRooms(serverSocket);
+    if (acceptedPlayers.size() > numPlayersToStartGame) {
       result = playGame(acceptedPlayers, observers);
     }
     sendResults(result, new PrintWriter(out));
@@ -79,12 +85,13 @@ public class Server {
    *
    * @return a list of accepted IPlayers
    */
-  private List<IPlayer> lobby(ServerSocket serverSocket) throws IOException {
-    log.info("Starting waiting room 1");
-    List<IPlayer> players = waitingRoom(serverSocket, new ArrayList<>());
-    if (players.size() < 2) {
-      log.info("Starting waiting room 2");
-      players = (waitingRoom(serverSocket, players));
+  private List<IPlayer> runWaitingRooms(ServerSocket serverSocket) {
+    List<IPlayer> players = new ArrayList<>();
+    int counter = 0;
+    while (players.size() < numPlayersToExitWaitingRoom && counter < numWaitingRoom) {
+      counter+=1;
+      log.info("Starting waiting room " + counter);
+      players = waitingRoom(serverSocket, players);
     }
     log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
     return players;
@@ -100,11 +107,10 @@ public class Server {
     List<IPlayer> players = new ArrayList<>(previousPlayers);
     long startingTime = System.currentTimeMillis();
     ExecutorService executor = createDaemonExecutor();
-    while (startingTime + waitingRoomMS > System.currentTimeMillis()) {
+    while (startingTime + waitingRoomMS > System.currentTimeMillis() && players.size() < maxNumPlayers) {
       try {
         serverSocket.setSoTimeout(100);
         Socket playerSocket = serverSocket.accept();
-        playerSocket.setSoLinger(true, 0);
         int maxtimetosendname = (int) Math.min(receiveNameTimeoutMS, (startingTime + waitingRoomMS) - System.currentTimeMillis());
         executor.submit(() -> createProxyPlayerTask(players, playerSocket, maxtimetosendname));
       } catch (IOException ex) {

@@ -35,6 +35,7 @@ class ResourceGamesRunner extends GamesRunner {
      */
     public static final int moveTimeoutMS = 1000;
 
+    @Override
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) {
         ServerReferee referee = new ServerReferee(players, gameState, ruleBook, new DeterministicObjectGenerator(), moveTimeoutMS);
         return referee.runGame();

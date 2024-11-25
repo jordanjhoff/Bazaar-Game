@@ -1,7 +1,8 @@
 package Client;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 import Common.converters.BadJsonException;
@@ -9,6 +10,8 @@ import Common.converters.JSONDeserializer;
 import Player.IPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonStreamParser;
 
 /**
  * This class accepts an IPlayer mechanism, and initializes a connection to a Server.
@@ -33,9 +36,23 @@ public class Client {
    * Spawns a ClientReferee, tells it to connect to the server and run
    */
   public void start(InetAddress addr, int port) throws IOException {
-    ref = new ClientReferee(player);
-    ref.connect(addr, port);
+    ref = connect(addr, port);
     ref.run();
+  }
+
+  /**
+   * Attempt to connect to the server & send the player's .name()
+   * @param addr ServerSocket address
+   * @param port ServerSocket port
+   * @return the ClientReferee if the connection is successful
+   */
+  public ClientReferee connect(InetAddress addr, int port) {
+    try {
+      Socket clientSocket = new Socket(addr, port);
+      return new ClientReferee(player, clientSocket.getInputStream(), clientSocket.getOutputStream());
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage());
+    }
   }
 
   // default values for localhost server

@@ -1,5 +1,7 @@
 package Client;
 
+import Common.converters.MName;
+import Server.Server;
 import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 
@@ -13,6 +15,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 import Common.EquationTable;
 import Common.ExchangeRequest;
@@ -36,38 +39,25 @@ import Player.IPlayer;
  * The server requires all playernames to be distinct. Please make sure your IPlayers are set up with unique names.
  */
 public class ClientReferee {
+  private static final Logger log = Logger.getLogger(ClientReferee.class.getName());
   // player object for reachability
   IPlayer client;
   // write JSON Strings TO the server
-  protected PrintWriter outputStream;
+  protected PrintWriter outputWriter;
   // read JSON Strings FROM the server
   protected JsonStreamParser jsonStreamIn;
   // used for checking if the channel is ready
   protected InputStream streamIn;
-  protected Socket socket;
 
   /**
    * Set up the referee with a Player object.
    * Note: IPlayer has a .name() method
    */
-  public ClientReferee(IPlayer client) {
+  public ClientReferee(IPlayer client, InputStream streamIn, OutputStream streamOut) throws IOException {
     this.client = client;
-  }
-
-  /**
-   * Attempt to connect to the server & send the player's .name()
-   * @param addr ServerSocket address
-   * @param port ServerSocket port
-   */
-  public void connect(InetAddress addr, int port) {
-    try {
-      socket = new Socket(addr, port);
-      outputStream = new PrintWriter(socket.getOutputStream());
-      streamIn = socket.getInputStream();
-      jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
-    }
+    this.outputWriter = new PrintWriter(streamOut, true);
+    this.streamIn = streamIn;
+    this.jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
     sendToServer(new JsonPrimitive(client.name()));
   }
 
@@ -85,6 +75,7 @@ public class ClientReferee {
       }
       // exception occurs when .next() throws, indicates that the socket has been closed
       catch (JsonIOException | NoSuchElementException e) {
+        log.info("Socket connection broken or closed");
         break;
       }
       String MName = json.get(0).getAsString();
@@ -96,26 +87,25 @@ public class ClientReferee {
   /**
    * Generic writer method.
    */
-  private void sendToServer(JsonElement request) {
-    System.out.println(request.toString());
-    outputStream.println(request);
-    outputStream.flush();
+  public void sendToServer(JsonElement request) {
+    log.info("Sent to server " + request.toString());
+    outputWriter.println(request);
+    outputWriter.flush();
   }
 
   /**
    * We assume that clients bear no responsibility for sanitising JSON.
    * Delegates requests to the IPlayer client.
    */
-  public JsonElement delegateRequest(String MName, JsonElement Argument) {
-    isConnected();
+  public JsonElement delegateRequest(String methodName, JsonElement Argument) {
     JsonElement firstArgument = Argument.getAsJsonArray().get(0);
     try {
-      return switch (MName) {
-        case "setup" -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
-        case "request-pebble-or-trades" -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
-        case "request-cards" -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
-        case "win" -> win(firstArgument.getAsBoolean());
-        default -> throw new BadJsonException("Bad MName: " + MName);
+      MName methodEnum = MName.fromString(methodName);
+      return switch (methodEnum) {
+        case MName.SETUP -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
+        case MName.REQUESTPT -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
+        case MName.REQUESTCARDS -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
+        case MName.WIN -> win(firstArgument.getAsBoolean());
       };
     } catch (BadJsonException e) {
       throw new RuntimeException("Not supposed to be getting bad json from the server! " + e.getMessage());
@@ -165,12 +155,4 @@ public class ClientReferee {
     return new JsonPrimitive("void");
   }
 
-  /**
-   * Checks that the socket is connected... in a lot of ways. Much safety very gud 4 bossman blerner
-   */
-  private void isConnected() {
-    if (socket == null || outputStream == null || jsonStreamIn == null || streamIn == null) {
-      throw new IllegalStateException("Socket not connected");
-    }
-  }
 }

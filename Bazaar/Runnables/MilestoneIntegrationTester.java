@@ -211,7 +211,7 @@ public abstract class MilestoneIntegrationTester {
             }
         }
         if (testFailed) {
-            validityString.append("\nOutput of test:\n ");
+            validityString.append("\nOutput of test:\n");
             validityString.append(executedOutput).append("\n");
             throw new IllegalStateException("Inequality with JSON Elements " + validityString);
         }

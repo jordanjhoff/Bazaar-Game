@@ -287,11 +287,11 @@ public class JSONDeserializer {
     JsonArray jsonActor = json.getAsJsonArray();
     String name = jsonActor.get(0).getAsString();
     Strategy strategy = new Strategy(policyFromJson(jsonActor.get(1)));
-    return switch (jsonActor.get(2).getAsString()) {
-      case "setup" -> new SetupExnActor(name, strategy);
-      case "request-pebble-or-trades" -> new PebblesExnActor(name, strategy);
-      case "request-cards" -> new CardExnActor(name, strategy);
-      case "win" -> new WinExnActor(name, strategy);
+    return switch (MName.fromString(jsonActor.get(2).getAsString())) {
+      case MName.SETUP -> new SetupExnActor(name, strategy);
+      case MName.REQUESTPT -> new PebblesExnActor(name, strategy);
+      case MName.REQUESTCARDS -> new CardExnActor(name, strategy);
+      case MName.WIN -> new WinExnActor(name, strategy);
       default -> throw new BadJsonException("Unsupported exn type for actor");
     };
   }
@@ -307,11 +307,11 @@ public class JSONDeserializer {
     String name = jsonActor.get(0).getAsString();
     Strategy strategy = new Strategy(policyFromJson(jsonActor.get(1)));
     int count = Integer.parseInt(jsonActor.get(3).getAsString());
-    return switch (jsonActor.get(2).getAsString()) {
-      case "setup" -> new SetupTOActor(name, strategy, count);
-      case "request-pebble-or-trades" -> new PebblesTOActor(name, strategy, count);
-      case "request-cards" -> new CardTOActor(name, strategy, count);
-      case "win" -> new WinTOActor(name, strategy, count);
+    return switch (MName.fromString(jsonActor.get(2).getAsString())) {
+      case MName.SETUP -> new SetupTOActor(name, strategy, count);
+      case MName.REQUESTPT -> new PebblesTOActor(name, strategy, count);
+      case MName.REQUESTCARDS -> new CardTOActor(name, strategy, count);
+      case MName.WIN-> new WinTOActor(name, strategy, count);
       default -> throw new IllegalArgumentException("Unsupported exn type for actor");
     };
   }
@@ -418,3 +418,4 @@ public class JSONDeserializer {
     };
   }
 }
+

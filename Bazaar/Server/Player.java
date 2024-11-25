@@ -44,7 +44,7 @@ public class Player implements IPlayer {
     @Override
     public void setup(EquationTable e) {
         JsonElement equations = JSONSerializer.equationTableToJson(e);
-        sendToClient(packageFunctionCall(MName.SETUP.toString(), equations));
+        sendToClient(packageFunctionCall(MName.SETUP, equations));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }
@@ -53,14 +53,14 @@ public class Player implements IPlayer {
     @Override
     public ExchangeRequest requestPebbleOrTrades(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        sendToClient(packageFunctionCall(MName.REQUESTPT.toString(), ts));
+        sendToClient(packageFunctionCall(MName.REQUESTPT, ts));
         return readPlayerJSONInput(JSONDeserializer::exchangeRequestFromJson);
     }
 
     @Override
     public CardPurchaseSequence requestCards(TurnState turnState) {
         JsonElement ts = JSONSerializer.turnStateToJson(turnState);
-        sendToClient(packageFunctionCall(MName.REQUESTCARDS.toString(), ts));
+        sendToClient(packageFunctionCall(MName.REQUESTCARDS, ts));
         return readPlayerJSONInput(input -> new CardPurchaseSequence(JSONDeserializer.cardListFromJson(input)));
     }
 
@@ -68,15 +68,15 @@ public class Player implements IPlayer {
     @Override
     public void win(boolean w) {
         JsonElement bool = new JsonPrimitive(w);
-        sendToClient(packageFunctionCall(MName.WIN.toString(), bool));
+        sendToClient(packageFunctionCall(MName.WIN, bool));
         if (!readPlayerJSONInput(input -> input.getAsString().equals("void"))) {
             throw new PlayerException();
         }
     }
 
-    protected JsonElement packageFunctionCall(String funcName, JsonElement argument) {
+    protected JsonElement packageFunctionCall(MName function, JsonElement argument) {
         JsonArray functionCall = new JsonArray();
-        functionCall.add(funcName);
+        functionCall.add(function.toString());
         JsonArray functionArgs = new JsonArray();
         functionArgs.add(argument);
         functionCall.add(functionArgs);

@@ -2,7 +2,7 @@ package Common.converters;
 
 public enum MName {
   SETUP("setup"),
-  REQUESTPT("request-pebbles-or-trades"),
+  REQUESTPT("request-pebble-or-trades"),
   REQUESTCARDS("request-cards"),
   WIN("win");
 
@@ -18,7 +18,7 @@ public enum MName {
         return mName;
       }
     }
-    throw new BadJsonException("Invalid method name" + name);
+    throw new BadJsonException("Invalid method name " + name);
   }
 
   public String toString() {

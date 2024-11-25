@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Logger;
 
 import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
@@ -32,37 +33,43 @@ public class Client {
     this.player = player;
   }
 
+   /**
+   * Attempt to connect to the server
+   * @param addr ServerSocket address
+   * @param port ServerSocket port
+   * @return the ClientReferee if the connection is successful
+   */
+  public ClientReferee connect(InetAddress addr, int port) throws IOException {
+      Socket clientSocket = new Socket(addr, port);
+      return new ClientReferee(player, clientSocket.getInputStream(), clientSocket.getOutputStream());
+  }
+
   /**
-   * Spawns a ClientReferee, tells it to connect to the server and run
+   * Continually tries to connect to the server.
+   */
+  public void start() {
+    do {
+      try {
+        start(InetAddress.getLocalHost(), 4114);
+        // this breaks after the referee is finished running.
+        // otherwise, we didn't get here because an exception was thrown. so we try again.
+        break;
+      } catch (IOException e) {
+        Logger.getAnonymousLogger().info(String.format("Could not resolve localhost: %s", e.getMessage()));
+      }
+    } while (true);
+  }
+
+  /**
+   * Connects to the server and spawns a ClientReferee. Tells the ref to run -- send name, listen
+   * Only tries once! if it fails, it will exit.
    */
   public void start(InetAddress addr, int port) throws IOException {
     ref = connect(addr, port);
     ref.run();
   }
 
-  /**
-   * Attempt to connect to the server & send the player's .name()
-   * @param addr ServerSocket address
-   * @param port ServerSocket port
-   * @return the ClientReferee if the connection is successful
-   */
-  public ClientReferee connect(InetAddress addr, int port) {
-    try {
-      Socket clientSocket = new Socket(addr, port);
-      return new ClientReferee(player, clientSocket.getInputStream(), clientSocket.getOutputStream());
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
-    }
-  }
 
-  // default values for localhost server
-  public void start() {
-    try {
-      start(InetAddress.getLocalHost(), 4114);
-    } catch (IOException e) {
-      System.err.printf("Could not resolve localhost: %s", e.getMessage());
-    }
-  }
 
   // runnable for tinkering purposes...
   public static void main(String[] args) throws BadJsonException, IOException {

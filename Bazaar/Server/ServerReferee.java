@@ -1,5 +1,6 @@
 package Server;
 
+import Common.PlayerInformation;
 import Common.RuleBook;
 import Player.IPlayer;
 import Referee.GameObjectGenerator;
@@ -38,8 +39,8 @@ public class ServerReferee extends ObservableReferee {
      */
     @Override
     protected void notifyPlayersOfStart() {
-        for (String name : players.keySet()) {
-            IPlayer player = players.get(name);
+        for (PlayerInformation p : getGameState().players()) {
+            IPlayer player = players.get(p.name().orElseThrow());
             Callable<Boolean> setupTask = () -> {
                 player.setup(this.ruleBook.equationTable());
                 return true;

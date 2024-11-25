@@ -2,6 +2,7 @@ package Server;
 
 import Common.RuleBook;
 import Common.converters.JSONSerializer;
+import Common.converters.Time;
 import Player.IPlayer;
 import Referee.GameObjectGenerator;
 import Referee.GameResult;
@@ -105,13 +106,19 @@ public class Server {
    */
   private List<IPlayer> waitingRoom(ServerSocket serverSocket, List<IPlayer> previousPlayers) {
     List<IPlayer> players = new ArrayList<>(previousPlayers);
-    long startingTime = System.currentTimeMillis();
+    long startingTime = Time.NsToMs(System.nanoTime());
     ExecutorService executor = createDaemonExecutor();
-    while (startingTime + waitingRoomMS > System.currentTimeMillis() && players.size() < maxNumPlayers) {
+    while (startingTime + waitingRoomMS > Time.NsToMs(System.nanoTime()) && players.size() < maxNumPlayers) {
       try {
-        serverSocket.setSoTimeout(100);
+        /* yes, this is a magic constant. no, it's not actually important
+           we don't want to listen on the server socket the whole time;
+           what if a thread returns, and six players are now in the game,
+           but there is like 15 seconds left on the waiting room?
+           we could be in a game already. no need to keep waiting.         */
+        int maxtime = (int) Math.min(100, (startingTime + waitingRoomMS) - Time.NsToMs(System.nanoTime()));
+        serverSocket.setSoTimeout(maxtime);
         Socket playerSocket = serverSocket.accept();
-        int maxtimetosendname = (int) Math.min(receiveNameTimeoutMS, (startingTime + waitingRoomMS) - System.currentTimeMillis());
+        int maxtimetosendname = (int) Math.min(receiveNameTimeoutMS, (startingTime + waitingRoomMS) - Time.NsToMs(System.nanoTime()));
         executor.submit(() -> createProxyPlayerTask(players, playerSocket, maxtimetosendname));
       } catch (IOException ex) {
         //do nothing

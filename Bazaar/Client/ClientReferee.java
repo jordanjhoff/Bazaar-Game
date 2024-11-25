@@ -57,6 +57,7 @@ public class ClientReferee {
     this.client = client;
     this.outputWriter = new PrintWriter(streamOut, true);
     this.streamIn = streamIn;
+    this.jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
     sendToServer(new JsonPrimitive(client.name()));
   }
 

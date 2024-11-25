@@ -1,19 +1,14 @@
 package Client;
 
 import Common.converters.MName;
-import Server.Server;
+
 import com.google.gson.*;
-import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
@@ -48,6 +43,7 @@ public class ClientReferee {
   protected JsonStreamParser jsonStreamIn;
   // used for checking if the channel is ready
   protected InputStream streamIn;
+  public final static String ACK = "void";
 
   /**
    * Set up the referee with a Player object.
@@ -102,10 +98,10 @@ public class ClientReferee {
     try {
       MName methodEnum = MName.fromString(methodName);
       return switch (methodEnum) {
-        case MName.SETUP -> setup(JSONDeserializer.equationTableFromJSON(firstArgument));
-        case MName.REQUESTPT -> requestPT(JSONDeserializer.turnStateFromJson(firstArgument));
-        case MName.REQUESTCARDS -> requestCards(JSONDeserializer.turnStateFromJson(firstArgument));
-        case MName.WIN -> win(firstArgument.getAsBoolean());
+        case MName.SETUP -> setup(firstArgument);
+        case MName.REQUESTPT -> requestPT(firstArgument);
+        case MName.REQUESTCARDS -> requestCards(firstArgument);
+        case MName.WIN -> win(firstArgument);
       };
     } catch (BadJsonException e) {
       throw new RuntimeException("Not supposed to be getting bad json from the server! " + e.getMessage());
@@ -113,20 +109,21 @@ public class ClientReferee {
   }
 
   /**
-   * Sets up the equatiom table and replies with JSON String "void"
+   * Sets up the equation table and replies with {@link #ACK}
    * @throws BadJsonException when the json is malformed; this should not happen. If so, no reply
    */
-  public JsonElement setup(EquationTable table) throws BadJsonException {
+  public JsonElement setup(JsonElement argument) throws BadJsonException {
+    EquationTable table = JSONDeserializer.equationTableFromJSON(argument);
     client.setup(table);
-    return new JsonPrimitive("void");
+    return new JsonPrimitive(ACK);
   }
 
   /**
    * Ask the player for their pebble or trade request and return the json Element
-   * @param t turn state
    * @return JSON Element representing the player's answer. False = pebble request.
    */
-  public JsonElement requestPT(TurnState t) {
+  public JsonElement requestPT(JsonElement argument) throws BadJsonException {
+    TurnState t = JSONDeserializer.turnStateFromJson(argument);
     ExchangeRequest r = client.requestPebbleOrTrades(t);
     if (r instanceof PebbleDrawRequest) {
       return new JsonPrimitive(false);
@@ -141,18 +138,23 @@ public class ClientReferee {
    * Request the cards from the player
    * @return JSON Element representing the player's answer.
    */
-  public JsonElement requestCards(TurnState t) {
+  public JsonElement requestCards(JsonElement argument) throws BadJsonException {
+    TurnState t = JSONDeserializer.turnStateFromJson(argument);
     return JSONSerializer.cardListToJson(
             client.requestCards(t).cards());
   }
 
   /**
    * Notify the player that they have won (or not).
-   * @return JSON Element "void" IF the player returns from their win call.
+   * @return JSON Element {@link #ACK} IF the player returns from their win call.
    */
-  public JsonElement win(Boolean b) {
-    client.win(b);
-    return new JsonPrimitive("void");
+  public JsonElement win(JsonElement argument) throws BadJsonException {
+    if (argument.isJsonPrimitive() && argument.getAsJsonPrimitive().isBoolean()) {
+      boolean b = argument.getAsBoolean();
+      client.win(b);
+      return new JsonPrimitive(ACK);
+    }
+    throw new BadJsonException("Non-boolean fed to win method");
   }
 
 }

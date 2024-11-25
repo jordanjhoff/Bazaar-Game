@@ -5,6 +5,7 @@ import Player.IPlayer;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.Function;
 
 /**
  * This class represents a Referee in a game of Bazaar. Currently, the referee handles players that make
@@ -25,6 +26,8 @@ public class Referee {
     protected final List<IPlayer> naughtyPlayers = new ArrayList<>();
     protected final GameObjectGenerator randomizer;
 
+    protected final Function<PlayerInformation, PlayerInformation>  bonusFunction;
+
     public Referee(List<IPlayer> players, RuleBook ruleBook) {
         this(players,
                 new GameObjectGenerator((int)(100*Math.random())).generateStartingGamestate(players.size(), 20),
@@ -33,11 +36,19 @@ public class Referee {
     }
 
     public Referee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
+       this(players, intermediateState, ruleBook, randomizer, p -> p);
+    }
+
+    public Referee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook,
+                   GameObjectGenerator randomizer,
+                   Function<PlayerInformation, PlayerInformation> bonusFunction) {
         theOneTrueState = intermediateState;
         this.players = initializePlayers(players);
         this.ruleBook = ruleBook;
         this.randomizer = randomizer;
+        this.bonusFunction = bonusFunction;
     }
+
 
     /**
      * Returns the current GameState

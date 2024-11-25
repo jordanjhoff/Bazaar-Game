@@ -1,5 +1,7 @@
 package Common;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -9,17 +11,22 @@ import java.util.Optional;
  * @param wallet The player's wallet
  * @param score  The player's current score
  */
-public record PlayerInformation(Optional<String> name, PebbleCollection wallet, int score) {
+public record PlayerInformation(Optional<String> name, PebbleCollection wallet, int score, List<CardPurchaseSequence> purchases) {
     public PlayerInformation {
         Objects.requireNonNull(name);
         Objects.requireNonNull(wallet);
+        Objects.requireNonNull(purchases);
+    }
+
+    public PlayerInformation(Optional<String> name, PebbleCollection wallet, int score) {
+        this(name, wallet, score, new ArrayList<>());
     }
 
     public PlayerInformation(String name, PebbleCollection wallet, int score) {
-        this(Optional.of(name), wallet, score);
+        this(Optional.of(name), wallet, score, new ArrayList<>());
     }
 
     public PlayerInformation(PebbleCollection wallet, int score) {
-        this(Optional.empty(), wallet, score);
+        this(Optional.empty(), wallet, score, new ArrayList<>());
     }
 }

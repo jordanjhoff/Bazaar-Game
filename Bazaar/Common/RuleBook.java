@@ -2,8 +2,11 @@ package Common;
 
 import Referee.GameObjectGenerator;
 import Referee.GameState;
+import Server.Player;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 /**
  * A class that manages execution of rules for a single game of Bazaar.
@@ -171,13 +174,17 @@ public record RuleBook(EquationTable equationTable) {
     return getPurchaseSequenceScore(walletBeforePurchases, cardsToBuy.cards());
   }
 
+  public List<PlayerInformation> getWinners(GameState gamestate) {
+    return getWinners(gamestate, (p) -> p);
+  }
+
   /**
    * Gets the winners from the final GameState
    * @param gameState The final GameState
    * @return A list of the winners
    * @throws IllegalStateException if game is not over
    */
-  public List<PlayerInformation> getWinners(GameState gameState) {
+  public List<PlayerInformation> getWinners(GameState gameState, Function<PlayerInformation, PlayerInformation> bonusFunction) {
     if (!isGameOver(gameState)) {
       throw new IllegalStateException("Game not over");
     }
@@ -185,8 +192,8 @@ public record RuleBook(EquationTable equationTable) {
       return new ArrayList<>();
     }
     else {
-      List<Integer> scores = gameState.getScores();
-      int maxScore = Collections.max(scores);
+      List<PlayerInformation> remaining = gameState.players().stream().map(bonusFunction).toList();
+      int maxScore = remaining.stream().map(PlayerInformation::score).max(Integer::compareTo).orElse(0);
       return gameState.players().stream()
               .filter(player -> player.score() == maxScore)
               .toList();
@@ -337,7 +344,9 @@ public record RuleBook(EquationTable equationTable) {
   private PlayerInformation executePurchasesOnPlayer(PlayerInformation player, CardPurchaseSequence cardsToBuy) {
     PebbleCollection wallet = executePurchasesOnWallet(player.wallet(), cardsToBuy);
     int score = player.score() + getPurchaseSequenceScore(player.wallet(), cardsToBuy.cards());
-    return new PlayerInformation(player.name(), wallet, score);
+    ArrayList<CardPurchaseSequence> newCards = new ArrayList<>(player.purchases());
+    newCards.add(cardsToBuy);
+    return new PlayerInformation(player.name(), wallet, score, newCards);
   }
 
   /**

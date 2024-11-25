@@ -29,10 +29,14 @@ public class Server {
   private static final Logger log = Logger.getLogger(Server.class.getName());
   // time for a single waiting room
   private static final int waitingRoomMS = 20000;
+  // number of times to restart waiting room
+  private static final int numWaitingRoom = 2;
   // time before a single move is timed out
   private static final int moveTimeoutMS = 1000;
   // time before a player is timed out for not sending name
   private static final int receiveNameTimeoutMS = 3000;
+  // num players before start
+  private static final int numPlayersBeforeStart = 2;
   // max number of players in one Bazaar game
   private static final int maxNumPlayers = 6;
   // the socket port used for communication
@@ -79,12 +83,13 @@ public class Server {
    *
    * @return a list of accepted IPlayers
    */
-  private List<IPlayer> lobby(ServerSocket serverSocket) throws IOException {
-    log.info("Starting waiting room 1");
-    List<IPlayer> players = waitingRoom(serverSocket, new ArrayList<>());
-    if (players.size() < 2) {
-      log.info("Starting waiting room 2");
-      players = (waitingRoom(serverSocket, players));
+  private List<IPlayer> lobby(ServerSocket serverSocket) {
+    List<IPlayer> players = new ArrayList<>();
+    int counter = 0;
+    while (players.size() < numPlayersBeforeStart && counter < numWaitingRoom) {
+      counter+=1;
+      log.info("Starting waiting room " + counter);
+      players = waitingRoom(serverSocket, players);
     }
     log.info("Received Players: " + players.stream().map(IPlayer::name).toList());
     return players;

@@ -26,7 +26,6 @@ public class Referee {
     protected final List<IPlayer> naughtyPlayers = new ArrayList<>();
     protected final GameObjectGenerator randomizer;
 
-    protected final Function<PlayerInformation, PlayerInformation>  bonusFunction;
 
     public Referee(List<IPlayer> players, RuleBook ruleBook) {
         this(players,
@@ -35,18 +34,12 @@ public class Referee {
                 new GameObjectGenerator((int)(100*Math.random())));
     }
 
-    public Referee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer) {
-       this(players, intermediateState, ruleBook, randomizer, p -> p);
-    }
-
     public Referee(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook,
-                   GameObjectGenerator randomizer,
-                   Function<PlayerInformation, PlayerInformation> bonusFunction) {
+                   GameObjectGenerator randomizer) {
         theOneTrueState = intermediateState;
         this.players = initializePlayers(players);
         this.ruleBook = ruleBook;
         this.randomizer = randomizer;
-        this.bonusFunction = bonusFunction;
     }
 
 

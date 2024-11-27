@@ -195,7 +195,7 @@ public record RuleBook(EquationTable equationTable, Function<PlayerInformation, 
     else {
       List<PlayerInformation> remaining = gameState.players().stream().map(bonusFunction).toList();
       int maxScore = remaining.stream().map(PlayerInformation::score).max(Integer::compareTo).orElse(0);
-      return gameState.players().stream()
+      return remaining.stream()
               .filter(player -> player.score() == maxScore)
               .toList();
     }

@@ -2,6 +2,7 @@ package UnitTests;
 
 import Common.*;
 import Common.converters.BadJsonException;
+import Common.converters.Bonus;
 import Common.converters.JSONDeserializer;
 import Referee.GameObjectGenerator;
 import Referee.GameState;
@@ -142,4 +143,54 @@ public class RuleBookTests {
         PebbleCollection collection = JSONDeserializer.pebbleCollectionFromJson(TestingUtils.getJsonElementString("[\"red\"]"));
         Assert.assertEquals(collection, new PebbleCollection(new ArrayList<>(List.of(Pebble.RED))));
     }
+
+
+    @Test
+    public void testRuleBookBonus() throws BadJsonException {
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        //rrbrr + gyggw
+        CardPurchaseSequence multicolor = new CardPurchaseSequence(JSONDeserializer.cardListFromJson(TestingUtils.getJsonElementString("[{\"face?\":true,\"pebbles\":[\"red\",\"red\",\"blue\",\"red\",\"red\"]},{\"face?\":false,\"pebbles\":[\"green\",\"yellow\",\"green\",\"green\",\"white\"]}]")));
+        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, List.of(multicolor));
+        GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll));
+
+        List<PlayerInformation> winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 30);
+
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 70);
+
+        rulebook = new RuleBook(equationTable);
+        winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 20);
+    }
+
+    @Test
+    public void testBonusAppliedAtEnd() throws BadJsonException {
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        //rrbrr + gyggw
+        CardPurchaseSequence multicolor = new CardPurchaseSequence(JSONDeserializer.cardListFromJson(TestingUtils.getJsonElementString("[{\"face?\":true,\"pebbles\":[\"red\",\"red\",\"blue\",\"red\",\"red\"]},{\"face?\":false,\"pebbles\":[\"green\",\"yellow\",\"green\",\"green\",\"white\"]}]")));
+        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, List.of(multicolor));
+        PlayerInformation boughtNone = new PlayerInformation(Optional.of("Ben"), wallet, 20, List.of());
+        GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll, boughtNone));
+
+        //jordy wins with rwb
+        List<PlayerInformation> winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 30);
+        Assert.assertEquals(winners.getFirst().name().get(), "Jordy");
+
+        //jordy wins with sey
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 70);
+        Assert.assertEquals(winners.getFirst().name().get(), "Jordy");
+
+        //both players win with none
+        rulebook = new RuleBook(equationTable);
+        winners = rulebook.getWinners(gameState1);
+        Assert.assertEquals(winners.getFirst().score(), 20);
+        Assert.assertEquals(winners.getFirst().name().get(), "Jordy");
+        Assert.assertEquals(winners.get(1).name().get(), "Ben");
+    }
+
 }

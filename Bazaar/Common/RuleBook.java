@@ -12,10 +12,15 @@ import java.util.function.Function;
  * A class that manages execution of rules for a single game of Bazaar.
  * This class throws exceptions when the attempted modifications on Bazaar objects in a game are invalid.
  */
-public record RuleBook(EquationTable equationTable) {
+public record RuleBook(EquationTable equationTable, Function<PlayerInformation, PlayerInformation> bonusFunction) {
 
   public RuleBook {
     Objects.requireNonNull(equationTable);
+    Objects.requireNonNull(bonusFunction);
+  }
+
+  public RuleBook(EquationTable equationTable) {
+    this(equationTable, Function.identity());
   }
 
   public static final int WINNING_POINTS = 20;
@@ -174,17 +179,13 @@ public record RuleBook(EquationTable equationTable) {
     return getPurchaseSequenceScore(walletBeforePurchases, cardsToBuy.cards());
   }
 
-  public List<PlayerInformation> getWinners(GameState gamestate) {
-    return getWinners(gamestate, (p) -> p);
-  }
-
   /**
    * Gets the winners from the final GameState
    * @param gameState The final GameState
    * @return A list of the winners
    * @throws IllegalStateException if game is not over
    */
-  public List<PlayerInformation> getWinners(GameState gameState, Function<PlayerInformation, PlayerInformation> bonusFunction) {
+  public List<PlayerInformation> getWinners(GameState gameState) {
     if (!isGameOver(gameState)) {
       throw new IllegalStateException("Game not over");
     }

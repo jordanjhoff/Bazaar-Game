@@ -67,7 +67,7 @@ public class ClientReferee {
       try {
         // read one json object from the socket
         json = jsonStreamIn.next().getAsJsonArray();
-        System.out.println(json.toString());
+        log.info(this.client.name() + " Received: " + json.toString());
       }
       // exception occurs when .next() throws, indicates that the socket has been closed
       catch (JsonIOException | NoSuchElementException e) {
@@ -84,7 +84,7 @@ public class ClientReferee {
    * Generic writer method.
    */
   public void sendToServer(JsonElement request) {
-    log.info("Sent to server " + request.toString());
+    log.info(this.client.name() + " Sent to server " + request.toString());
     outputWriter.println(request);
     outputWriter.flush();
   }

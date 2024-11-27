@@ -29,7 +29,7 @@ public class JsonGamesTest {
 class GamesRunner implements TestRunner {
 
     @Override
-    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out, String... args) throws IOException, BadJsonException {
 
         JsonStreamParser p = new JsonStreamParser(input);
         // Get inputs

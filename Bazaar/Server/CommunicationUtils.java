@@ -36,6 +36,9 @@ public class CommunicationUtils {
         return Executors.newCachedThreadPool(r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
+            t.setUncaughtExceptionHandler((thread, e) -> {
+                System.err.println("Thread shutting down due to exception: " + e.getMessage());
+            });
             return t;
         });
     }

@@ -91,12 +91,11 @@ public class Player implements IPlayer {
 
     protected <R> R readPlayerJSONInput(BadJsonFunction<JsonElement, R> applyToInput) {
         try {
-            Thread.sleep(10);
             JsonElement reply = jsonStreamIn.next();
             log.info("Received from " + this.name + ": " + reply.toString());
             return applyToInput.apply(reply);
         }
-        catch (InterruptedException | BadJsonException e) {
+        catch (BadJsonException e) {
             System.err.println(e.getMessage());
             throw new PlayerException();
         }

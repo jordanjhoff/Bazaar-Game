@@ -13,10 +13,12 @@ import java.util.List;
 public interface TestRunner {
     /**
      * Run a single test, and writes the output to out
+     *
      * @param input the json input for the test
-     * @param out the computed json output
+     * @param out   the computed json output
+     * @param args
      * @return The list of deserialized objects for integration testing
      * @throws IOException
      */
-    List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException;
+    List<Object> run(InputStreamReader input, Writer out, String... args) throws IOException, BadJsonException;
 }

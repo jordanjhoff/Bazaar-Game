@@ -7,7 +7,6 @@ import Referee.GameState;
 import com.google.gson.*;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class JsonTurnTest {
 
 class TurnRunner implements TestRunner {
     @Override
-    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out, String... args) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         JsonElement gameStateJson = p.next();

@@ -1,13 +1,16 @@
 package Server;
 
+import Common.EquationTable;
 import Common.RuleBook;
 import Common.converters.JSONSerializer;
 import Common.converters.Time;
 import Player.IPlayer;
 import Referee.GameObjectGenerator;
 import Referee.GameResult;
+import Referee.GameState;
 import Referee.Observer;
 
+import UnitTests.DeterministicObjectGenerator;
 import com.google.gson.JsonStreamParser;
 
 import java.io.*;
@@ -15,6 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
@@ -48,7 +52,7 @@ public class Server {
   public static void main(String[] args) throws IOException {
     if (args.length == 1) {
       Server s = new Server(Integer.parseInt(args[0]));
-      s.startBazaarServer(System.out);
+      //s.startBazaarServer(new OutputStreamWriter(System.out));
     }
   }
 
@@ -65,21 +69,18 @@ public class Server {
   /**
    * Runs a full lifecycle of a Bazaar server. This method creates a new server socket for every game
    *
-   * @param out       the output stream to write the result to
    * @param observers the optional observers to add the ServerReferee
    * @throws IOException if the serverSocket fails
    */
-  public void startBazaarServer(OutputStream out, Observer... observers) throws IOException {
+  public GameResult startBazaarServer(GameState gameState, RuleBook ruleBook, GameObjectGenerator generator, Observer... observers) throws IOException {
     ServerSocket serverSocket = new ServerSocket(port);
     GameResult result = new GameResult(new ArrayList<>(), new ArrayList<>());
     List<IPlayer> acceptedPlayers = runWaitingRooms(serverSocket);
     if (acceptedPlayers.size() > numPlayersToStartGame) {
-      result = playGame(acceptedPlayers, observers);
+      result = playGame(acceptedPlayers, gameState, ruleBook, generator, observers);
     }
-    sendResults(result, new PrintWriter(out));
-    serverSocket.close();
+    return result;
   }
-
 
   /**
    * Creates two waiting rooms, and accepts player connections
@@ -135,10 +136,9 @@ public class Server {
    * @param observers the optional observers to add to the ServerReferee
    * @return the result of the game
    */
-  private GameResult playGame(List<IPlayer> players, Observer... observers) {
+  private GameResult playGame(List<IPlayer> players, GameState intermediateState, RuleBook ruleBook, GameObjectGenerator randomizer, Observer... observers) {
     log.info("Starting game with " + players.size() + " players.");
-    GameObjectGenerator g = new GameObjectGenerator();
-    ServerReferee serverReferee = new ServerReferee(players, new RuleBook(g.generateRandomEquationTable()), moveTimeoutMS, observers);
+    ServerReferee serverReferee = new ServerReferee(players, intermediateState, ruleBook, randomizer, moveTimeoutMS, observers);
     return serverReferee.runGame();
   }
 
@@ -156,11 +156,11 @@ public class Server {
     try {
       InputStream serverStreamIn = playerSocket.getInputStream();
       JsonStreamParser parse = new JsonStreamParser(new InputStreamReader(serverStreamIn));
-      Callable<String> getNameFromPlayer = () -> parse.next().getAsString();
+      Callable<String> getNameFromPlayer = () -> parse.next().getAsJsonPrimitive().getAsString();
       Optional<String> playerName = CommunicationUtils.timeout(getNameFromPlayer, acceptNameTimeoutMS);
       return new Player(playerName.orElseThrow(), serverStreamIn, playerSocket.getOutputStream(), log);
     } catch (Exception ex) {
-      log.info("Did not accept player");
+      log.info("Did not accept player: " + ex.getMessage());
       throw new PlayerException(ex.getMessage());
     }
   }

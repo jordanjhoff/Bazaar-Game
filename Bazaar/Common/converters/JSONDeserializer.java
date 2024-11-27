@@ -13,8 +13,10 @@ import Runnables.actors.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * A class that reads json and converts it to our Bazaar game objects.
@@ -159,9 +161,10 @@ public class JSONDeserializer {
     PebbleCollection wallet = pebbleCollectionFromJson(jsonWallet);
     JsonElement jsonScore = jsonPlayer.get("score");
     int score = jsonScore.getAsInt();
-    if (jsonPlayer.has("name")) {
-      String name = jsonPlayer.get("name").getAsString();
-      return new PlayerInformation(name, wallet, score);
+    if (jsonPlayer.has("cards")) {
+      JsonArray cards = jsonPlayer.get("cards").getAsJsonArray();
+      List<Card> cardList = cardListFromJson(cards);
+      return new PlayerInformation(Optional.empty(), wallet, score, List.of(new CardPurchaseSequence(cardList)));
     }
     else {
       return new PlayerInformation(wallet, score);
@@ -182,6 +185,17 @@ public class JSONDeserializer {
     }
     return players;
   }
+
+
+  public static Function<PlayerInformation, PlayerInformation> bonusFromJson(JsonElement json) throws BadJsonException {
+    if (!json.isJsonPrimitive()) {
+      throw new BadJsonException("Bad json bonus");
+    }
+    Bonus bonus = Bonus.fromString(json.getAsString());
+    return bonus.getBonusFunction();
+
+  }
+
 
   /**
    * Generates a GameState from a JsonElement

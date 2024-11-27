@@ -1,20 +1,14 @@
 package Runnables;
 
-import Common.EquationTable;
 import Common.RuleBook;
 import Common.converters.BadJsonException;
-import Common.converters.JSONDeserializer;
-import Common.converters.JSONSerializer;
 import Player.IPlayer;
 import Referee.GameResult;
 import Referee.GameState;
 import Referee.*;
 import UnitTests.DeterministicObjectGenerator;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonStreamParser;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

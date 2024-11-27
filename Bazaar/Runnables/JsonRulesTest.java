@@ -6,7 +6,6 @@ import Common.converters.BadJsonException;
 import com.google.gson.*;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class JsonRulesTest {
 
 class RulesRunner implements TestRunner {
     @Override
-    public List<Object> run(InputStreamReader input, Writer out) throws IOException, BadJsonException {
+    public List<Object> run(InputStreamReader input, Writer out, String... args) throws IOException, BadJsonException {
         JsonStreamParser p = new JsonStreamParser(input);
 
         // Get inputs

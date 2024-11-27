@@ -6,7 +6,6 @@ import Player.IPlayer;
 
 import Referee.GameState;
 import Referee.GameResult;
-import Referee.Referee;
 import Server.ServerReferee;
 import UnitTests.DeterministicObjectGenerator;
 import com.google.gson.*;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Common.converters.JSONDeserializer;
-import Common.converters.JSONSerializer;
 
 /**
  * This is a testing class for sending and receiving JSON values

@@ -4,11 +4,13 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executor;
 import java.util.logging.Logger;
 
 import Common.converters.BadJsonException;
 import Common.converters.JSONDeserializer;
 import Player.IPlayer;
+import Server.Server;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
@@ -22,6 +24,7 @@ public class Client {
   // proxy referee to bridge gap between server's referee and our player
   ClientReferee ref;
   IPlayer player;
+  private static final Logger log = Logger.getLogger(Client.class.getName());
 
   /**
    * Set up a client object with a player
@@ -47,18 +50,19 @@ public class Client {
   /**
    * Continually tries to connect to the server.
    */
-  public void start() {
+  public void start(InetAddress addr, int port, boolean retry) {
     do {
       try {
-        start(InetAddress.getLocalHost(), 4114);
+        start(addr, port);
         // this breaks after the referee is finished running.
         // otherwise, we didn't get here because an exception was thrown. so we try again.
         break;
       } catch (IOException e) {
-        Logger.getAnonymousLogger().info(String.format("Could not resolve localhost: %s", e.getMessage()));
+        log.info(String.format("Could not resolve localhost: %s", e.getMessage()));
       }
     } while (true);
   }
+
 
   /**
    * Connects to the server and spawns a ClientReferee. Tells the ref to run -- send name, listen
@@ -68,6 +72,22 @@ public class Client {
     ref = connect(addr, port);
     ref.run();
   }
+
+  public boolean startAsync(InetAddress addr, int port, Executor executor) {
+    do {
+      try {
+        ref = connect(addr, port);
+        log.info(player.name() + " connected successfully");
+        executor.execute(() -> ref.run());
+        Thread.sleep(500);
+        return true;
+      } catch (IOException | InterruptedException e) {
+        log.info(String.format(e.getMessage()));
+      }
+    } while (true);
+  }
+
+
 
 
 
@@ -81,7 +101,7 @@ public class Client {
       JsonArray arr = new JsonArray();
       arr.add(JsonParser.parseString(args[0]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
-      new Client(mechanism).start();
+      new Client(mechanism).start(InetAddress.getLocalHost(), 4114);
     }
 
     if (args.length == 3) {

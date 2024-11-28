@@ -300,7 +300,7 @@ public class Referee {
         List<PlayerInformation> newPlayerInfos = new ArrayList<>();
         for (int i = 0; i < names.size(); i++) {
             PlayerInformation oldPlayerInfo = unnamedPlayerGameState.players().get(i);
-            PlayerInformation newPlayerInfo = new PlayerInformation(names.get(i), oldPlayerInfo.wallet(), oldPlayerInfo.score());
+            PlayerInformation newPlayerInfo = new PlayerInformation(Optional.of(names.get(i)), oldPlayerInfo.wallet(), oldPlayerInfo.score(), oldPlayerInfo.purchases());
             newPlayerInfos.add(newPlayerInfo);
         }
         return new GameState(unnamedPlayerGameState.bank(), unnamedPlayerGameState.cards(), newPlayerInfos);

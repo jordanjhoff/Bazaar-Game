@@ -78,12 +78,10 @@ class BonusFunctions {
         };
     }
 
-    private static PebbleCollection collectAllColors(List<CardPurchaseSequence> purchases) {
+    private static PebbleCollection collectAllColors(CardPurchaseSequence purchases) {
         PebbleCollection allColors = new PebbleCollection();
-        for (CardPurchaseSequence cardPurchaseSequence : purchases) {
-            for (Card card : cardPurchaseSequence.cards()) {
-                allColors = allColors.add(card.pebbles());
-            }
+        for (Card purchase : purchases.cards()) {
+            allColors = allColors.add(purchase.pebbles());
         }
         return allColors;
     }

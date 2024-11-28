@@ -1,6 +1,7 @@
 package Common;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,9 +23,9 @@ public record CardPurchaseSequence(List<Card> cards) {
    * @param card The Card to add
    * @return The sequence with the added Card
    */
-  public CardPurchaseSequence addPurchase(Card card) {
+  public CardPurchaseSequence addPurchase(Card... card) {
     List<Card> newCards = new ArrayList<>(this.cards);
-    newCards.add(card);
+    Collections.addAll(newCards, card);
     return new CardPurchaseSequence(newCards);
   }
 }

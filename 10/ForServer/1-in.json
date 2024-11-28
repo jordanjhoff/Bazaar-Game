@@ -1,0 +1,31 @@
+[[["white"],["blue"]]]
+{
+  "bank":["white"],
+  "players":[
+    {"score":15,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},
+    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"],
+      "cards": [{"face?":false,"pebbles":["white","red","yellow","blue","green"]}]}],
+  "visibles":[
+    {
+      "face?":false,"pebbles":["white","white","white","white","white"]
+    },
+    {
+      "face?":false,"pebbles":["blue","blue","blue","blue","blue"]
+    },
+    {
+      "face?":false,"pebbles":["white","white","white","white","white"]
+    },
+    {
+      "face?":false,"pebbles":["white","white","white","white","white"]
+    }
+  ],
+  "cards":[
+    {
+      "face?":false,"pebbles":["blue","blue","blue","blue","blue"]
+    },
+    {
+      "face?":false,"pebbles":["blue","blue","blue","blue","blue"]
+    }
+  ]
+}
+"SEY"

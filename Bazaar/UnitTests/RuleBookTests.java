@@ -150,7 +150,7 @@ public class RuleBookTests {
         rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
         //rrbrr + gyggw
         CardPurchaseSequence multicolor = new CardPurchaseSequence(JSONDeserializer.cardListFromJson(TestingUtils.getJsonElementString("[{\"face?\":true,\"pebbles\":[\"red\",\"red\",\"blue\",\"red\",\"red\"]},{\"face?\":false,\"pebbles\":[\"green\",\"yellow\",\"green\",\"green\",\"white\"]}]")));
-        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, List.of(multicolor));
+        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, multicolor);
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll));
 
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
@@ -170,8 +170,8 @@ public class RuleBookTests {
         rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
         //rrbrr + gyggw
         CardPurchaseSequence multicolor = new CardPurchaseSequence(JSONDeserializer.cardListFromJson(TestingUtils.getJsonElementString("[{\"face?\":true,\"pebbles\":[\"red\",\"red\",\"blue\",\"red\",\"red\"]},{\"face?\":false,\"pebbles\":[\"green\",\"yellow\",\"green\",\"green\",\"white\"]}]")));
-        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, List.of(multicolor));
-        PlayerInformation boughtNone = new PlayerInformation(Optional.of("Ben"), wallet, 20, List.of());
+        PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, multicolor);
+        PlayerInformation boughtNone = new PlayerInformation(Optional.of("Ben"), wallet, 20, new CardPurchaseSequence());
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll, boughtNone));
 
         //jordy wins with rwb

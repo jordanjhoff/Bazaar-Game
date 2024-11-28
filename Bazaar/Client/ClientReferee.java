@@ -44,6 +44,7 @@ public class ClientReferee {
   // used for checking if the channel is ready
   protected InputStream streamIn;
   public final static String ACK = "void";
+  protected boolean gameOver;
 
   /**
    * Set up the referee with a Player object.
@@ -54,6 +55,7 @@ public class ClientReferee {
     this.outputWriter = new PrintWriter(streamOut, true);
     this.streamIn = streamIn;
     this.jsonStreamIn = new JsonStreamParser(new InputStreamReader(streamIn));
+    this.gameOver = false;
     sendToServer(new JsonPrimitive(client.name()));
   }
 
@@ -62,7 +64,7 @@ public class ClientReferee {
    * Wait for JSON from the server, then handle the request & send the result back to the server
    */
   public void run() {
-    while (true) {
+    while (!gameOver) {
       JsonArray json;
       try {
         // read one json object from the socket
@@ -78,6 +80,7 @@ public class ClientReferee {
       JsonElement Argument = json.get(1);
       sendToServer(delegateRequest(MName, Argument)); // handle & reply
     }
+    log.info("Client shutting down.");
   }
 
   /**
@@ -152,6 +155,7 @@ public class ClientReferee {
     if (argument.isJsonPrimitive() && argument.getAsJsonPrimitive().isBoolean()) {
       boolean b = argument.getAsBoolean();
       client.win(b);
+      this.gameOver = true;
       return new JsonPrimitive(ACK);
     }
     throw new BadJsonException("Non-boolean fed to win method");

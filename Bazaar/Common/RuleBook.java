@@ -303,7 +303,7 @@ public record RuleBook(EquationTable equationTable, Function<PlayerInformation, 
    */
   private PlayerInformation executeExchangesOnPlayer(PlayerInformation player, PebbleExchangeSequence rulesToExecute) {
     PebbleCollection wallet = executeExchangesOnWallet(player.wallet(), rulesToExecute);
-    return new PlayerInformation(player.name(), wallet, player.score());
+    return new PlayerInformation(player.name(), wallet, player.score(), player.purchases());
   }
 
   /**
@@ -345,8 +345,7 @@ public record RuleBook(EquationTable equationTable, Function<PlayerInformation, 
   private PlayerInformation executePurchasesOnPlayer(PlayerInformation player, CardPurchaseSequence cardsToBuy) {
     PebbleCollection wallet = executePurchasesOnWallet(player.wallet(), cardsToBuy);
     int score = player.score() + getPurchaseSequenceScore(player.wallet(), cardsToBuy.cards());
-    ArrayList<CardPurchaseSequence> newCards = new ArrayList<>(player.purchases());
-    newCards.add(cardsToBuy);
+    CardPurchaseSequence newCards = player.purchases().addPurchase(cardsToBuy.cards().toArray(new Card[0]));
     return new PlayerInformation(player.name(), wallet, score, newCards);
   }
 

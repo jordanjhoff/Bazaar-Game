@@ -164,7 +164,7 @@ public class JSONDeserializer {
     if (jsonPlayer.has("cards")) {
       JsonArray cards = jsonPlayer.get("cards").getAsJsonArray();
       List<Card> cardList = cardListFromJson(cards);
-      return new PlayerInformation(Optional.empty(), wallet, score, List.of(new CardPurchaseSequence(cardList)));
+      return new PlayerInformation(Optional.empty(), wallet, score, new CardPurchaseSequence(cardList));
     }
     else {
       return new PlayerInformation(wallet, score);

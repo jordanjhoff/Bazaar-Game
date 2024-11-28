@@ -11,7 +11,7 @@ import java.util.Optional;
  * @param wallet The player's wallet
  * @param score  The player's current score
  */
-public record PlayerInformation(Optional<String> name, PebbleCollection wallet, int score, List<CardPurchaseSequence> purchases) {
+public record PlayerInformation(Optional<String> name, PebbleCollection wallet, int score, CardPurchaseSequence purchases) {
     public PlayerInformation {
         Objects.requireNonNull(name);
         Objects.requireNonNull(wallet);
@@ -19,14 +19,14 @@ public record PlayerInformation(Optional<String> name, PebbleCollection wallet, 
     }
 
     public PlayerInformation(Optional<String> name, PebbleCollection wallet, int score) {
-        this(name, wallet, score, new ArrayList<>());
+        this(name, wallet, score, new CardPurchaseSequence());
     }
 
     public PlayerInformation(String name, PebbleCollection wallet, int score) {
-        this(Optional.of(name), wallet, score, new ArrayList<>());
+        this(Optional.of(name), wallet, score, new CardPurchaseSequence());
     }
 
     public PlayerInformation(PebbleCollection wallet, int score) {
-        this(Optional.empty(), wallet, score, new ArrayList<>());
+        this(Optional.empty(), wallet, score, new CardPurchaseSequence());
     }
 }

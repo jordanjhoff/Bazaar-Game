@@ -73,7 +73,7 @@ public class Client {
     ref.run();
   }
 
-  public boolean startAsync(InetAddress addr, int port, Executor executor) {
+  public boolean startAsync(InetAddress addr, int port, Executor executor) throws InterruptedException {
     do {
       try {
         ref = connect(addr, port);
@@ -83,6 +83,7 @@ public class Client {
         return true;
       } catch (IOException | InterruptedException e) {
         log.info(String.format(e.getMessage()));
+        Thread.sleep(1000);
       }
     } while (true);
   }

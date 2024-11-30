@@ -123,6 +123,7 @@ public class JSONSerializer {
     JsonElement jsonWallet = pebbleCollectionToJson(player.wallet());
     jsonPlayer.add("wallet", jsonWallet);
     jsonPlayer.addProperty("score", player.score());
+    jsonPlayer.add("cards", cardListToJson(player.purchases().cards()));
     return jsonPlayer;
   }
 

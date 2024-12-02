@@ -6,7 +6,7 @@ import Common.converters.Bonus;
 import Common.converters.JSONDeserializer;
 import Referee.GameObjectGenerator;
 import Referee.GameState;
-import Server.Player;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -155,7 +155,7 @@ public class RuleBookTests {
 
     @Test
     public void testRuleBookBonus() throws BadJsonException {
-        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getFunction());
         //rrbrr + gyggw
         CardPurchaseSequence multicolor = new CardPurchaseSequence(JSONDeserializer.cardListFromJson(TestingUtils.getJsonElementString("[{\"face?\":true,\"pebbles\":[\"red\",\"red\",\"blue\",\"red\",\"red\"]},{\"face?\":false,\"pebbles\":[\"green\",\"yellow\",\"green\",\"green\",\"white\"]}]")));
         PlayerInformation boughtAll = new PlayerInformation(Optional.of("Jordy"), wallet, 20, multicolor);
@@ -164,7 +164,7 @@ public class RuleBookTests {
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 30);
 
-        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getFunction());
         winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 70);
 
@@ -190,7 +190,7 @@ public class RuleBookTests {
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll, boughtNone));
 
         // wins with rwb
-        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getFunction());
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 30);
         Assert.assertEquals(winners.getFirst().name().get(), "BoughtAllColors");
@@ -202,7 +202,7 @@ public class RuleBookTests {
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtAll, boughtNone));
 
         // wins with sey
-        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getFunction());
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 70);
         Assert.assertEquals(winners.getFirst().name().get(), "BoughtAllColors");
@@ -215,7 +215,7 @@ public class RuleBookTests {
                         new ArrayList<>(List.of(Pebble.RED, Pebble.WHITE, Pebble.BLUE, Pebble.BLUE, Pebble.BLUE))),
                 true)));
 
-        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getFunction());
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtOne, boughtOne, boughtOne));
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.get(0).score(), 30);
@@ -227,7 +227,7 @@ public class RuleBookTests {
                 new PebbleCollection(
                         new ArrayList<>(List.of(Pebble.RED, Pebble.WHITE, Pebble.BLUE, Pebble.YELLOW, Pebble.GREEN))),
                 true)));
-        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getFunction());
         gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtOne, boughtOne, boughtOne));
         winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.get(0).score(), 70);
@@ -243,11 +243,11 @@ public class RuleBookTests {
                         new ArrayList<>(List.of(Pebble.RED, Pebble.WHITE, Pebble.BLUE, Pebble.YELLOW, Pebble.GREEN))),
                 true)));
         GameState gameState1 = new GameState(bank, new CardDeck(visibleCards, visibleCards), List.of(boughtOne));
-        rulebook = new RuleBook(equationTable, Bonus.RWB.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.RWB.getFunction());
         List<PlayerInformation> winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 30);
 
-        rulebook = new RuleBook(equationTable, Bonus.SEY.getBonusFunction());
+        rulebook = new RuleBook(equationTable, Bonus.SEY.getFunction());
         winners = rulebook.getWinners(gameState1);
         Assert.assertEquals(winners.getFirst().score(), 70);
 

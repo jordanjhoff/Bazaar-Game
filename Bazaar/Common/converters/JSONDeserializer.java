@@ -13,7 +13,6 @@ import Runnables.actors.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import java.util.*;
 import java.util.function.Function;
@@ -192,7 +191,7 @@ public class JSONDeserializer {
       throw new BadJsonException("Bad json bonus");
     }
     Bonus bonus = Bonus.fromString(json.getAsString());
-    return bonus.getBonusFunction();
+    return bonus.getFunction();
 
   }
 

@@ -1,0 +1,352 @@
+(testing /course/cs4500f24/tas/camoy/repos/likeable-gophers/./9/xgames-resources)
+(testing /course/cs4500f24/tas/camoy/repos/9/???/Tests/5-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/5-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'((("infiniteLoop" "purchase-size" "setup" 2) ("tower" "purchase-size"))
+  ((("blue" "green" "yellow" "yellow") ("red"))
+   (("white") ("blue" "blue" "red" "yellow"))
+   (("green") ("blue" "white" "white"))
+   (("blue" "blue") ("red" "red" "yellow" "yellow")))
+  #hasheq((bank
+           .
+           ("green"
+            "green"
+            "red"
+            "red"
+            "white"
+            "white"
+            "white"
+            "white"
+            "yellow"
+            "yellow"))
+          (cards
+           .
+           (#hasheq((face? . #t)
+                    (pebbles . ("green" "green" "white" "yellow" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("green" "white" "white" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "green" "green" "red")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "white" "white" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "blue" "green" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("red" "white" "yellow" "yellow" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("green" "red" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "white" "white" "white")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "green" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "green" "red" "red")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "blue" "green" "white" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "blue" "green" "green" "green")))
+            #hasheq((face? . #f)
+                    (pebbles . ("white" "yellow" "yellow" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "red" "red" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "green" "green" "yellow")))))
+          (players
+           .
+           (#hasheq((score . 8)
+                    (wallet
+                     .
+                     ("blue"
+                      "blue"
+                      "blue"
+                      "green"
+                      "green"
+                      "green"
+                      "green"
+                      "red"
+                      "red"
+                      "red"
+                      "white"
+                      "white"
+                      "yellow"
+                      "yellow"
+                      "yellow"
+                      "yellow"
+                      "yellow"
+                      "yellow"
+                      "yellow"
+                      "yellow")))
+            #hasheq((score . 10)
+                    (wallet
+                     .
+                     ("blue"
+                      "blue"
+                      "blue"
+                      "green"
+                      "red"
+                      "red"
+                      "white"
+                      "white"
+                      "yellow")))))
+          (visibles
+           .
+           (#hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "white" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "red" "red" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "red" "red" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "red" "red" "white" "white")))))))
+(*** expected)
+'(("tower") ())
+(*** but received)
+'(((plain fast with-newline plain-unicode) (("infiniteLoop" "tower") ())))
+
+
+(testing /course/cs4500f24/tas/camoy/repos/9/???/Tests/6-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/6-out.json)
+(testing /course/cs4500f24/tas/camoy/repos/9/???/Tests/7-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/7-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'((("infiniteLoop1" "purchase-size" "request-cards" 6)
+   ("infiniteLoop2" "purchase-size" "request-pebble-or-trades" 6)
+   ("tower" "purchase-size"))
+  ((("yellow") ("blue" "red"))
+   (("blue" "yellow" "yellow") ("green" "green" "green" "white"))
+   (("blue" "yellow") ("green" "green" "white"))
+   (("blue" "green" "red" "red") ("white"))
+   (("blue" "red" "red" "yellow") ("green"))
+   (("blue" "blue" "white") ("red"))
+   (("white") ("blue" "green" "red"))
+   (("blue" "yellow") ("green" "green" "green" "white"))
+   (("blue" "green" "white" "yellow") ("red"))
+   (("blue" "blue") ("white")))
+  #hasheq((bank
+           .
+           ("blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "green"
+            "green"
+            "green"
+            "green"
+            "red"
+            "red"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"))
+          (cards
+           .
+           (#hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "green" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "red" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "red" "white" "white")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "red" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "blue" "red" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "white" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "white" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "red" "red" "white")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "green" "green" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "red" "white" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "red" "yellow" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "red" "red" "yellow")))))
+          (players
+           .
+           (#hasheq((score . 6) (wallet . ("blue" "blue" "red" "red" "white")))
+            #hasheq((score . 9)
+                    (wallet . ("blue" "blue" "blue" "red" "white")))
+            #hasheq((score . 9)
+                    (wallet . ("blue" "green" "white" "white" "yellow")))))
+          (visibles
+           .
+           (#hasheq((face? . #f)
+                    (pebbles . ("green" "green" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "red" "white" "white")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "yellow" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "red" "yellow" "yellow")))))))
+(*** expected)
+'(("infiniteLoop1" "infiniteLoop2") ())
+(*** but received)
+'(((plain fast with-newline plain-unicode) (("infiniteLoop2") ())))
+
+
+(testing /course/cs4500f24/tas/camoy/repos/9/???/Tests/8-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/8-out.json)
+(testing /course/cs4500f24/tas/camoy/repos/9/???/Tests/9-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/9-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'((("abe" "purchase-points")
+   ("tower" "purchase-size")
+   ("row" "purchase-points")
+   ("jerry" "purchase-size")
+   ("ryan" "purchase-points"))
+  ((("green" "red" "white" "yellow") ("blue"))
+   (("green" "white") ("blue"))
+   (("green") ("red" "red" "white" "yellow"))
+   (("blue") ("green"))
+   (("white") ("yellow" "yellow"))
+   (("green" "green" "yellow") ("blue" "blue"))
+   (("red" "white" "white") ("yellow" "yellow"))
+   (("white") ("red"))
+   (("blue" "green" "red" "yellow") ("white"))
+   (("white" "yellow") ("blue" "blue" "blue" "blue")))
+  #hasheq((bank
+           .
+           ("blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "blue"
+            "green"
+            "green"
+            "green"
+            "green"
+            "green"
+            "green"
+            "green"
+            "green"
+            "green"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "red"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "white"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"
+            "yellow"))
+          (cards
+           .
+           (#hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "green" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "green" "green" "red" "red")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "green" "red" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "white" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "green" "red" "red")))
+            #hasheq((face? . #t)
+                    (pebbles . ("green" "red" "white" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "red" "red" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "white" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "blue" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("green" "red" "white" "white" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "red" "white" "yellow" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "red" "red" "white")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "green" "white" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "green" "white" "yellow" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("green" "green" "red" "red" "yellow")))))
+          (players
+           .
+           (#hasheq((score . 4)
+                    (wallet . ("green" "white" "white" "yellow" "yellow")))
+            #hasheq((score . 8)
+                    (wallet . ("blue" "green" "green" "green" "red")))
+            #hasheq((score . 2)
+                    (wallet . ("green" "red" "white" "white" "yellow")))
+            #hasheq((score . 7)
+                    (wallet . ("green" "green" "green" "green" "white")))
+            #hasheq((score . 9)
+                    (wallet . ("blue" "green" "red" "red" "yellow")))))
+          (visibles
+           .
+           (#hasheq((face? . #f)
+                    (pebbles . ("green" "red" "red" "white" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "blue" "red" "white" "yellow")))
+            #hasheq((face? . #f)
+                    (pebbles . ("blue" "blue" "yellow" "yellow" "yellow")))
+            #hasheq((face? . #t)
+                    (pebbles . ("blue" "blue" "green" "green" "yellow")))))))
+(*** expected)
+'(("ryan") ())
+(*** but received)
+'(((plain fast with-newline plain-unicode) (("ryan" "tower") ("abe"))))
+
+
+((/course/cs4500f24/tas/camoy/repos/9/???/Tests/6-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/6-out.json) (/course/cs4500f24/tas/camoy/repos/9/???/Tests/8-in.json /course/cs4500f24/tas/camoy/repos/9/???/Tests/8-out.json))
+((passed 2) (total 5) (partial-score 2))

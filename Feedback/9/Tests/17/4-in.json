@@ -1,0 +1,3 @@
+[["Adam","purchase-points", "win", 1],["Eve","purchase-size", "a cheat","bank-cannot-trade"]]
+[[["green","green","green"],["red","white"]]]
+{"bank":["red","red","blue","white","red"],"cards":[{"face?":false,"pebbles":["white","yellow","red","blue","blue"]}],"players":[{"score":0,"wallet":["red","green","blue","red","green"]},{"score":0,"wallet":["white","yellow","red","blue","blue"]}],"visibles":[{"face?":false,"pebbles":["white","yellow","red","blue","blue"]},{"face?":false,"pebbles":["white","yellow","red","blue","blue"]},{"face?":false,"pebbles":["white","yellow","red","blue","blue"]},{"face?":false,"pebbles":["green","green","green","white","green"]}]}

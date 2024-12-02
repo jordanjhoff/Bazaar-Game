@@ -1,0 +1,90 @@
+[
+  [
+    "Quinn",
+    "purchase-points"
+  ],
+  [
+    "Riley",
+    "purchase-size"
+  ],
+  [
+    "Matthias",
+    "purchase-size",
+    "request-cards",
+    1
+  ],
+  [
+    "MatthiasSetup",
+    "purchase-points",
+    "setup",
+    1
+  ],
+  [
+    "MatthiasSetup2",
+    "purchase-points",
+    "setup",
+    2
+  ]
+]
+[[["red"], ["white","white","white","white"]]]
+{
+  "bank": [
+    "white","white","white","white","white","white","white","white",
+    "white","white","white","white","white","white","white","white"
+  ],
+  "cards": [
+  ],
+  "players": [
+    {
+      "score": 0,
+      "wallet": [
+        "red", "red"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "blue"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "blue"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "yellow"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "white"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }
+  ]
+}
+

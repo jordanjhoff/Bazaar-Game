@@ -1,0 +1,4 @@
+[["Adam","purchase-points"],["Eve","purchase-size", "a cheat", "buy-unavailable-card"],["jordy", "purchase-size", "setup"]]
+[]
+{"bank":["red"],"cards":[],"players":[{"score":0,"wallet":["red","red","blue","red","red"]},{
+  "score":3,"wallet": []},{"score":6,"wallet":["red"]}],"visibles":[{"face?":false,"pebbles":["green","green","green","green","green"]}]}

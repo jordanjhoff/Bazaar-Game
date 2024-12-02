@@ -1,0 +1,8 @@
+[["lasanga", "purchase-size", "request-pebble-or-trades", 1], ["garfield", "purchase-size"]]
+[[["blue"],["green"]]]
+{
+    "bank": ["blue", "blue"],
+    "visibles": [ { "pebbles": ["blue","blue","blue","blue","blue"], "face?": false } ],
+    "cards": [ ],
+    "players": [ { "wallet": [], "score": 0 }, { "wallet": ["blue","blue","blue","green","green"], "score": 1 } ]
+}

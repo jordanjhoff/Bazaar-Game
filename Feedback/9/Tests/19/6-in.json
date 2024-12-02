@@ -1,0 +1,135 @@
+[
+    ["kobe", "purchase-points"],
+    ["lerner", "purchase-size", "request-cards", 3]
+]
+
+[
+    [
+        ["white", "blue", "green", "yellow"],
+        ["red", "red", "red"]
+    ], 
+    [
+        ["red", "yellow"],
+        ["green", "green", "blue", "blue"]
+    ],
+    [
+        ["yellow", "red", "white"],
+        ["green", "green", "blue", "blue"]
+    ],
+    [
+        ["red"],
+        ["green", "green"]
+    ],
+    [
+        ["white", "white", "yellow"],
+        ["red", "red", "green", "blue"]
+    ],
+    [
+        ["white", "green"],
+        ["red", "red", "yellow"]
+    ],
+    [
+        ["red"],
+        ["green", "blue", "yellow", "yellow"]
+    ],
+    [
+        ["green"],
+        ["yellow"]
+    ],
+    [
+        ["yellow"],
+        ["red"]
+    ],
+    [
+        ["white"],
+        ["red"]
+    ]
+]
+
+{ 
+    "bank" : [
+        "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red",
+        "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue",
+        "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green", "green",
+        "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", "white", 
+        "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"
+    ],
+    "visibles" : [
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "blue", "green", "yellow", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "blue", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "white", "green", "green", "white"],
+            "face?": false
+        }
+    ],
+    "cards": [
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "blue", "green", "yellow", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "blue", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "white", "green", "green", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "blue", "green", "yellow", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "blue", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "white", "green", "green", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "red", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "blue", "green", "yellow", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "red", "blue", "red", "white"],
+            "face?": false
+        },
+        {
+            "pebbles": ["red", "white", "green", "green", "white"],
+            "face?": false
+        }
+    ],
+    "players": [
+        {
+            "wallet": [],
+            "score": 3
+        },
+        {
+            "wallet": [],
+            "score": 0
+        }
+    ]
+}

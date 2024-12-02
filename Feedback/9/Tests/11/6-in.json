@@ -1,0 +1,49 @@
+[["bad0", "purchase-size", "a cheat", "bank-cannot-trade"],
+  ["bad1", "purchase-size", "a cheat", "wallet-cannot-trade"],
+  ["badloop", "purchase-size", "request-pebble-or-trades", 2]]
+[[["red"], ["blue", "blue"]],
+  [["green"], ["red", "red"]]]
+{ "bank": ["red", "blue", "green", "yellow", "red", "blue", "red", "green", "yellow", "white"],
+  "visibles": [
+    {
+      "pebbles": ["red", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["green", "green", "yellow", "yellow", "yellow"],
+      "face?": false
+    },
+    {
+      "pebbles": ["blue", "blue", "yellow", "yellow", "yellow"],
+      "face?": true
+    },
+    {
+      "pebbles": ["green", "blue", "yellow", "yellow", "yellow"],
+      "face?": false
+    }
+  ],
+  "cards": [
+    {
+      "pebbles": ["red", "blue", "yellow", "yellow", "yellow"],
+      "face?": false
+    },
+    {
+      "pebbles": ["green", "green", "yellow", "yellow", "yellow"],
+      "face?": true
+    }
+  ],
+  "players":  [
+    {
+      "wallet": ["red", "blue", "yellow", "yellow", "yellow"],
+      "score": 3
+    },
+    {
+      "wallet": [],
+      "score": 1
+    },
+    {
+      "wallet": ["yellow", "yellow", "yellow","yellow", "yellow", "yellow"],
+      "score": 1
+    }
+  ]
+}

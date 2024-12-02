@@ -1,0 +1,22 @@
+[["Jack", "purchase-points", "request-pebble-or-trades", 1],["Willem", "purchase-points", "request-cards", 2]]
+[[["green"],["blue"]], [["blue"],["yellow"]]]
+{
+  "bank": ["red","red"],
+  "visibles": [
+    {
+      "pebbles":["red", "blue", "green", "white", "yellow"],
+      "face?": true
+    }
+  ],
+  "cards": [],
+  "players": [
+    {
+      "wallet": ["blue", "green", "white", "yellow"],
+      "score": 0
+    },
+    {
+      "wallet": ["blue", "green", "white", "yellow"],
+      "score": 0
+    }
+  ]
+}

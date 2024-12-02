@@ -1,0 +1,12 @@
+description,score,max
+code inspection,245,275
+bonus,40,0
+Bazaar/Client/client.pp exists,5,5
+Bazaar/Server/server.pp exists,5,5
+"[0-9]-{in,out}.json exists",5,5
+student tests passes instructor executable,100,100
+student executable passes instructor tests,100,100
+xgames-resources exists,5,5
+Bazaar/Client/referee.pp exists,0,5
+Bazaar/Server/player.pp exists,5,5
+total,510,505

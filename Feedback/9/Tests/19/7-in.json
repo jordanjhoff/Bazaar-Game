@@ -1,0 +1,186 @@
+[
+    ["kobe", "purchase-points", "win", 1],
+    ["lerner", "purchase-size"]
+]
+
+[
+    [
+        ["red"],
+        ["white"]
+    ]
+]
+
+{ 
+    "bank" : [
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow",
+        "blue",
+        "green",
+        "blue",
+        "green",
+        "yellow"
+    ],
+    "visibles" : [
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        }
+    ],
+    "cards": [
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        },
+        {
+            "pebbles": ["blue", "blue", "green", "green", "yellow"],
+            "face?": false
+        }
+    ],
+    "players": [
+        {
+            "wallet": [],
+            "score": 0
+        },
+        {
+            "wallet": [],
+            "score": 0
+        }
+    ]
+}

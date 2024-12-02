@@ -1,0 +1,12 @@
+[
+    ["firstPlayer", "purchase-points", "request-pebble-or-trades", 7]
+]
+  [[["red", "blue", "blue", "blue"], ["green"]],
+   [["red", "green"], ["blue"]]]
+  {"bank": ["red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "red", "blue"],
+   "visibles": [{"pebbles": ["red", "blue", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "white", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "green", "blue", "white", "red"], "face?": true},
+                {"pebbles": ["red", "yellow", "blue", "white", "red"], "face?": true}],
+   "cards": [{"pebbles": ["red", "red", "blue", "white", "red"], "face?": true}],
+   "players": [{"wallet": [], "score": 0}]}

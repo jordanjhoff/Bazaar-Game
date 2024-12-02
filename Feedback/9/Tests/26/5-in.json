@@ -1,0 +1,3 @@
+[["David", "purchase-size", "request-cards", 2], ["Eve", "purchase-points", "setup", 1], ["Frank", "purchase-size", "request-cards", 3]]
+[[["red"], ["blue"]], [["yellow"], ["blue", "blue"]], [["yellow", "yellow"], ["blue"]]]
+{"bank": ["blue", "blue", "blue", "red"], "cards": [], "players": [{"score": 0, "wallet": ["blue", "blue", "red", "blue", "blue"]}, {"score": 0, "wallet": ["blue", "red"]}, {"score": 0, "wallet": ["blue", "yellow"]}], "visibles": [{"face?": true, "pebbles": ["yellow", "yellow", "yellow", "yellow", "yellow"]}, {"face?": true, "pebbles": ["white", "white", "white", "yellow", "yellow"]}, {"face?": true, "pebbles": ["white", "white", "yellow", "yellow", "yellow"]}, {"face?": true, "pebbles": ["white", "yellow", "yellow", "yellow", "yellow"]}]}

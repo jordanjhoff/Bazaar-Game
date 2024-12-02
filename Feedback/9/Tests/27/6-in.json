@@ -1,0 +1,135 @@
+[
+  [
+    "Quinn",
+    "purchase-points",
+    "request-pebble-or-trades",
+    3
+  ],
+  [
+    "Riley",
+    "purchase-size",
+    "request-cards",
+    7
+  ],
+  [
+    "Kevin",
+    "purchase-size",
+    "a cheat",
+    "wallet-cannot-buy-card"
+  ]
+]
+[[["red"], ["white","white","white"]]]
+{
+  "bank": [
+    "white","white","white","white","white","white","white","white",
+    "white","white","white","white","white","white","white","white", "white", "white",
+    "red", "red", "red"
+  ],
+  "cards": [
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }, {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }, {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }, {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "red","red","red","red","red"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "wallet": [
+        "red", "red", "red"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "white", "white", "white", "white","white","white","white","white",
+        "white","white","white","white","white","white","white","white"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": [
+        "white", "blue", "yellow", "green"
+      ]
+    }
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "white","white","white","white","white"
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,88 @@
+[
+  [
+    "alvin",
+    "purchase-size",
+    "win",
+    1
+  ],
+  [
+    "simon",
+    "purchase-size",
+    "win",
+    2
+  ]
+]
+[
+  [
+    [
+      "red"
+    ],
+    [
+      "blue"
+    ]
+  ]
+]
+{
+  "bank": [
+    "blue"
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    }
+  ],
+  "cards": [],
+  "players": [
+    {
+      "score": 19,
+      "wallet": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "score": 0,
+      "wallet": []
+    }
+  ]
+}

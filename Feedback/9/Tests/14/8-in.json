@@ -1,0 +1,414 @@
+[
+  [
+    "alvin",
+    "purchase-size",
+    "setup",
+    1
+  ],
+  [
+    "simon",
+    "purchase-size",
+    "setup",
+    1
+  ],
+  [
+    "theodore",
+    "purchase-size",
+    "setup",
+    1
+  ],
+  [
+    "godfrey",
+    "purchase-size",
+    "setup",
+    1
+  ],
+  [
+    "takeo",
+    "purchase-size",
+    "setup",
+    1
+  ],
+  [
+    "akao",
+    "purchase-size",
+    "setup",
+    1
+  ]
+]
+[
+  [
+    [
+      "red"
+    ],
+    [
+      "white"
+    ]
+  ],
+  [
+    [
+      "blue"
+    ],
+    [
+      "white"
+    ]
+  ],
+  [
+    [
+      "blue"
+    ],
+    [
+      "green"
+    ]
+  ],
+  [
+    [
+      "green"
+    ],
+    [
+      "yellow"
+    ]
+  ],
+  [
+    [
+      "yellow"
+    ],
+    [
+      "red"
+    ]
+  ]
+]
+{
+  "bank": [
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "red",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "blue",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "green",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white"
+  ],
+  "visibles": [
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    },
+    {
+      "face?": true,
+      "pebbles": [
+        "blue",
+        "blue",
+        "blue",
+        "blue",
+        "blue"
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    },
+    {
+      "face?": false,
+      "pebbles": [
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow",
+        "yellow"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "wallet": []
+    },
+    {
+      "score": 0,
+      "wallet": []
+    },
+    {
+      "score": 0,
+      "wallet": []
+    },
+    {
+      "score": 0,
+      "wallet": []
+    },
+    {
+      "score": 0,
+      "wallet": []
+    },
+    {
+      "score": 0,
+      "wallet": []
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+[
+    ["p1", "purchase-points", "request-cards", 1],
+    ["p2", "purchase-points"],
+    ["p3", "purchase-points"],
+    ["p4", "purchase-points"]
+]
+[
+    [["white"], ["blue", "blue"]],
+    [["blue"], ["green", "green"]],
+    [["green"], ["red", "red"]],
+    [["red"], ["yellow", "yellow"]],
+    [["yellow"], ["white", "white"]]
+]
+{
+    "bank": [
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow",
+        "blue", "blue", "green", "green", "red", "red", "white", "white", "yellow", "yellow"
+    ],
+    "visibles": [
+        {"face?": true, "pebbles": ["white", "white", "white", "blue", "blue"]},
+        {"face?": true, "pebbles": ["yellow", "red", "red", "white", "white"]},
+        {"face?": false, "pebbles": ["green", "green", "green", "green", "green"]},
+        {"face?": false, "pebbles": ["blue", "blue", "blue", "red", "red"]}
+    ],
+    "cards": [
+        {"face?": true, "pebbles": ["blue", "green", "white", "blue", "green"]},
+        {"face?": true, "pebbles": ["yellow", "red", "red", "white", "white"]},
+        {"face?": false, "pebbles": ["green", "green", "green", "green", "green"]},
+        {"face?": false, "pebbles": ["blue", "blue", "blue", "red", "red"]},
+        {"face?": true, "pebbles": ["blue", "green", "white", "blue", "green"]},
+        {"face?": true, "pebbles": ["yellow", "red", "red", "white", "white"]},
+        {"face?": false, "pebbles": ["green", "green", "green", "green", "green"]},
+        {"face?": false, "pebbles": ["blue", "blue", "blue", "red", "red"]},
+        {"face?": true, "pebbles": ["blue", "green", "white", "blue", "green"]},
+        {"face?": true, "pebbles": ["yellow", "red", "red", "white", "white"]},
+        {"face?": false, "pebbles": ["green", "green", "green", "green", "green"]},
+        {"face?": false, "pebbles": ["blue", "blue", "blue", "red", "red"]},
+        {"face?": true, "pebbles": ["blue", "green", "white", "blue", "green"]},
+        {"face?": true, "pebbles": ["yellow", "red", "red", "white", "white"]},
+        {"face?": false, "pebbles": ["green", "green", "green", "green", "green"]},
+        {"face?": false, "pebbles": ["blue", "blue", "blue", "red", "red"]}
+    ],
+    "players": [
+        {"score": 15, "wallet": ["green", "red"]},
+        {"score": 15, "wallet": ["yellow", "blue"]},
+        {"score": 15, "wallet": ["blue", "white"]},
+        {"score": 14, "wallet": ["red", "yellow"]}
+    ]
+}

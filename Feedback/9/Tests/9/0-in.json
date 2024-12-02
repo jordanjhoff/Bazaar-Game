@@ -1,0 +1,31 @@
+[    
+    ["purchaseSize", "purchase-size", "win"],
+    ["purchasePoints", "purchase-points"],
+    ["e75o8ZZaaaaaaaaaaaaa", "purchase-size"],
+    ["class", "purchase-size"],
+    ["iLoveJava69", "purchase-size", "win", 1],
+    ["setup", "purchase-size"]
+]
+[
+    [["blue"], ["white"]],
+    [["blue"], ["white", "white", "white", "white"]],
+    [["blue", "blue"], ["white", "white", "white"]],
+    [["green"], ["yellow"]],
+    [["red", "blue"], ["white", "white"]]
+]
+{
+    "bank": [],
+    "visibles": [
+        { "pebbles" : ["red","red","red","red","red"], "face?": true },
+        { "pebbles" : ["red","red","red","red","red"], "face?": true },
+        { "pebbles" : ["white","white","white","white","red"], "face?": true },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false }],
+    "cards" : [],
+    "players": [
+        {"wallet" : ["red", "red", "red", "red"], "score": 18},
+        {"wallet" : ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow","yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"], "score": 18},
+        {"wallet" : ["blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue"], "score": 0},
+        {"wallet" : ["red", "blue", "green"], "score": 18},
+        {"wallet" : ["white", "white", "white", "white"], "score": 5},
+        {"wallet" : [], "score": 11}]
+}

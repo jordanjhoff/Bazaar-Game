@@ -1,0 +1,3 @@
+[["Sammi","purchase-points","a cheat","use-non-existent-equation"],["Cindy","purchase-points", "setup", 1]]
+[[["green","green","blue"],["red","white"]]]
+{"bank":["red","blue","red","blue","red"],"cards":[],"players":[{"score":0,"wallet":["green","red","green","red","green"]},{"score":19,"wallet":["green","green","yellow","red","green"]}],"visibles":[{"face?":true,"pebbles":["white","green","red","blue","red"]},{"face?":false,"pebbles":["red","red","green","red","green"]}]}

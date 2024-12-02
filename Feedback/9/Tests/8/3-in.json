@@ -1,0 +1,35 @@
+[
+  ["James","purchase-points", "setup", 1],
+  ["Laura","purchase-size","a cheat","bank-cannot-trade"],
+  ["Mary","purchase-points"],
+  ["Maria","purchase-size"],
+  ["Eddie","purchase-size", "win", 1],
+  ["Angela","purchase-size"]]
+[
+  [["green","green","blue"],["red","white"]]
+]
+{
+  "bank":["blue","blue","blue","blue","blue","green","green","green","green","green","red","blue","red","red","red","green","red","green"],
+  "cards":[
+    {"face?":true,"pebbles":["red","red","red","green","green"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]}],
+  "players":[
+    {"score":8,"wallet":["red", "white"]},
+    {"score":5,"wallet":["green","green","green"]},
+    {"score":8,"wallet":["red"]},
+    {"score":7,"wallet":["green"]},
+    {"score":9,"wallet":["red","white"]},
+    {"score":4,"wallet":["blue","blue","blue","blue","green","green","green"]}],
+  "visibles":[
+    {"face?":true,"pebbles":["red","red","blue","yellow","red"]},
+    {"face?":false,"pebbles":["green","green","green","green","green"]},
+    {"face?":false,"pebbles":["blue","blue","blue","blue","red"]},
+    {"face?":true,"pebbles":["yellow","yellow","red","white","blue"]}]
+}

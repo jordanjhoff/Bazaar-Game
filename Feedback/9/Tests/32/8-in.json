@@ -1,0 +1,16 @@
+[
+    ["p1", "purchase-points", "setup", 1]
+]
+[
+    [["white", "white", "white"], ["blue", "blue", "blue"]]
+]
+{
+    "bank": ["blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "green", "green", "red", "red", "white", "white", "white", "white", "white", "white", "white", "white", "yellow", "yellow"],
+    "visibles": [
+    ],
+    "cards": [
+    ],
+    "players": [
+        {"score": 15, "wallet": ["red", "blue", "blue", "green", "green", "red", "red", "blue", "white", "yellow", "yellow"]}
+    ]
+}

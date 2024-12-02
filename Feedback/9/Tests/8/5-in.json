@@ -1,0 +1,43 @@
+[
+  ["James","purchase-points", "setup", 1],
+  ["Laura","purchase-size","request-pebble-or-trades",4],
+  ["Mary","purchase-points", "request-pebble-or-trades", 5],
+  ["Maria","purchase-size", "win", 1],
+  ["Eddie","purchase-size", "setup", 1],
+  ["Angela", "purchase-size", "request-cards", 3]
+]
+[
+  [["green","green","blue"],["red","white"]]
+]
+{
+  "bank":["blue","blue","blue","blue","blue","green","green","green","green","green","red","blue","red","red","red","green","red","green",
+  "yellow", "yellow", "yellow", "yellow", "yellow", "white"],
+  "cards":[
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]},
+    {"face?":false,"pebbles":["yellow","yellow","yellow","yellow","yellow"]}],
+  "players":[
+    {"score":8,"wallet":["red", "white"]},
+    {"score":5,"wallet":["green","green","green"]},
+    {"score":8,"wallet":["red"]},
+    {"score":0,"wallet":[]},
+    {"score":9,"wallet":["red","white", "green", "green", "green"]},
+    {"score":4,"wallet":["blue","blue","blue","blue","green","green","green"]}],
+  "visibles":[
+    {"face?":true,"pebbles":["red","red","blue","red","red"]},
+    {"face?":false,"pebbles":["green","green","green","green","green"]},
+    {"face?":false,"pebbles":["blue","blue","blue","blue","red"]},
+    {"face?":true,"pebbles":["yellow","yellow","red","white","blue"]}]
+}

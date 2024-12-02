@@ -1,0 +1,45 @@
+[
+    ["class", "purchase-size", "request-pebble-or-trades", 5],
+    ["win", "purchase-size", "setup"],
+    ["module", "purchase-points", "setup"],
+    ["Light", "purchase-size", "setup"],
+    ["setup", "purchase-size", "setup"],
+    ["iLoveJava69", "purchase-size", "setup"]
+]
+[
+    [["blue"], ["white"]],
+    [["white"], ["yellow", "yellow", "yellow", "red"]],
+    [["blue", "blue"], ["white", "white", "white"]],
+    [["green"], ["yellow"]],
+    [["red", "blue"], ["white", "white"]],
+    [["blue"], ["red"]],
+    [["blue"], ["white", "white", "white", "white"]],
+    [["blue", "yellow", "yellow"], ["white", "white", "white"]],
+    [["green"], ["blue"]],
+    [["red", "blue"], ["green", "white"]]
+]
+{
+    "bank": ["red","red", "red", "red", "red", "green", "green", "green", "green", "green", "blue", "blue", "blue", "blue", "blue", "white", "white", "yellow", "yellow", "yellow", "yellow", "yellow"],
+    "visibles": [
+        { "pebbles" : ["red","red","red","red","red"], "face?": false },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": true },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": true }],
+    "cards" : [
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": true },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": false },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": false },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": false },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false },
+        { "pebbles" : ["blue","blue","blue","blue","blue"], "face?": false },
+        { "pebbles" : ["red","red","red","red","red"], "face?": false }],
+    "players": [
+        {"wallet" : ["blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue"], "score": 13},
+        {"wallet" : ["red", "red", "red", "red", "red", "blue", "blue", "blue", "blue", "blue"], "score": 2},
+        {"wallet" : ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow","yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"], "score": 1},
+        {"wallet" : ["red", "blue", "green", "white"], "score": 8},
+        {"wallet" : ["red", "red", "red", "red", "red", "red", "white", "white", "white", "white", "blue", "blue", "blue", "blue", "blue"], "score": 5},
+        {"wallet" : [], "score": 19}]
+}

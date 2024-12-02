@@ -1,0 +1,48 @@
+[
+    ["David", "purchase-points"],
+    ["Crystal", "purchase-size"]
+]
+[
+    [
+        [
+            "green"
+        ],
+        [
+            "blue",
+            "blue",
+            "blue"
+        ]
+    ],
+    [
+        [
+            "green"
+        ],
+        [
+            "blue",
+            "yellow"
+        ]
+    ]
+]
+{
+    "bank": [
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white",
+        "white"
+    ],
+    "visibles":[{"pebbles":["white", "white", "white", "white", "white"], "face?": false},
+                {"pebbles":["white", "white", "white", "white", "white"], "face?": false},
+                {"pebbles":["white", "white", "white", "white", "white"], "face?": false}],
+    "cards":[],
+    "players":[{"wallet": ["red"], "score":15}, {"wallet": [], "score":19}]
+}

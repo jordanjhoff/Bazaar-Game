@@ -1,0 +1,62 @@
+[["ezwin", "purchase-points"],
+["cheater", "purchase-size", "a cheat", "wallet-cannot-buy-card"],
+["looper", "purchase-points", "request-pebble-or-trades", 1],
+["exceptional", "purchase-size", "setup"]]
+[
+  [["blue"], ["red", "red", "red", "red"]],
+  [["blue"], ["white", "white", "white", "white"]]
+]
+{
+  "bank": ["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","white",
+    "white","white","white","white","white","white","white","white","white","white","white","white","white","white"],
+  "visibles": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    }
+  ],
+  "cards": [
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    },
+    {
+      "pebbles": ["white","white","white","white","white"],
+      "face?": true
+    },
+    {
+      "pebbles": ["red","red","red","red","red"],
+      "face?": true
+    }
+  ],
+  "players": [
+    {
+      "wallet": ["blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue"],
+      "score": 0
+    },
+    {
+      "wallet": ["green", "green"],
+      "score": 1
+    },
+    {
+      "wallet": [],
+      "score": 3
+    },
+    {
+      "wallet": ["green"],
+      "score": 5
+    }
+  ]
+}

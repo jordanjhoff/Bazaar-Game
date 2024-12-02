@@ -228,7 +228,7 @@ public record RuleBook(EquationTable equationTable, Function<PlayerInformation, 
    * @return The player after drawing the Pebble
    */
   private PlayerInformation executePebbleRequestOnPlayer(PlayerInformation before, Pebble color) {
-    return new PlayerInformation(before.name(), before.wallet().add(color), before.score());
+    return new PlayerInformation(before.name(), before.wallet().add(color), before.score(), before.purchases());
   }
 
   /**

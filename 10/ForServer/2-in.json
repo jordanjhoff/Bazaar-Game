@@ -1,15 +1,11 @@
-[["Ben","purchase-points","win",1],
-  ["Jordy","purchase-size","a cheat", "bank-cannot-trade"],
-  ["Matthias","purchase-size"],
-  ["BenLerner","purchase-size"]]
 [[["white"],["blue"]]]
 {
   "bank":["white"],
   "players":[
-    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},
-    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},
-    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]},
-    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"]}],
+    {"score":15,"wallet":["blue","blue","blue","blue","white","white","white","white","white"],
+      "cards": [{"face?":false,"pebbles":["white","red","blue","blue","white"]}]},
+    {"score":0,"wallet":["blue","blue","blue","blue","white","white","white","white","white"],
+      "cards": [{"face?":false,"pebbles":["white","red","yellow","blue","green"]}]}],
   "visibles":[
     {
       "face?":false,"pebbles":["white","white","white","white","white"]
@@ -33,3 +29,4 @@
     }
   ]
 }
+"RWB"

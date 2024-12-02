@@ -6,6 +6,7 @@ import Player.IPlayer;
 
 import Referee.GameState;
 import Referee.GameResult;
+import Referee.Observer;
 import Server.ServerReferee;
 import UnitTests.DeterministicObjectGenerator;
 import com.google.gson.*;
@@ -31,7 +32,7 @@ class ResourceGamesRunner extends GamesRunner {
     /** BIG IMPORTANT
      * BIG IMPORTANT
      */
-    public static final int moveTimeoutMS = 1000;
+    public static final int moveTimeoutMS = 4000;
 
     @Override
     protected GameResult runGame(List<IPlayer> players, GameState gameState, RuleBook ruleBook) {

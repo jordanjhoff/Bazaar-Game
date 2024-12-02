@@ -37,7 +37,7 @@ public class Server {
   // number of times to restart waiting room
   private static final int numWaitingRoom = 2;
   // time before a single move is timed out
-  private static final int moveTimeoutMS = 1000;
+  private static final int moveTimeoutMS = 4000;
   // time before a player is timed out for not sending name
   private static final int receiveNameTimeoutMS = 3000;
   // num players before exiting the waiting room

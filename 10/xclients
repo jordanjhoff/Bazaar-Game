@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar Other/10client.jar "$@"
+java -jar Other/10clients.jar "$@"

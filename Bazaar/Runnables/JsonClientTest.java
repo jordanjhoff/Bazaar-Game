@@ -40,7 +40,7 @@ public class JsonClientTest {
         List<Client> clients = gameActors.stream().map(actor -> new Client(actor)).toList();
         ExecutorService executor = createDaemonExecutor();
         for (Client client : clients) {
-            client.startAsync(InetAddress.getLocalHost(), port, executor);
+            client.startAsync(InetAddress.getLocalHost(), port, executor, true);
         }
         executor.shutdown();
         executor.awaitTermination(15,TimeUnit.MINUTES);

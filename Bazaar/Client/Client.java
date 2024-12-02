@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
 import Common.converters.BadJsonException;
@@ -15,6 +16,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonStreamParser;
+
+import static Server.CommunicationUtils.createDaemonExecutor;
 
 /**
  * This class accepts an IPlayer mechanism, and initializes a connection to a Server.
@@ -49,34 +52,9 @@ public class Client {
       return new ClientReferee(player, clientSocket.getInputStream(), clientSocket.getOutputStream());
   }
 
-  /**
-   * Continually tries to connect to the server.
-   */
-  public void start(InetAddress addr, int port, boolean retry) {
-    do {
-      try {
-        start(addr, port);
-        // this breaks after the referee is finished running.
-        // otherwise, we didn't get here because an exception was thrown. so we try again.
-        break;
-      } catch (IOException e) {
-        log.info(String.format("Could not resolve localhost: %s", e.getMessage()));
-      }
-    } while (retry);
-  }
-
-
-  /**
-   * Connects to the server and spawns a ClientReferee. Tells the ref to run -- send name, listen
-   * Only tries once! if it fails, it will exit.
-   */
-  public void start(InetAddress addr, int port) throws IOException {
-    ref = connect(addr, port);
-    ref.run();
-  }
 
   // TODO javadoc @25jhoffman
-  public boolean startAsync(InetAddress addr, int port, Executor executor) throws InterruptedException {
+  public boolean startAsync(InetAddress addr, int port, Executor executor, boolean retry) throws InterruptedException {
     do {
       try {
         ref = connect(addr, port);
@@ -90,7 +68,8 @@ public class Client {
         // ????
         Thread.sleep(1000);
       }
-    } while (true);
+    } while (retry);
+    return false;
   }
 
 
@@ -98,18 +77,20 @@ public class Client {
 
 
   // runnable for tinkering purposes...
-  public static void main(String[] args) throws BadJsonException, IOException {
+  public static void main(String[] args) throws BadJsonException, IOException, InterruptedException {
     if (args.length < 1) {
       System.err.println("Must provide player name as an argument");
       System.exit(1);
     }
+
+    ExecutorService executor = createDaemonExecutor();
 
     // string[] args = [actorJSON]
     if (args.length == 1) {
       JsonArray arr = new JsonArray();
       arr.add(JsonParser.parseString(args[0]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
-      new Client(mechanism).start(InetAddress.getLocalHost(), DEFAULT_PORT);
+      new Client(mechanism).startAsync(InetAddress.getLocalHost(), DEFAULT_PORT, executor, true);
     }
 
     // string[] args = [addr, port, actorJSON]
@@ -119,7 +100,7 @@ public class Client {
       int port = Integer.parseInt(args[1]);
       arr.add(JsonParser.parseString(args[2]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
-      new Client(mechanism).start(address, port);
+      new Client(mechanism).startAsync(address, port, executor, true);
     }
   }
 }

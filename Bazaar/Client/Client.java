@@ -21,6 +21,8 @@ import com.google.gson.JsonStreamParser;
  * It delegates the playing of a Bazaar game to it's client referee
  */
 public class Client {
+  public static final int DEFAULT_PORT = 4114;
+
   // proxy referee to bridge gap between server's referee and our player
   ClientReferee ref;
   IPlayer player;
@@ -60,7 +62,7 @@ public class Client {
       } catch (IOException e) {
         log.info(String.format("Could not resolve localhost: %s", e.getMessage()));
       }
-    } while (true);
+    } while (retry);
   }
 
 
@@ -73,16 +75,19 @@ public class Client {
     ref.run();
   }
 
+  // TODO javadoc @25jhoffman
   public boolean startAsync(InetAddress addr, int port, Executor executor) throws InterruptedException {
     do {
       try {
         ref = connect(addr, port);
         log.info(player.name() + " connected successfully");
         executor.execute(() -> ref.run());
+        // ??
         Thread.sleep(500);
         return true;
       } catch (IOException | InterruptedException e) {
         log.info(String.format(e.getMessage()));
+        // ????
         Thread.sleep(1000);
       }
     } while (true);
@@ -98,13 +103,16 @@ public class Client {
       System.err.println("Must provide player name as an argument");
       System.exit(1);
     }
+
+    // string[] args = [actorJSON]
     if (args.length == 1) {
       JsonArray arr = new JsonArray();
       arr.add(JsonParser.parseString(args[0]));
       IPlayer mechanism = JSONDeserializer.actorsFromJson(arr).getFirst();
-      new Client(mechanism).start(InetAddress.getLocalHost(), 4114);
+      new Client(mechanism).start(InetAddress.getLocalHost(), DEFAULT_PORT);
     }
 
+    // string[] args = [addr, port, actorJSON]
     if (args.length == 3) {
       JsonArray arr = new JsonArray();
       InetAddress address = InetAddress.getByName(args[0]);

@@ -52,21 +52,23 @@ public class Client {
       return new ClientReferee(player, clientSocket.getInputStream(), clientSocket.getOutputStream());
   }
 
-
-  // TODO javadoc @25jhoffman
+  /**
+   * Starts a client referee asynchronously.
+   * Note: retry:true may cause this to loop forever if the client is never able to connect.
+   * @param retry true if a failed connection should continually initiate reconnects
+   * @return true if the ref connected and ran without throwing exceptions
+   */
   public boolean startAsync(InetAddress addr, int port, Executor executor, boolean retry) throws InterruptedException {
     do {
       try {
         ref = connect(addr, port);
         log.info(player.name() + " connected successfully");
         executor.execute(() -> ref.run());
-        // ??
-        Thread.sleep(500);
+        Thread.sleep(500); // todo determine source of weird behavior -- maybe don't use daemon executor?
         return true;
       } catch (IOException | InterruptedException e) {
         log.info(String.format(e.getMessage()));
-        // ????
-        Thread.sleep(1000);
+        Thread.sleep(1000); // also wtf, anti-spam? :D
       }
     } while (retry);
     return false;

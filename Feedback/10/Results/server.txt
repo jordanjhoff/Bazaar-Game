@@ -1,0 +1,5 @@
+copy-file: destination exists
+  source path: /home/camoy/24SwDev/Code/10/Tests5/Server/0-out.json
+  destination path: /home/camoy/24SwDev/Code/10/Tests5/0-out.json
+  context...:
+   /home/camoy/24SwDev/Code/10/xtest:50:0: create-inputs-and-expected
